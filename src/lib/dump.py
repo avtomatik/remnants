@@ -29,21 +29,17 @@ from pandas import DataFrame
 # =============================================================================
 def test_data_capital_combined_archived():
     """Data Test"""
-    KEYS = (
-        'archive_name',
-        'wb_name',
-        'sh_name',
-        'series_id',
-    )
-    # =========================================================================
-    # ONE ARCHIVE NAME
-    # =========================================================================
-    ARCHIVE_NAME = 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip'
-    WB_NAME = 'Section1ALL_Hist.xls'
-    # =========================================================================
-    # ONE SHEET NAME
-    # =========================================================================
-    SH_NAME = '10105 Ann'
+    kwargs = {
+        # =====================================================================
+        # ONE ARCHIVE NAME
+        # =====================================================================
+        'archive_name': 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip',
+        'wb_name': 'Section1ALL_Hist.xls',
+        # =====================================================================
+        # ONE SHEET NAME
+        # =====================================================================
+        'sh_name': '10105 Ann'
+    }
     SERIES_IDS = (
         # =====================================================================
         # Nominal Investment Series: A006RC1
@@ -54,111 +50,49 @@ def test_data_capital_combined_archived():
         # =====================================================================
         'A191RC1',
     )
-    KWARGS = [
-        {key: value for key, value in zip(
-            KEYS,
-            (
-                ARCHIVE_NAME,
-                WB_NAME,
-                SH_NAME,
-                series_id,
-            )
-        )
-        } for series_id in SERIES_IDS
-    ]
-    _control = pd.concat(
-        # =====================================================================
-        # TODO: UPDATE ACCORDING TO NEW SIGNATURE
-        # =====================================================================
-        [read_usa_bea_excel(**kwargs) for kwargs in KWARGS],
-        axis=1,
-        sort=True
+    df_control = pd.concat(
+        map(lambda _: read_usa_bea_excel(**kwargs).loc[:, _], SERIES_IDS),
+        axis=1
     )
     # =========================================================================
     # OTHER SHEET NAME
     # =========================================================================
-    SH_NAME = '10505 Ann'
-    KWARGS = [
-        {key: value for key, value in zip(
-            KEYS,
-            (
-                ARCHIVE_NAME,
-                WB_NAME,
-                SH_NAME,
-                series_id,
-            )
-        )
-        } for series_id in SERIES_IDS
-    ]
-    _test = pd.concat(
-        # =====================================================================
-        # TODO: UPDATE ACCORDING TO NEW SIGNATURE
-        # =====================================================================
-        [read_usa_bea_excel(**kwargs) for kwargs in KWARGS],
-        axis=1,
-        sort=True
+    kwargs['sh_name'] = '10505 Ann'
+    df_test = pd.concat(
+        map(lambda _: read_usa_bea_excel(**kwargs).loc[:, _], SERIES_IDS),
+        axis=1
     )
 
-    if _control.equals(_test):
+    if df_control.equals(df_test):
         print("Series 'A006RC1' & 'A191RC1' @ Worksheet '10105 Ann' Equals Series 'A006RC1' & 'A191RC1' @ Worksheet '10505 Ann' for Period 1929--1969")
     else:
         print("Data Varies from Worksheet '10105 Ann' to Worksheet '10505 Ann'")
 
-    # =========================================================================
-    # Nominal Investment Series: A006RC1, 1969--2012
-    # =========================================================================
-    ARCHIVE_NAME = 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1969_2012.zip'
-    WB_NAME = 'Section1all_xls.xls'
-    # =========================================================================
-    # ONE SHEET NAME
-    # =========================================================================
-    SH_NAME = '10105 Ann'
-    KWARGS = [
-        {key: value for key, value in zip(
-            KEYS,
-            (
-                ARCHIVE_NAME,
-                WB_NAME,
-                SH_NAME,
-                series_id,
-            )
-        )
-        } for series_id in SERIES_IDS
-    ]
-    _control = pd.concat(
+    kwargs = {
         # =====================================================================
-        # TODO: UPDATE ACCORDING TO NEW SIGNATURE
+        # OTHER ARCHIVE NAME
         # =====================================================================
-        [read_usa_bea_excel(**kwargs) for kwargs in KWARGS],
-        axis=1,
-        sort=True
+        'archive_name': 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1969_2012.zip',
+        'wb_name': 'Section1all_xls.xls',
+        # =====================================================================
+        # ONE SHEET NAME
+        # =====================================================================
+        'sh_name': '10105 Ann'
+    }
+    df_control = pd.concat(
+        map(lambda _: read_usa_bea_excel(**kwargs).loc[:, _], SERIES_IDS),
+        axis=1
     )
     # =========================================================================
     # OTHER SHEET NAME
     # =========================================================================
-    SH_NAME = '10505 Ann'
-    KWARGS = [
-        {key: value for key, value in zip(
-            KEYS,
-            (
-                ARCHIVE_NAME,
-                WB_NAME,
-                SH_NAME,
-                series_id,
-            )
-        )
-        } for series_id in SERIES_IDS
-    ]
-    _test = pd.concat(
-        # =====================================================================
-        # TODO: UPDATE ACCORDING TO NEW SIGNATURE
-        # =====================================================================
-        [read_usa_bea_excel(**kwargs) for kwargs in KWARGS],
-        axis=1,
-        sort=True
+    kwargs['sh_name'] = '10505 Ann'
+    df_test = pd.concat(
+        map(lambda _: read_usa_bea_excel(**kwargs).loc[:, _], SERIES_IDS),
+        axis=1
     )
 
-    if _control.equals(_test):
+    if df_control.equals(df_test):
         print("Series 'A006RC1' & 'A191RC1' @ Worksheet '10105 Ann' Equals Series 'A006RC1' & 'A191RC1' @ Worksheet '10505 Ann' for Period 1969--2012")
     else:
         print("Data Varies from Worksheet '10105 Ann' to Worksheet '10505 Ann'")
