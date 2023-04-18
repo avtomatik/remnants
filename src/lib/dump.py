@@ -15,14 +15,17 @@ import sqlite3
 from pathlib import Path
 
 import pandas as pd
-from lib.collect import stockpile_usa_bea
-from lib.read import read_temporary, read_usa_bea_excel
 from pandas import DataFrame
 
 from remnants.src.constants import SERIES_IDS_LAB
+from thesis.src.lib.collect import stockpile_usa_bea, stockpile_usa_hist
+from thesis.src.lib.pull import pull_by_series_id
+from thesis.src.lib.read import (read_temporary, read_usa_bea,
+                                 read_usa_bea_excel, read_usa_frb_h6)
 from thesis.src.lib.test import (test_subtract_a, test_subtract_b,
                                  test_usa_bea_sfat_series_ids,
                                  test_usa_bea_subtract)
+from thesis.src.lib.transform import transform_mean
 
 # =============================================================================
 # Separate Chunk of Code
@@ -39,6 +42,9 @@ def test_data_capital_combined_archived():
         # ONE ARCHIVE NAME
         # =====================================================================
         'archive_name': 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip',
+        # =====================================================================
+        # 'archive_name': 'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1929_1969.zip',
+        # =====================================================================
         'wb_name': 'Section1ALL_Hist.xls',
         # =====================================================================
         # ONE SHEET NAME
@@ -78,6 +84,9 @@ def test_data_capital_combined_archived():
         # OTHER ARCHIVE NAME
         # =====================================================================
         'archive_name': 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1969_2012.zip',
+        # =====================================================================
+        # 'archive_name': 'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1969_2015.zip',
+        # =====================================================================
         'wb_name': 'Section1all_xls.xls',
         # =====================================================================
         # ONE SHEET NAME
@@ -112,6 +121,12 @@ def test_data_capital_combined_archived():
         'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip',
         'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1969_2012.zip',
     )
+    # =========================================================================
+    # ARCHIVE_NAMES = (
+    #     'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1929_1969.zip',
+    #     'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1969_2015.zip',
+    # )
+    # =========================================================================
     WB_NAMES = (
         'Section1ALL_Hist.xls',
         'Section1all_xls.xls',
@@ -128,20 +143,17 @@ def test_data_capital_combined_archived():
         'A191RC1'
     )
     df_control = pd.concat(
-        [
-            read_usa_bea_excel(
-                archive_name, wb_name, SH_NAME_CONTROL
-            ).loc[:, SERIES_IDS]
-            for archive_name, wb_name in zip(ARCHIVE_NAMES, WB_NAMES)
-        ]
+        map(
+            lambda _: read_usa_bea_excel(
+                *_, SH_NAME_CONTROL).loc[:, SERIES_IDS],
+            zip(ARCHIVE_NAMES, WB_NAMES)
+        )
     ).drop_duplicates()
     df_test = pd.concat(
-        [
-            read_usa_bea_excel(
-                archive_name, wb_name, SH_NAME_TEST
-            ).loc[:, SERIES_IDS]
-            for archive_name, wb_name in zip(ARCHIVE_NAMES, WB_NAMES)
-        ]
+        map(
+            lambda _: read_usa_bea_excel(*_, SH_NAME_TEST).loc[:, SERIES_IDS],
+            zip(ARCHIVE_NAMES, WB_NAMES)
+        )
     ).drop_duplicates()
     if df_control.equals(df_test):
         print(
@@ -322,29 +334,6 @@ kwargs = {
 df = pd.read_csv(**kwargs)
 
 
-KWARGS = (
-    # =========================================================================
-    # Nominal Gross Domestic Product Series: A191RC1, 1929--1969
-    # =========================================================================
-    {
-        'archive_name': 'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1929_1969.zip',
-        'wb_name': 'Section1ALL_Hist.xls',
-        'sh_name': '10105 Ann',
-    },
-    # =========================================================================
-    # Nominal Gross Domestic Product Series: A191RC1, 1969--2014
-    # =========================================================================
-    {
-        'archive_name': 'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1969_2015.zip',
-        'wb_name': 'Section1all_xls.xls',
-        'sh_name': '10105 Ann',
-    },
-)
-SERIES_ID = 'A191RC1'
-df_semi_d = pd.concat(
-    [read_usa_bea_excel(**kwargs).loc[:, (SERIES_ID,)] for kwargs in KWARGS],
-    sort=True
-).drop_duplicates()
 # =============================================================================
 # Gross fixed capital formation Data Block
 # =============================================================================
