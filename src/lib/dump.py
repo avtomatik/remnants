@@ -19,6 +19,11 @@ from lib.collect import stockpile_usa_bea
 from lib.read import read_temporary, read_usa_bea_excel
 from pandas import DataFrame
 
+from remnants.src.constants import SERIES_IDS_LAB
+from thesis.src.lib.test import (test_subtract_a, test_subtract_b,
+                                 test_usa_bea_sfat_series_ids,
+                                 test_usa_bea_subtract)
+
 # =============================================================================
 # Separate Chunk of Code
 # =============================================================================
@@ -172,70 +177,6 @@ def collect_usa_bls_cpiu() -> DataFrame:
     df['dec_on_dec'] = df.iloc[:, -3].pct_change()
     df['mean_on_mean'] = df.iloc[:, -4].pct_change()
     return df.iloc[:, [-1]].dropna(axis=0)
-
-
-def read_can_group_a(file_id: int, **kwargs) -> DataFrame:
-    """
-
-
-    Parameters
-    ----------
-    file_id : int
-        DESCRIPTION.
-    **kwargs : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    DataFrame
-        DESCRIPTION.
-
-    """
-    # =========================================================================
-    # Not Used Anywhere
-    # =========================================================================
-    kwargs['filepath_or_buffer'] = f'dataset_read_can{file_id:n}.csv'
-    kwargs['index_col'] = 0
-    df = pd.read_csv(**kwargs)
-    if file_id == 7931814471809016759:
-        df.columns = (column[:7] for column in df.columns)
-        df.iloc[:, -1] = pd.to_numeric(df.iloc[:, -1].str.replace(';', ''))
-    df = df.transpose()
-    df['period'] = pd.to_numeric(
-        df.index.astype(str).to_series().str.slice(start=3),
-        downcast='integer'
-    )
-    return df.groupby(df.columns[-1]).mean()
-
-
-def read_can_group_b(file_id: int, **kwargs) -> DataFrame:
-    """
-
-
-    Parameters
-    ----------
-    file_id : int
-        DESCRIPTION.
-    **kwargs : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    DataFrame
-        DESCRIPTION.
-
-    """
-    # =========================================================================
-    # Not Used Anywhere
-    # =========================================================================
-    kwargs['filepath_or_buffer'] = f'dataset_read_can{file_id:n}.csv'
-    kwargs['index_col'] = 0
-    df = pd.read_csv(**kwargs)
-    df['period'] = pd.to_numeric(
-        df.index.astype(str).to_series().str.slice(start=4),
-        downcast='integer'
-    )
-    return df.groupby(df.columns[-1]).mean()
 
 
 def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
@@ -432,13 +373,6 @@ df_semi_d = pd.concat(
     "frequency_start_end": "(quarterly, 1961-03-01 to 2017-09-01)",
     "series_id": "v62143990"
 }
-# =============================================================================
-
-read_can_group_a(7931814471809016759, skiprows=241)
-read_can_group_a(8448814858763853126, skiprows=81)
-read_can_group_b(5245628780870031920, skiprows=3)
-stockpile_can({'v62143969': 36100108}).pipe(transform_agg_sum)
-stockpile_can({'v62143990': 36100108}).pipe(transform_agg_sum)
 
 
 def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:
@@ -603,3 +537,92 @@ def combine_usa_general() -> DataFrame:
         ],
         axis=1
     )
+
+
+def test_data_consistency_d():
+    """Project IV: USA Macroeconomic & Fixed Assets Data Tests"""
+    # =========================================================================
+    # Macroeconomic Data Tests
+    # =========================================================================
+    def _generate_kwargs_list(
+            archive_name: str,
+            wb_name: str,
+            sheet_names: tuple[str],
+            series_ids: tuple[str]
+    ) -> list[dict]:
+        return [
+            {
+                'archive_name': archive_name,
+                'wb_name': wb_name,
+                'sh_name': _sh,
+                'series_id': series_id,
+            } for _sh, series_id in zip(sheet_names, series_ids)
+        ]
+
+    # =========================================================================
+    # Tested: "A051RC" != "A052RC" + "A262RC"
+    # =========================================================================
+    ARCHIVE_NAME = 'dataset_usa_bea-release-2019-12-19-Survey.zip'
+    WB_NAME = 'Section1all_xls.xlsx'
+    SH_NAMES = ('T10705-A', 'T11200-A', 'T10705-A')
+    SERIES_IDS = ('A051RC', 'A052RC', 'A262RC')
+    test_usa_bea_subtract(
+        _generate_kwargs_list(ARCHIVE_NAME, WB_NAME, SH_NAMES, SERIES_IDS)
+    )
+    # =========================================================================
+    # Tested: "Government" = "Federal" + "State and local"
+    # =========================================================================
+    ARCHIVE_NAME = 'dataset_usa_bea-release-2019-12-19-Survey.zip'
+    WB_NAME = 'Section1all_xls.xlsx'
+    SH_NAMES = ('T10105-A', 'T10105-A', 'T10105-A')
+    SERIES_IDS = ('A822RC', 'A823RC', 'A829RC')
+    test_usa_bea_subtract(
+        _generate_kwargs_list(ARCHIVE_NAME, WB_NAME, SH_NAMES, SERIES_IDS)
+    )
+    ARCHIVE_NAME = 'dataset_usa_bea-release-2019-12-19-Survey.zip'
+    WB_NAME = 'Section3all_xls.xlsx'
+    SH_NAMES = ('T30100-A', 'T30200-A', 'T30300-A')
+    SERIES_IDS = ('A955RC', 'A957RC', 'A991RC')
+    test_usa_bea_subtract(
+        _generate_kwargs_list(ARCHIVE_NAME, WB_NAME, SH_NAMES, SERIES_IDS)
+    )
+    # =========================================================================
+    # Tested: "Federal" = "National defense" + "Nondefense"
+    # =========================================================================
+    ARCHIVE_NAME = 'dataset_usa_bea-release-2019-12-19-Survey.zip'
+    WB_NAME = 'Section1all_xls.xlsx'
+    SH_NAMES = ('T10105-A', 'T10105-A', 'T10105-A')
+    SERIES_IDS = ('A823RC', 'A824RC', 'A825RC')
+    test_usa_bea_subtract(
+        _generate_kwargs_list(ARCHIVE_NAME, WB_NAME, SH_NAMES, SERIES_IDS)
+    )
+    ARCHIVE_NAME = 'dataset_usa_bea-release-2019-12-19-Survey.zip'
+    WB_NAME = 'Section3all_xls.xlsx'
+    SH_NAMES = ('T30200-A', 'T30905-A', 'T30905-A')
+    SERIES_IDS = ('A957RC', 'A997RC', 'A542RC')
+    test_usa_bea_subtract(
+        _generate_kwargs_list(ARCHIVE_NAME, WB_NAME, SH_NAMES, SERIES_IDS)
+    )
+    # =========================================================================
+    # Fixed Assets Data Tests
+    # =========================================================================
+    df = test_usa_bea_sfat_series_ids()
+
+    test_subtract_a()
+    # =========================================================================
+    # Comparison of "k3n31gd1es00" out of df_control with "k3n31gd1es00" out of df_test
+    # =========================================================================
+    test_subtract_b(df)
+    # =========================================================================
+    # Future Project: Test Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
+    # =========================================================================
+    # =========================================================================
+    # TODO:
+    # =========================================================================
+    return
+
+
+def filter_data_frame(df: DataFrame, query: dict[str]) -> DataFrame:
+    for column, criterion in query['filter'].items():
+        df = df[df.iloc[:, column] == criterion]
+    return df

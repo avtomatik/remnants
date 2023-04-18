@@ -10,13 +10,13 @@ from pandas import DataFrame
 
 
 def plot_capital_acquisition(period, investment, manufacturing, manufacturing_n, manufacturing_m, capital, labor):
-    i = len(period)-1
-    while abs(manufacturing_n[i]-manufacturing[i]) > 1:
-        i -= 1
+    _ = len(period)-1
+    while abs(manufacturing_n[_]-manufacturing[_]) > 1:
+        _ -= 1
         # =========================================================================
         # Basic Year
         # =========================================================================
-        year_base = i
+        year_base = _
 
     # =========================================================================
     # Calculate Static Values
@@ -85,75 +85,80 @@ def plot_capital_acquisition(period, investment, manufacturing, manufacturing_n,
     # =========================================================================
     # Pi & Pi Switch Points
     # =========================================================================
-    pi, _knots = [], []
-    _knots.append(0)
-    i = 0
+    pi, _knots = [], [0, ]
+
+    _ = 0
     if N == 1:
         _knots.append(len(period)-1)
         pi.append(float(input('Define Pi for Period from {} to {}: '.format(
-            period[_knots[i]], period[_knots[1+i]-1]))))
+            period[_knots[_]], period[_knots[1+_]-1]))))
     elif N >= 2:
-        while i < N:
-            if i == N-1:
+        while _ < N:
+            if 1 + _ == N:
                 _knots.append(len(period)-1)
                 pi.append(float(input('Define Pi for Period from {} to {}: '.format(
-                    period[_knots[i]], period[_knots[1+i]-1]))))
-                i += 1
+                    period[_knots[_]], period[_knots[1+_]-1]))))
+                _ += 1
             else:
-                y = int(input('Select Row for Year, Should Be More Than %d:=%d: ' % (
+                _knot = int(input('Select Row for Year, Should Be More Than %d:=%d: ' % (
                     0, period[0])))
-                if y > _knots[i]:
-                    _knots.append(y)
+                if _knot > _knots[_]:
+                    _knots.append(_knot)
                     pi.append(float(input('Define Pi for Period from {} to {}: '.format(
-                        period[_knots[i]], period[_knots[1+i]]))))
-                    i += 1
+                        period[_knots[_]], period[_knots[1+_]]))))
+                    _ += 1
     else:
         print("Error")
-    Y11 = []
-    for i in range(1+0):
-        Y11.append(np.nan)
+    _calculated = [np.nan, ]
     if N == 1:
         j = 0
-        for i in range(_knots[j], _knots[1+j]):
+        for _ in range(_knots[j], _knots[1+j]):
             # =========================================================================
             # Estimate: GCF[-] or CA[+]
             # =========================================================================
-            Y11.append(capital[1+i]-capital[i]+pi[j]*investment[1+i])
+            _calculated.append(capital[1+_]-capital[_]+pi[j]*investment[1+_])
     else:
         for j in range(N):
-            if j == N-1:
-                for i in range(_knots[j], _knots[1+j]):
+            if j + _ == N:
+                for _ in range(_knots[j], _knots[1+j]):
                     # =========================================================================
                     # Estimate: GCF[-] or CA[+]
                     # =========================================================================
-                    Y11.append(capital[1+i]-capital[i] +
-                               pi[j]*investment[1+i])
+                    _calculated.append(capital[1+_]-capital[_] +
+                               pi[j]*investment[1+_])
             else:
-                for i in range(_knots[j], _knots[1+j]):
+                for _ in range(_knots[j], _knots[1+j]):
                     # =========================================================================
                     # Estimate: GCF[-] or CA[+]
                     # =========================================================================
-                    Y11.append(capital[1+i]-capital[i] +
-                               pi[j]*investment[1+i])
+                    _calculated.append(capital[1+_]-capital[_] +
+                               pi[j]*investment[1+_])
     # =========================================================================
     # Convert List to DataFrame
     # =========================================================================
-    Y11 = DataFrame(Y11, columns=['Y11'])
+    _calculated = DataFrame(_calculated, columns=['Y11'])
     df = DataFrame(period, columns=['period'])
     df = pd.concat([df, Y01, Y02, Y03, Y04, Y05, Y06,
-                   Y07, Y08, Y09, Y10, Y11], axis=1)
+                   Y07, Y08, Y09, Y10, _calculated], axis=1)
     df.columns = ['period', 'Y01', 'Y02', 'Y03',
                   'Y04', 'Y05', 'Y06', 'Y07', 'Y08', 'Y09', 'Y10', 'Y11']
-    # [-] Gross Capital Formation
-    # [+] Capital Acquisitions
-    for i in range(N):
-        if i == N-1:
-            print('Model Parameter: Pi for Period from %d to %d: %f' %
-                  (period[_knots[i]], period[_knots[1+i]-1], pi[i]))
-        else:
-            print('Model Parameter: Pi for Period from %d to %d: %f' %
-                  (period[_knots[i]], period[_knots[1+i]], pi[i]))
-        plt.figure(1)
+    # =========================================================================
+    # {
+    #     '-': 'Gross Capital Formation',
+    #     '+': 'Capital Acquisitions'
+    # }
+    # =========================================================================
+    for _ in range(N):
+        if 1 + _ == N:
+            print(
+                f'Model Parameter: Pi for Period from {period[_knots[_]]} to {period[_knots[1 + _] - 1]}: {pi[_]:.6f}'
+            )
+            continue
+        print(
+            f'Model Parameter: Pi for Period from {period[_knots[_]]} to {period[_knots[1 + _]]}: {pi[_]:.6f}'
+        )
+
+    plt.figure(1)
     plt.plot(Y03, Y04)
     plt.plot(Y03, Y09)
     plt.title('Labor Productivity, Observed & Max, %d=100, {}$-${}'.format(
@@ -186,7 +191,7 @@ def plot_capital_acquisition(period, investment, manufacturing, manufacturing_n,
     plt.ylabel(f'Investment to GDP Ratio, {period[year_base]}=100')
     plt.grid()
     plt.figure(5)
-    plt.plot(Y11)
+    plt.plot(_calculated)
     plt.title('Gross Capital Formation (GCF) or\nCapital Acquisitions (CA), %d=100, {}$-${}'.format(
         period[year_base], period[_knots[0]], period[_knots[N]-1]))
     plt.xlabel('Period')
@@ -199,13 +204,13 @@ def plot_capital_retirement(period, investment, manufacturing, manufacturing_n, 
     # =========================================================================
     # Define Basic Year for Deflator
     # =========================================================================
-    i = len(period)-1
-    while abs(manufacturing_n[i]-manufacturing[i]) > 1:
-        i -= 1
+    _ = len(period)-1
+    while abs(manufacturing_n[_]-manufacturing[_]) > 1:
+        _ -= 1
         # =========================================================================
         # Basic Year
         # =========================================================================
-        year_base = i
+        year_base = _
 
     # =========================================================================
     # Calculate Static Values
@@ -244,101 +249,104 @@ def plot_capital_retirement(period, investment, manufacturing, manufacturing_n, 
     # Pi & Pi Switch Points
     # =========================================================================
     pi, _knots = [], [0, ]
-    i = 0
+
+    _ = 0
     if N == 1:
         _knots.append(len(period)-1)
         pi.append(float(input('Define Pi for Period from {} to {}: '.format(
-            period[_knots[i]], period[_knots[1+i]]))))
+            period[_knots[_]], period[_knots[1+_]]))))
     elif N >= 2:
-        while i < N:
-            if i == N-1:
+        while _ < N:
+            if 1 + _ == N:
                 _knots.append(len(period)-1)
                 pi.append(float(input('Define Pi for Period from {} to {}: '.format(
-                    period[_knots[i]], period[_knots[1+i]]))))
-                i += 1
+                    period[_knots[_]], period[_knots[1+_]]))))
+                _ += 1
             else:
-                y = int(input('Select Row for Year: '))
-                if y > _knots[i]:
-                    _knots.append(y)
+                _knot = int(input('Select Row for Year: '))
+                if _knot > _knots[_]:
+                    _knots.append(_knot)
                     pi.append(float(input('Define Pi for Period from {} to {}: '.format(
-                        period[_knots[i]], period[_knots[1+i]]))))
-                    i += 1
+                        period[_knots[_]], period[_knots[1+_]]))))
+                    _ += 1
     else:
         print("Error")
-    Y05 = []
-    Y06 = []
-    # =========================================================================
-    # Fixed Assets Retirement Value
-    # =========================================================================
-    Y05.append(np.nan)
-    # =========================================================================
-    # Fixed Assets Retirement Ratio
-    # =========================================================================
-    Y06.append(np.nan)
+
     # =========================================================================
     # Calculate Dynamic Values
     # =========================================================================
+    # =========================================================================
+    # Fixed Assets Retirement Value
+    # =========================================================================
+    _value = [np.nan, ]
+    # =========================================================================
+    # Fixed Assets Retirement Ratio
+    # =========================================================================
+    _ratio = [np.nan, ]
     if N == 1:
         j = 0
-        for i in range(_knots[j], _knots[1+j]):
+        for _ in range(_knots[j], _knots[1+j]):
             # =========================================================================
             # Fixed Assets Retirement Value
             # =========================================================================
-            Y05.append(capital[i]-capital[1+i]+pi[j]*investment[i])
+            _value.append(capital[_]-capital[1+_]+pi[j]*investment[_])
             # =========================================================================
             # Fixed Assets Retirement Ratio
             # =========================================================================
-            Y06.append((capital[i]-capital[1+i]+pi[j]
-                       * investment[i])/capital[1+i])
+            _ratio.append((capital[_]-capital[1+_]+pi[j]
+                       * investment[_])/capital[1+_])
     else:
         for j in range(N):
-            if j == N-1:
-                for i in range(_knots[j], _knots[1+j]):
+            if j + _ == N:
+                for _ in range(_knots[j], _knots[1+j]):
                     # =========================================================================
                     # Fixed Assets Retirement Value
                     # =========================================================================
-                    Y05.append(capital[i]-capital[1+i] +
-                               pi[j]*investment[i])
+                    _value.append(capital[_]-capital[1+_] +
+                               pi[j]*investment[_])
                     # =========================================================================
                     # Fixed Assets Retirement Ratio
                     # =========================================================================
-                    Y06.append(
-                        (capital[i]-capital[1+i]+pi[j]*investment[i])/capital[1+i])
+                    _ratio.append(
+                        (capital[_]-capital[1+_]+pi[j]*investment[_])/capital[1+_])
             else:
-                for i in range(_knots[j], _knots[1+j]):
+                for _ in range(_knots[j], _knots[1+j]):
                     # =========================================================================
                     # Fixed Assets Retirement Value
                     # =========================================================================
-                    Y05.append(capital[i]-capital[1+i] +
-                               pi[j]*investment[i])
+                    _value.append(capital[_]-capital[1+_] +
+                               pi[j]*investment[_])
                     # =========================================================================
                     # Fixed Assets Retirement Ratio
                     # =========================================================================
-                    Y06.append(
-                        (capital[i]-capital[1+i]+pi[j]*investment[i])/capital[1+i])
+                    _ratio.append(
+                        (capital[_]-capital[1+_]+pi[j]*investment[_])/capital[1+_])
     # =========================================================================
     # Convert List to DataFrame
     # =========================================================================
-    Y05 = DataFrame(Y05, columns=['Y05'])
+    _value = DataFrame(_value, columns=['Y05'])
     # =========================================================================
     # Convert List to DataFrame
     # =========================================================================
-    Y06 = DataFrame(Y06, columns=['Y06'])
+    _ratio = DataFrame(_ratio, columns=['Y06'])
     df = DataFrame(period, columns=['period'])
-    df = pd.concat([df, Y01, Y02, Y03, Y04, Y05, Y06], axis=1)
+    df = pd.concat([df, Y01, Y02, Y03, Y04, _value, _ratio], axis=1)
     df.columns = ('period', 'Y01', 'Y02', 'Y03', 'Y04', 'Y05', 'Y06')
     df['Y07'] = df['Y06']-df['Y06'].mean()
     df['Y07'] = df['Y07'].abs()
     df['Y08'] = df['Y06'].diff()
     df['Y08'] = df['Y08'].abs()
-    for i in range(N):
-        if i == N-1:
-            print('Model Parameter: Pi for Period from %d to %d: %f' %
-                  (period[_knots[i]], period[_knots[1+i]], pi[i]))
-        else:
-            print('Model Parameter: Pi for Period from %d to %d: %f' %
-                  (period[_knots[i]], period[_knots[1+i]], pi[i]))
-        plt.figure(1)
+    for _ in range(N):
+        if 1 + _ == N:
+            print(
+                f'Model Parameter: Pi for Period from {period[_knots[_]]} to {period[_knots[1 + _] - 1]}: {pi[_]:.6f}'
+            )
+            continue
+        print(
+            f'Model Parameter: Pi for Period from {period[_knots[_]]} to {period[_knots[1 + _]]}: {pi[_]:.6f}'
+        )
+    
+    plt.figure(1)
     plt.title(
         'Product, %d=100, {}$-${}'.format(period[year_base], period[0], period[_knots[N]]))
     plt.xlabel('Period')
@@ -371,14 +379,14 @@ def plot_capital_retirement(period, investment, manufacturing, manufacturing_n, 
         period[year_base], period[0], period[_knots[N]]))
     plt.xlabel('Period')
     plt.ylabel(f'$\\mu(t)$, {period[year_base]}=100')
-    plt.plot(Y06)
+    plt.plot(_ratio)
     plt.grid()
     plt.figure(6)
     plt.title('Fixed Assets Retirement Ratio to Fixed Assets Retirement Value, %d=100, {}$-${}'.format(
         period[year_base], period[0], period[_knots[N]]))
     plt.xlabel(f'$\\mu(t)$, {period[year_base]}=100')
     plt.ylabel(f'Fixed Assets Retirement Value, {period[year_base]}=100')
-    plt.plot(Y06, Y05)
+    plt.plot(_ratio, _value)
     plt.grid()
     plt.figure(7)
     plt.title(

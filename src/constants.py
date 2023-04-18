@@ -14,6 +14,10 @@ SERIES_IDS_PRCH = {
     'P0107': 'dataset_uscb.zip',
     'P0110': 'dataset_uscb.zip',
 }
+
+# =============================================================================
+# capital_acquisitions.yaml
+# =============================================================================
 SERIES_IDS_LAB = {
     # =========================================================================
     # U.S. Bureau of Economic Analysis (BEA), Manufacturing Labor Series

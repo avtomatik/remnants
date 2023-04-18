@@ -8,7 +8,11 @@ import pandas as pd
 from lib.tools import collect_capital_combined_archived
 from pandas import DataFrame
 
+from remnants.src.constants import SERIES_IDS_LAB
 from remnants.src.plot_capital_retirement import plot_capital_retirement
+from thesis.src.lib.collect import stockpile_usa_bea
+from thesis.src.lib.read import read_usa_frb_g17
+from thesis.src.lib.transform import transform_mean
 
 
 def combine_local() -> DataFrame:
@@ -30,27 +34,6 @@ def combine_local() -> DataFrame:
         # Fixed Assets Series: k1n31gd1es00, 1929--2020
         # =====================================================================
         'k1n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    }
-    SERIES_IDS_LAB = {
-        # =====================================================================
-        # U.S. Bureau of Economic Analysis (BEA), Manufacturing Labor Series
-        # =====================================================================
-        # =====================================================================
-        # 1929--1948
-        # =====================================================================
-        'H4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
-        # =====================================================================
-        # 1948--1987
-        # =====================================================================
-        'J4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
-        # =====================================================================
-        # 1987--2000
-        # =====================================================================
-        'A4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
-        # =====================================================================
-        # 1998--2020
-        # =====================================================================
-        'N4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
     }
     return pd.concat(
         [
