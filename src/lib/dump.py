@@ -241,27 +241,6 @@ def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
     return df
 
 
-def read_usa_bea_pull_by_series_id(df: DataFrame, series_id: str) -> DataFrame:
-    """
-    Retrieve Yearly Data for BEA Series ID
-    """
-    df = df[df.loc[:, "series_id"] == series_id]
-    source_ids = sorted(set(df.loc[:, "source_id"]))
-    chunk = pd.concat(
-        [
-            df[df.loc[:, "source_id"] == source_id].iloc[:, [-1]].drop_duplicates()
-            for source_id in source_ids
-        ],
-        axis=1,
-        sort=True
-    )
-    chunk.columns = [
-        ''.join((source_id.split()[1].replace('.', '_'), series_id))
-        for source_id in source_ids
-    ]
-    return chunk
-
-
 def collect_usa_xlsm() -> DataFrame:
     FILE_NAME = 'dataset_usa_0025_p_r.txt'
     SERIES_IDS = {
@@ -321,47 +300,6 @@ kwargs = {
 # =============================================================================
 SERIES_ID = 'K160021'
 df = read_usa_bea_excel(**kwargs).loc[:, (SERIES_ID, )]
-
-# =============================================================================
-# Not Clear
-# =============================================================================
-kwargs = {
-    'filepath_or_buffer': 'dataset_read_can-{:08n}-eng-{}.csv'.format(
-        310003, 7591839622055840674
-    ),
-    'skiprows': 3,
-}
-df = pd.read_csv(**kwargs)
-
-
-# =============================================================================
-# Gross fixed capital formation Data Block
-# =============================================================================
-# =============================================================================
-# Not Clear:
-{
-    "table": 3800068,
-    "title": "Gross fixed capital formation",
-    "geo": "Canada",
-    "prices": "Chained (2007) dollars",
-    "seas": "Seasonally adjusted at annual rates",
-    "estimates": "Industrial machinery and equipment (x 1,000,000)",
-    "frequency_start_end": "(quarterly, 1961-03-01 to 2017-09-01)",
-    "series_id": "v62143969"
-}
-# =============================================================================
-# =============================================================================
-# Not Clear:
-{
-    "table": 3800068,
-    "title": "Gross fixed capital formation",
-    "geo": "Canada",
-    "prices": "Chained (2007) dollars",
-    "seas": "Seasonally adjusted at annual rates",
-    "estimates": "Industrial machinery and equipment (x 1,000,000)",
-    "frequency_start_end": "(quarterly, 1961-03-01 to 2017-09-01)",
-    "series_id": "v62143990"
-}
 
 
 def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:

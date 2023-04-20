@@ -12,9 +12,9 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from constants import SERIES_IDS_LAB
 from pandas import DataFrame
 
+from constants import SERIES_IDS_LAB
 from thesis.src.lib.collect import stockpile_usa_bea
 from thesis.src.lib.pull import pull_by_series_id
 from thesis.src.lib.read import read_usa_frb_g17
