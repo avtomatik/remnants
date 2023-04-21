@@ -9,7 +9,7 @@ Created on Sun Apr  2 12:59:39 2023
 
 import matplotlib.pyplot as plt
 
-from thesis.src.lib.collect import stockpile_usa_hist
+from thesis.src.lib.stockpile import stockpile_usa_hist
 
 # =============================================================================
 # project_usa_cobb_douglas0006.py
@@ -35,7 +35,7 @@ SERIES_IDS = {
 }
 
 # =============================================================================
-# Package collect_usa_capital
+# Package combine_usa_capital
 # =============================================================================
 df = stockpile_usa_hist(SERIES_IDS).truncate(before=1869)
 

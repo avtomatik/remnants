@@ -8,8 +8,8 @@ Created on Sun Apr  2 10:33:07 2023
 
 
 import pandas as pd
-from lib.tools import collect_usa_bea_def
 
+from remnants.src.lib.combine import combine_usa_bea_def
 from thesis.src.lib.tools import (price_direct, price_inverse,
                                   price_inverse_double)
 
@@ -33,7 +33,7 @@ def main() -> None:
     # =========================================================================
     # A191RD3@dataset USA CobbDouglas Modern Dataset.csv
     # =========================================================================
-    collect_usa_bea_def().pct_change()
+    combine_usa_bea_def().pct_change()
 
 
 if __name__ == '__main__':

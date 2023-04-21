@@ -12,8 +12,8 @@ import pandas as pd
 from pandas import DataFrame
 
 from constants import SERIES_IDS_PRCH
-from thesis.src.lib.collect import stockpile_cobb_douglas, stockpile_usa_hist
 from thesis.src.lib.plot import plot_cobb_douglas
+from thesis.src.lib.stockpile import stockpile_cobb_douglas, stockpile_usa_hist
 from thesis.src.lib.tools import construct_usa_hist_deflator
 from thesis.src.lib.transform import (transform_cobb_douglas,
                                       transform_cobb_douglas_alt,

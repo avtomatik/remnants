@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pandas import DataFrame
 
-from thesis.src.lib.collect import collect_usa_macroeconomics
+from thesis.src.lib.combine import combine_usa_macroeconomics
 from thesis.src.lib.plot import plot_cobb_douglas_3d
 from thesis.src.lib.transform import (transform_add_dx_dy,
                                       transform_macroeconomics)
@@ -22,7 +22,7 @@ from thesis.src.lib.transform import (transform_add_dx_dy,
 # =============================================================================
 # TODO: Revise Dataset
 # =============================================================================
-df = collect_usa_macroeconomics().pipe(transform_macroeconomics)
+df = combine_usa_macroeconomics().pipe(transform_macroeconomics)
 # =============================================================================
 # Option 1: Deflator Incorporated
 # =============================================================================
@@ -170,7 +170,7 @@ def plot_increment_b(df: DataFrame) -> None:
 # =============================================================================
 # TODO: Revise Dataset
 # =============================================================================
-df = collect_usa_macroeconomics().pipe(transform_macroeconomics)
+df = combine_usa_macroeconomics().pipe(transform_macroeconomics)
 # =============================================================================
 # Option 1: 1967--2012
 # =============================================================================
@@ -209,7 +209,7 @@ pd.concat([df['cap_0x3'], L, df['prd_0x4']], axis=1).pipe(transform_add_dx_dy)
 plot_increment_a(x_a, x_b, x_c, x_d)
 plot_increment_b(x_a, x_b, x_c, x_d)
 
-collect_usa_manufacturing_latest().pipe(
+combine_usa_manufacturing_latest().pipe(
     transform_add_dx_dy).pipe(plot_increment)
 
 
@@ -221,7 +221,7 @@ collect_usa_manufacturing_latest().pipe(
 # =============================================================================
 # TODO: Revise Dataset
 # =============================================================================
-df = collect_usa_macroeconomics().pipe(transform_macroeconomics)
+df = combine_usa_macroeconomics().pipe(transform_macroeconomics)
 # =============================================================================
 # Option 1
 # =============================================================================
@@ -309,7 +309,7 @@ plot_increment_b(x_a, x_b, x_c, x_d)
 
 
 # =============================================================================
-# df = collect_usa_macroeconomics().pipe(transform_macroeconomics)
+# df = combine_usa_macroeconomics().pipe(transform_macroeconomics)
 #
 # for combination in product(['cap_0x0', 'cap_0x1', 'cap_0x2', 'cap_0x3', 'cap_0x4'], ['bea_labor_mfg'], ['prd_0x0', 'prd_0x1', 'prd_0x2', 'prd_0x3', 'prd_0x4']):
 #     print(combination)

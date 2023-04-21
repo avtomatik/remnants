@@ -6,8 +6,8 @@ Created on Sun Apr  2 13:45:04 2023
 @author: green-machine
 """
 
-from thesis.src.lib.collect import stockpile_cobb_douglas
 from thesis.src.lib.plot import plot_cobb_douglas, plot_cobb_douglas_alt
+from thesis.src.lib.stockpile import stockpile_cobb_douglas
 
 # =========================================================================
 # Project I. Classified
