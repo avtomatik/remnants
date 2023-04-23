@@ -1,12 +1,12 @@
 import pandas as pd
 from pandas import DataFrame
-
-from remnants.src.constants import SERIES_IDS_LAB
 from thesis.src.lib.pull import pull_by_series_id
 from thesis.src.lib.read import (read_temporary, read_usa_bea,
                                  read_usa_frb_g17, read_usa_frb_h6)
 from thesis.src.lib.stockpile import stockpile_usa_bea, stockpile_usa_hist
 from thesis.src.lib.transform import transform_mean
+
+from remnants.src.constants import SERIES_IDS_LAB
 
 
 def combine_usa_bea_labor() -> DataFrame:

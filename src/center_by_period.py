@@ -8,7 +8,6 @@ Created on Sun Apr  2 11:23:21 2023
 
 
 from lib.tools import transform_center_by_period
-
 from thesis.src.lib.stockpile import stockpile_usa_bea, stockpile_usa_mcconnel
 
 
