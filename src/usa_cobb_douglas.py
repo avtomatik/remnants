@@ -8,7 +8,8 @@ Created on Sun Apr  2 13:36:47 2023
 
 
 import pandas as pd
-from constants import SERIES_IDS_LAB
+
+from thesis.src.lib.constants import SERIES_IDS_LAB
 from thesis.src.lib.plot import plot_cobb_douglas
 from thesis.src.lib.read import read_usa_frb_g17, read_usa_frb_us3
 from thesis.src.lib.stockpile import stockpile_cobb_douglas, stockpile_usa_bea

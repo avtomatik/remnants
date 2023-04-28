@@ -8,6 +8,7 @@ Created on Sun Apr  2 12:59:39 2023
 
 
 import matplotlib.pyplot as plt
+
 from thesis.src.lib.stockpile import stockpile_usa_hist
 
 # =============================================================================
