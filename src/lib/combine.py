@@ -2,8 +2,7 @@ import pandas as pd
 
 from thesis.src.lib.constants import SERIES_IDS_LAB
 from thesis.src.lib.pull import pull_by_series_id
-from thesis.src.lib.read import (read_temporary, read_usa_bea,
-                                 read_usa_frb_g17, read_usa_frb_h6)
+from thesis.src.lib.read import read_temporary, read_usa_bea, read_usa_frb_h6
 from thesis.src.lib.stockpile import stockpile_usa_bea, stockpile_usa_hist
 from thesis.src.lib.transform import transform_mean
 
@@ -232,39 +231,6 @@ def combine_usa_investment_capital() -> DataFrame:
         [
             combine_usa_bls_cpiu(),
             stockpile_usa_bea(SERIES_IDS)
-        ],
-        axis=1,
-        sort=True
-    ).dropna(axis=0)
-
-
-def combine_local() -> DataFrame:
-    SERIES_ID = 'CAPUTL.B50001.A'
-    SERIES_IDS = {
-        # =====================================================================
-        # Nominal Investment Series: A006RC1
-        # =====================================================================
-        'A006RC': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
-        # =====================================================================
-        # Nominal Gross Domestic Product Series: A191RC1
-        # =====================================================================
-        'A191RC': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
-        # =====================================================================
-        # Real Gross Domestic Product Series, 2012=100: A191RX, 1929--2021
-        # =====================================================================
-        'A191RX': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
-        # =====================================================================
-        # Fixed Assets Series: k1n31gd1es00, 1929--2020
-        # =====================================================================
-        'k1n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    }
-    return pd.concat(
-        [
-            stockpile_usa_bea(SERIES_IDS),
-            stockpile_usa_bea(SERIES_IDS_LAB).pipe(
-                transform_mean, name="bea_labor_mfg"
-            ),
-            read_usa_frb_g17().loc[:, [SERIES_ID]]
         ],
         axis=1,
         sort=True
