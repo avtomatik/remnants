@@ -43,7 +43,7 @@ df = pd.concat(
             transform_mean, name="bea_labor_mfg"
         ),
         stockpile_usa_bea(SERIES_IDS),
-        read_usa_frb_g17().loc[:, (SERIES_ID,)].dropna(axis=0)
+        read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0)
     ],
     axis=1,
     sort=True
@@ -102,7 +102,7 @@ df = pd.concat(
         # =========================================================================
         # Capacity Utilization Series: CAPUTL.B50001.A, 1967--2012
         # =========================================================================
-        read_usa_frb_g17().loc[:, (SERIES_ID,)].dropna(axis=0)
+        read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0)
     ],
     axis=1,
     sort=True

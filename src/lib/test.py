@@ -15,8 +15,7 @@ import pandas as pd
 
 from thesis.src.lib.read import read_usa_bea_excel
 from thesis.src.lib.test import (test_subtract_a, test_subtract_b,
-                                 test_usa_bea_sfat_series_ids,
-                                 test_usa_bea_subtract)
+                                 test_usa_bea_sfat_series_ids)
 
 
 def test_data_capital_combined_archived():
@@ -151,6 +150,21 @@ def test_data_capital_combined_archived():
             Data Varies from Worksheet "10105 Ann" to Worksheet "10505 Ann"
             """
         )
+
+
+def test_usa_bea_subtract(kwargs_list: list[dict]) -> None:
+    df = pd.concat(
+        [
+            # =================================================================
+            # TODO: UPDATE ACCORDING TO NEW SIGNATURE
+            # =================================================================
+            read_usa_bea_excel(**_kwargs) for _kwargs in kwargs_list
+        ],
+        axis=1,
+        sort=True
+    )
+    df['diff_abs'] = df.iloc[:, 0].sub(df.iloc[:, 1]).sub(df.iloc[:, 2])
+    df.iloc[:, [-1]].dropna(axis=0).plot(grid=True)
 
 
 def test_data_consistency_d():
