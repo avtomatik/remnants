@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import DataFrame
 
 from thesis.src.lib.constants import SERIES_IDS_LAB
 from thesis.src.lib.pull import pull_by_series_id
@@ -7,7 +8,7 @@ from thesis.src.lib.stockpile import stockpile_usa_bea, stockpile_usa_hist
 from thesis.src.lib.transform import transform_mean
 
 
-def combine_usa_bls_cpiu() -> pd.DataFrame:
+def combine_usa_bls_cpiu() -> DataFrame:
     """BLS CPI-U Price Index Fetch"""
     kwargs = {
         'filepath_or_buffer': 'dataset_usa_bls_cpiai.txt',
