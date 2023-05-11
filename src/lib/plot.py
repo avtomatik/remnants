@@ -19,7 +19,7 @@ def plot_usa_un_former() -> None:
     _df = pd.read_excel(**kwargs)
     _df = _df[_df.iloc[:, 0] == 'Gross Domestic Product (GDP)']
     _df = _df.select_dtypes(exclude=['object']).transpose()
-    df = pd.DataFrame()
+    df = DataFrame()
     df['us_to_world'] = _df.loc[:, 'United States'].div(_df.sum(axis=1))
     df.plot(grid=True)
 

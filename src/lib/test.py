@@ -26,7 +26,6 @@ from thesis.src.lib.stockpile import stockpile_usa_bea
 
 def test_data_capital_combined_archived():
     """Data Test"""
-    SH_NAME_CONTROL = '10105 Ann'
     kwargs = {
         # =====================================================================
         # ONE ARCHIVE NAME
@@ -36,11 +35,8 @@ def test_data_capital_combined_archived():
         # 'archive_name': 'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1929_1969.zip',
         # =====================================================================
         'wb_name': 'Section1ALL_Hist.xls',
-        # =====================================================================
-        # ONE SHEET NAME
-        # =====================================================================
-        'sh_name': SH_NAME_CONTROL
     }
+    SH_NAME_CONTROL, SH_NAME_TEST = '10105 Ann', '10505 Ann'
     SERIES_IDS = (
         # =====================================================================
         # Nominal Investment Series: A006RC1
@@ -51,6 +47,10 @@ def test_data_capital_combined_archived():
         # =====================================================================
         'A191RC1',
     )
+    # =====================================================================
+    # ONE SHEET NAME
+    # =====================================================================
+    kwargs['sh_name'] = SH_NAME_CONTROL
     # =========================================================================
     # TODO: Extract Method
     # =========================================================================
@@ -61,7 +61,6 @@ def test_data_capital_combined_archived():
     # =========================================================================
     # OTHER SHEET NAME
     # =========================================================================
-    SH_NAME_TEST = '10505 Ann'
     kwargs['sh_name'] = SH_NAME_TEST
     df_test = pd.concat(
         map(lambda _: read_usa_bea_excel(**kwargs).loc[:, _], SERIES_IDS),
@@ -90,11 +89,11 @@ def test_data_capital_combined_archived():
         # 'archive_name': 'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1969_2015.zip',
         # =====================================================================
         'wb_name': 'Section1all_xls.xls',
-        # =====================================================================
-        # ONE SHEET NAME
-        # =====================================================================
-        'sh_name': SH_NAME_CONTROL
     }
+    # =====================================================================
+    # ONE SHEET NAME
+    # =====================================================================
+    kwargs['sh_name'] = SH_NAME_CONTROL
     df_control = pd.concat(
         map(lambda _: read_usa_bea_excel(**kwargs).loc[:, _], SERIES_IDS),
         axis=1
@@ -150,7 +149,7 @@ def test_data_capital_combined_archived():
         # =====================================================================
         # Nominal Gross Domestic Product Series: A191RC1
         # =====================================================================
-        'A191RC1'
+        'A191RC1',
     )
     df_control = pd.concat(
         map(
@@ -177,61 +176,6 @@ def test_data_capital_combined_archived():
             Data Varies from Worksheet {SH_NAME_CONTROL} to Worksheet {SH_NAME_TEST}
             """
         )
-
-
-def test_usa_bea_sfat_series_ids(
-    path_src: str = '/media/green-machine/KINGSTON',
-    file_name: str = 'dataset_usa_bea-nipa-selected.zip',
-    source_id: str = 'Table 4.3. Historical-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization',
-    series_id: str = 'k3n31gd1es000'
-) -> DataFrame:
-    """
-    Earlier Version of 'k3n31gd1es000'
-    """
-    # =========================================================================
-    # Fixed Assets Series, 1925--2016
-    # Test if Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
-    # =========================================================================
-    SERIES_IDS = {
-        'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1eq00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1ip00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1st00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
-    }
-    df_test = stockpile_usa_bea(SERIES_IDS)
-
-    kwargs = {
-        'filepath_or_buffer': Path(path_src).joinpath(file_name),
-        'header': 0,
-        'names': ('source_id', 'series_id', 'period', 'value'),
-        'index_col': 2,
-        'usecols': (0, 8, 9, 10),
-    }
-    df = pd.read_csv(**kwargs)
-    # =========================================================================
-    # Option I
-    # =========================================================================
-    df = df[df.iloc[:, 1] == series_id]
-
-    df_control = DataFrame()
-    for source_id in sorted(set(df.iloc[:, 0])):
-        chunk = df[df.iloc[:, 0] == source_id].iloc[:, [2]]
-        chunk.columns = [
-            ''.join((source_id.split()[1].replace('.', '_'), series_id))
-        ]
-        df_control = pd.concat([df_control, chunk], axis=1, sort=True)
-
-    # =========================================================================
-    # # =========================================================================
-    # # Option II
-    # # =========================================================================
-    # df_control = df[
-    #     (df.loc[:, 'source_id'] == source_id) &
-    #     (df.loc[:, 'series_id'] == series_id)
-    # ].iloc[:, [-1]].rename(columns={"value": series_id})
-    # =========================================================================
-
-    return pd.concat([df_test, df_control], axis=1, sort=True)
 
 
 def test_data_consistency_d(
@@ -275,7 +219,7 @@ def test_data_consistency_d(
     SERIES_IDS = ('A051RC', 'A052RC', 'A262RC')
     stockpile_usa_bea_excel_zip(
         get_kwargs_list(archive_name, WB_NAME, SH_NAMES), SERIES_IDS
-    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).plot(grid=True)
+    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
     # =========================================================================
     # Tested: "Government" = "Federal" + "State and local"
@@ -285,14 +229,14 @@ def test_data_consistency_d(
     SERIES_IDS = ('A822RC', 'A823RC', 'A829RC')
     stockpile_usa_bea_excel_zip(
         get_kwargs_list(archive_name, WB_NAME, SH_NAMES), SERIES_IDS
-    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).plot(grid=True)
+    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
     WB_NAME = 'Section3all_xls.xlsx'
     SH_NAMES = ('T30100-A', 'T30200-A', 'T30300-A')
     SERIES_IDS = ('A955RC', 'A957RC', 'A991RC')
     stockpile_usa_bea_excel_zip(
         get_kwargs_list(archive_name, WB_NAME, SH_NAMES), SERIES_IDS
-    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).plot(grid=True)
+    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
     # =========================================================================
     # Tested: "Federal" = "National defense" + "Nondefense"
@@ -302,19 +246,20 @@ def test_data_consistency_d(
     SERIES_IDS = ('A823RC', 'A824RC', 'A825RC')
     stockpile_usa_bea_excel_zip(
         get_kwargs_list(archive_name, WB_NAME, SH_NAMES), SERIES_IDS
-    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).plot(grid=True)
+    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
     WB_NAME = 'Section3all_xls.xlsx'
     SH_NAMES = ('T30200-A', 'T30905-A', 'T30905-A')
     SERIES_IDS = ('A957RC', 'A997RC', 'A542RC')
     stockpile_usa_bea_excel_zip(
         get_kwargs_list(archive_name, WB_NAME, SH_NAMES), SERIES_IDS
-    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).plot(grid=True)
+    ).pipe(transform_sub_sum).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
+
+def test_usa_bea_fixed_assets():
     # =========================================================================
     # Fixed Assets Data Tests
     # =========================================================================
-
     # =========================================================================
     # Tested: "k3n31gd1es00" = "k3n31gd1eq00" + "k3n31gd1ip00" + "k3n31gd1st00"
     # =========================================================================
@@ -327,6 +272,7 @@ def test_data_consistency_d(
         'k3n31gd1ip00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
         'k3n31gd1st00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
     }
+
     stockpile_usa_bea(SERIES_ID | SERIES_IDS).pipe(
         transform_sub_sum
     ).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
@@ -336,11 +282,67 @@ def test_data_consistency_d(
     # =========================================================================
     test_usa_bea_sfat_series_ids().pipe(
         transform_sub_special
-    ).iloc[:, [-1]].dropna(axis=0).plot(grid=True)
+    ).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
     # =========================================================================
-    # Future Project: Test Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
+    # TODO: Future Project: Test Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
     # =========================================================================
+
+
+def test_usa_bea_sfat_series_ids(
+    path_src: str = '/media/green-machine/KINGSTON',
+    file_name: str = 'dataset_usa_bea-nipa-selected.zip',
+    source_id: str = 'Table 4.3. Historical-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization',
+    series_id: str = 'k3n31gd1es000'
+) -> DataFrame:
+    """
+    Earlier Version of 'k3n31gd1es000'
+    """
     # =========================================================================
-    # TODO:
+    # Fixed Assets Series, 1925--2016
+    # Test if Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
     # =========================================================================
+
+    SERIES_ID = {
+        'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+    }
+    SERIES_IDS = {
+        'k3n31gd1eq00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+        'k3n31gd1ip00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+        'k3n31gd1st00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+    }
+
+    df_test = stockpile_usa_bea(SERIES_ID | SERIES_IDS)
+
+    kwargs = {
+        'filepath_or_buffer': Path(path_src).joinpath(file_name),
+        'header': 0,
+        'names': ('source_id', 'series_id', 'period', 'value'),
+        'index_col': 2,
+        'usecols': (0, 8, 9, 10),
+    }
+    df = pd.read_csv(**kwargs)
+    # =========================================================================
+    # Option I
+    # =========================================================================
+    df = df[df.iloc[:, 1] == series_id]
+
+    df_control = DataFrame()
+    for source_id in sorted(set(df.iloc[:, 0])):
+        chunk = df[df.iloc[:, 0] == source_id].iloc[:, [2]]
+        chunk.columns = [
+            ''.join((source_id.split()[1].replace('.', '_'), series_id))
+        ]
+        df_control = pd.concat([df_control, chunk], axis=1, sort=True)
+
+    # =========================================================================
+    # # =========================================================================
+    # # Option II
+    # # =========================================================================
+    # df_control = df[
+    #     (df.loc[:, 'source_id'] == source_id) &
+    #     (df.loc[:, 'series_id'] == series_id)
+    # ].iloc[:, [-1]].rename(columns={"value": series_id})
+    # =========================================================================
+
+    return pd.concat([df_test, df_control], axis=1, sort=True)

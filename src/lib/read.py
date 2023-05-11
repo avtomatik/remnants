@@ -23,14 +23,15 @@ def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
     DataFrame
         DESCRIPTION.
     """
-    DIR = "/home/green-machine/data_science"
+    PATH_SRC = "/home/green-machine/data_science"
     DBNAME = "temporary"
     kwargs = {
         'filepath_or_buffer': 'dataset_usa_bea-nipa-2015-05-01.zip',
         'usecols': [0, *range(14, 18)],
     }
     _df = pd.read_csv(**kwargs)
-    with sqlite3.connect(Path(DIR).joinpath(f"{DBNAME}.db")) as conn:
+    database = Path(PATH_SRC).joinpath(f"{DBNAME}.db")
+    with sqlite3.connect(database) as conn:
         cursor = conn.cursor()
         _df.to_sql("temporary", conn, if_exists="replace", index=False)
         stmt = f"""
