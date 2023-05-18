@@ -31,13 +31,13 @@ FUNCTIONS = (
 
 def plot_built_in(module: callable) -> None:
     FILE_NAME = 'datasetAutocorrelation.txt'
-    SERIES_IDS = sorted(set(pd.read_csv(FILE_NAME).iloc[:, (1,)]))
+    SERIES_IDS = sorted(set(pd.read_csv(FILE_NAME).iloc[:, [1]]))
     for _, series_id in enumerate(SERIES_IDS, start=1):
         plt.figure(_)
         read_pull_for_autocorrelation(FILE_NAME, series_id).pipe(module)
         plt.grid()
 
-    SERIES_IDS = sorted(set(pd.read_csv(FILE_NAME).iloc[:, (1,)]))
+    SERIES_IDS = sorted(set(pd.read_csv(FILE_NAME).iloc[:, [1]]))
     FILE_NAME = 'CHN_TUR_GDP.zip'
     for _, series_id in enumerate(SERIES_IDS, start=5):
         plt.figure(_)

@@ -30,12 +30,12 @@ def main() -> None:
         'io': 'pricesInverse.xlsm',
         'index_col': 0
     }
-    pd.read_excel(**kwargs).pipe(price_inverse)
+    pd.read_excel(**kwargs).pct_change()
     # =========================================================================
     # A191RD3@dataset USA CobbDouglas Modern Dataset.csv
     # =========================================================================
     combine_usa_bea_def().pct_change()
-    combine_bea_def_from_file().pipe(price_inverse)
+    combine_bea_def_from_file().pct_change()
 
 
 if __name__ == '__main__':
