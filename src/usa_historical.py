@@ -12,8 +12,9 @@ import pandas as pd
 from pandas import DataFrame
 
 from constants import SERIES_IDS_PRCH
+from remnants.src.constants import SERIES_IDS_CD
 from thesis.src.lib.plot import plot_cobb_douglas
-from thesis.src.lib.stockpile import stockpile_cobb_douglas, stockpile_usa_hist
+from thesis.src.lib.stockpile import stockpile_usa_hist
 from thesis.src.lib.tools import construct_usa_hist_deflator
 from thesis.src.lib.transform import (transform_cobb_douglas,
                                       transform_cobb_douglas_alt,
@@ -22,20 +23,28 @@ from thesis.src.lib.transform import (transform_cobb_douglas,
 # =============================================================================
 # usa_cobb_douglas0003.py
 # =============================================================================
-
-
 # =============================================================================
 # The Revised Index of Physical Production for All Manufacturing In the United States, 1899--1926
 # =============================================================================
+YEAR_BASE = 1899
+plot_cobb_douglas(
+    *combine_cobb_douglas(5).iloc[:, [0, 1, -1]].pipe(
+        transform_cobb_douglas, YEAR_BASE
+    ),
+    get_fig_map_us_ma(YEAR_BASE)
+)
 
-stockpile_cobb_douglas(5).iloc[:, [0, 1, 4]].pipe(
-    transform_cobb_douglas).pipe(plot_cobb_douglas)
+
 # =============================================================================
 # usa_cobb_douglas0004.py
 # =============================================================================
-
-
-stockpile_cobb_douglas(4).pipe(transform_cobb_douglas_alt)
+YEAR_BASE = 1899
+plot_cobb_douglas_alt(
+    *combine_cobb_douglas(4).pipe(
+        transform_cobb_douglas_alt, YEAR_BASE
+    ),
+    get_fig_map(YEAR_BASE)
+)
 
 
 # =============================================================================
@@ -51,24 +60,21 @@ stockpile_cobb_douglas(4).pipe(transform_cobb_douglas_alt)
 # =============================================================================
 # =============================================================================
 # Results:
-# {'L0036': 'dataset_uscb.zip'} Offset With {'E0183': 'dataset_uscb.zip'}
-# {'L0038': 'dataset_uscb.zip'} Offset With {'E0184': 'dataset_uscb.zip'}
-# {'L0039': 'dataset_uscb.zip'} Offset With {'E0185': 'dataset_uscb.zip'}
-# {'E0052': 'dataset_uscb.zip'} Offset With {'L0002': 'dataset_uscb.zip'}
+# {'E0183' or 'L0036': 'dataset_uscb.zip'}
+# {'E0184' or 'L0038': 'dataset_uscb.zip'}
+# {'E0185' or 'L0039': 'dataset_uscb.zip'}
 # =============================================================================
-
 SERIES_IDS = {
     'E0007': 'dataset_uscb.zip',
-    # =========================================================================
-    # 'E0008': 'dataset_uscb.zip'
-    # 'E0009': 'dataset_uscb.zip'
-    # =========================================================================
+    'E0008': 'dataset_uscb.zip',
+    'E0009': 'dataset_uscb.zip',
     'E0023': 'dataset_uscb.zip',
     'E0040': 'dataset_uscb.zip',
     'E0068': 'dataset_uscb.zip',
-    # =========================================================================
-    # 'E0186': 'dataset_uscb.zip',
-    # =========================================================================
+    'E0183': 'dataset_uscb.zip',
+    'E0184': 'dataset_uscb.zip',
+    'E0185': 'dataset_uscb.zip',
+    'E0186': 'dataset_uscb.zip',
     # =========================================================================
     # Snyder-Tucker
     # =========================================================================
@@ -76,28 +82,10 @@ SERIES_IDS = {
     # =========================================================================
     # Warren & Pearson
     # =========================================================================
-    'L0002': 'dataset_uscb.zip',
+    'L0002' or 'E0052': 'dataset_uscb.zip',
     'L0015': 'dataset_uscb.zip',
-    # =========================================================================
-    # 'L0037': 'dataset_uscb.zip',
-    # =========================================================================
+    'L0037': 'dataset_uscb.zip',
 }
-
-# =============================================================================
-# pd.concat(
-#     [
-#         stockpile_usa_hist(SERIES_IDS).pct_change(),
-#         construct_usa_hist_deflator(SERIES_IDS_PRCH)
-#     ],
-#     axis=1
-# ).dropna(how='all').plot(grid=True)
-# =============================================================================
-# =============================================================================
-# plt.title('Cost Index')
-# plt.xlabel('Period')
-# plt.ylabel('Unity')
-# plt.legend()
-# =============================================================================
 
 df = pd.concat(
     [
@@ -114,46 +102,125 @@ df = pd.concat(
     sort=True
 )
 
+PPI = df['df_uscb'].add(1).cumprod()
+
 plt.figure(1)
 plt.plot(df)
+plt.title('Chart$-$Price Index Comparison')
 plt.xlabel('Period')
 plt.ylabel('Price Index')
-plt.title('Chart$-$Cost Index Comparison')
 plt.grid()
 plt.legend(['Revised Dataset', 'Cobb$-$Douglas Dataset'])
 # =============================================================================
 # plt.savefig('costIndexComparison.pdf', format='pdf', dpi=900)
 # =============================================================================
+
+plt.figure(2)
+YEAR_BASE = 1958
+plt.plot(PPI.rdiv(PPI[205]).mul(100), label=f'Price Index {YEAR_BASE}=100')
+plt.title('Chart$-$Revised Price Index')
+plt.xlabel('Period')
+plt.ylabel('Price Index')
+plt.legend()
+plt.grid()
+plt.show()
+
+# =============================================================================
+# TODO: Compare Above with BEA k* Series
+# =============================================================================
+# TODO: Current Price, Billions of Dollars:=P0119*PPI/PPI[205]
+
 SERIES_IDS = {
     'E0183': 'dataset_uscb.zip',
     'E0184': 'dataset_uscb.zip',
     'E0185': 'dataset_uscb.zip',
 }
 stockpile_usa_hist(SERIES_IDS).pct_change().dropna(how='all').plot(grid=True)
+
 # =============================================================================
-# plt.title('Cost Index')
-# plt.xlabel('Period')
-# plt.ylabel('Unity')
-# plt.legend()
+# pd.concat(
+#     [
+#         stockpile_usa_hist(SERIES_IDS).pct_change(),
+#         construct_usa_hist_deflator(SERIES_IDS_PRCH)
+#     ],
+#     axis=1
+# ).dropna(how='all').plot(grid=True)
 # =============================================================================
 
-plt.figure(2)
-plt.plot(ppi[205]/ppi, label='Price Index 1958=100')
+# =============================================================================
+# usa_cobb_douglas0010CostIndex.py
+# =============================================================================
+
+
+# =============================================================================
+# Combine L1, L2 & P107/P110 for Period 1880--1932
+# =============================================================================
+# =============================================================================
+# Results:
+# {'E0183' or 'L0036': 'dataset_uscb.zip'}
+# {'E0184' or 'L0038': 'dataset_uscb.zip'}
+# {'E0185' or 'L0039': 'dataset_uscb.zip'}
+# =============================================================================
+SERIES_IDS = {
+    'E0007': 'dataset_uscb.zip',
+    'E0008': 'dataset_uscb.zip',
+    'E0009': 'dataset_uscb.zip',
+    'E0023': 'dataset_uscb.zip',
+    'E0040': 'dataset_uscb.zip',
+    'E0068': 'dataset_uscb.zip',
+    'E0183': 'dataset_uscb.zip',
+    'E0184': 'dataset_uscb.zip',
+    'E0185': 'dataset_uscb.zip',
+    'E0186': 'dataset_uscb.zip',
+    # =========================================================================
+    # Snyder-Tucker
+    # =========================================================================
+    'L0001': 'dataset_uscb.zip',
+    # =========================================================================
+    # Warren & Pearson
+    # =========================================================================
+    'L0002' or 'E0052': 'dataset_uscb.zip',
+    'L0015': 'dataset_uscb.zip',
+    'L0037': 'dataset_uscb.zip',
+}
+
+df = stockpile_usa_hist(SERIES_IDS | SERIES_IDS_PRCH).truncate(
+    before=1885)
+
+PPI = df.loc[:, 'P0107'].div(df.loc[:, 'P0110'])
+PPI = 100*PPI/PPI[275]  # 1920
+# =============================================================================
+# TODO: Bootstrap PPI with pricesInverseXlSingle from project PricesConverter.py
+# =============================================================================
+
+plt.figure(1)
+plt.plot(df.iloc[:, 1], label='L0001: Snyder-Tucker')
+plt.plot(df.iloc[:, 2], label='L0002: Warren & Pearson')
+plt.plot(df.iloc[:, 7], label='E0007')
+plt.plot(df.iloc[:, 8], label='E0008')
+plt.plot(df.iloc[:, 9], label='E0009')
+plt.plot(df.iloc[:, 10], label='E0068')
+plt.plot(df.iloc[235:, 0], PPI[235:],
+         label=f'P107/P110, {df.iloc[275, 0]}=100')
+plt.title('Price Index')
 plt.xlabel('Period')
-plt.ylabel('Price Index')
-plt.title('Chart$-$Revised Price Index')
+plt.ylabel('Index')
+plt.legend()
+plt.grid()
+plt.figure(2)
+plt.plot(df.iloc[:, 3])
+plt.plot(df.iloc[:, 5])
+plt.plot(df.iloc[:, 6])
+plt.title('Price Index')
+plt.xlabel('Period')
+plt.ylabel('Index')
 plt.legend()
 plt.grid()
 plt.show()
-# =============================================================================
-# TODO: Compare Above with BEA k* Series
-# =============================================================================
-
 
 # =============================================================================
 # projectUSACensus0002.py
 # =============================================================================
-
 # =============================================================================
 # Census Manufacturing Fixed Assets Series
 # =============================================================================
@@ -176,13 +243,17 @@ SERIES_IDS = {
     'P0122': 'dataset_uscb.zip',
 }
 
+YEAR_BASE = 1958
+
 df = stockpile_usa_hist(SERIES_IDS)
+
 df['p110_over_p107'] = df.loc[:, 'P0110'].div(df.loc[:, 'P0107'])
 df['p111_over_p108'] = df.loc[:, 'P0111'].div(df.loc[:, 'P0108'])
 df['p112_over_p109'] = df.loc[:, 'P0112'].div(df.loc[:, 'P0109'])
 df['x_index'] = df.loc[:, 'P0110'].div(
     df.loc[:, 'P0107']).div(df.loc[:, 'P0119'])
-df['x_index'] = df['x_index'].div(df.loc[1958, 'x_index'])
+YEAR_BASE = 1958
+df['x_index'] = df['x_index'].div(df.loc[YEAR_BASE, 'x_index'])
 # =============================================================================
 # Re-Confirm Below Series
 # =============================================================================
@@ -202,12 +273,12 @@ plt.plot(
         '$\\frac{P110}{P107}$',
         '$\\frac{P111}{P108}$',
         '$\\frac{P112}{P109}$',
-        '$\\frac{P110}{P107 \\times P119}$, 1958=100'
+        f'$\\frac{{P110}}{{P107 \\times P119}}$, {YEAR_BASE}=100'
     ]
 )
 plt.title('Deflators')
 plt.xlabel('Period')
-plt.ylabel('Unity')
+plt.ylabel('Index')
 plt.legend()
 plt.grid()
 plt.show()
@@ -269,9 +340,7 @@ def transform_plot(df: DataFrame):
     # Figure 2
     # =========================================================================
     # Series 1
-    # =========================================================================
     # Header: Y
-    # =========================================================================
     # X Series: Period
     # Y Series: Y
     # =========================================================================
@@ -357,15 +426,16 @@ def transform_plot(df: DataFrame):
     plt.show()
 
 
-stockpile_cobb_douglas().pipe(transform_plot)
+YEAR_BASE = 1899
+combine_cobb_douglas().pipe(
+    transform_cobb_douglas, year_base=YEAR_BASE
+)[0].pipe(transform_plot)
 
 # =============================================================================
 # usa_cobb_douglas0010Flow.py
 # =============================================================================
 
 SERIES_IDS = {
-    'CDT2S1': 'dataset_usa_cobb-douglas.zip',
-    'CDT2S3': 'dataset_usa_cobb-douglas.zip',
     'DT63AS02': 'dataset_douglas.zip',
     'J0149': 'dataset_uscb.zip',
     'J0150': 'dataset_uscb.zip',
@@ -376,44 +446,44 @@ SERIES_IDS = {
 }
 YEAR_BASE = 1958
 
-df = stockpile_usa_hist(SERIES_IDS)
+df = stockpile_usa_hist(SERIES_IDS_CD | SERIES_IDS)
 
 SERIES_IDS = ['P0107', 'P0108', 'P0109']
 df.loc[:, SERIES_IDS] = df.loc[:, SERIES_IDS].mul(1000)
 
 LEGEND = ['CDT2S1', 'J0149', 'J0150', 'J0151']
 plt.figure(1)
-plt.plot(df.loc[:, LEGEND])
+plt.plot(df.loc[:, LEGEND], label=LEGEND)
 plt.title('Fixed Assets Increment')
 plt.xlabel('Period')
 plt.ylabel('Millions or Billions? Dollars')
-plt.legend(LEGEND)
+plt.legend()
 plt.grid()
 
 LEGEND = ['P0107', 'P0108', 'P0109']
 plt.figure(2)
-plt.semilogy(df.loc[:, LEGEND])
+plt.semilogy(df.loc[:, LEGEND], label=LEGEND)
 plt.title('Fixed Assets Increment')
 plt.xlabel('Period')
 plt.ylabel('Millions or Billions? Dollars')
-plt.legend(LEGEND)
+plt.legend()
 plt.grid()
 
 LEGEND = ['CDT2S3', 'DT63AS02']
 plt.figure(3)
-plt.plot(df.loc[:, LEGEND])
+plt.plot(df.loc[:, LEGEND], label=LEGEND)
 plt.title(f'Fixed Assets Increment, {YEAR_BASE}?=100')
 plt.xlabel('Period')
 plt.ylabel('Millions or Billions? Dollars')
-plt.legend(LEGEND)
+plt.legend()
 plt.grid()
 
 LEGEND = ['CDT2S1', 'J0149', 'P0107']
 plt.figure(4)
-plt.semilogy(df.loc[:, LEGEND])
+plt.semilogy(df.loc[:, LEGEND], label=LEGEND)
 plt.title('Fixed Assets Increment, Cobb$-$Douglas, Census 1949 & 1975 Versions')
 plt.xlabel('Period')
 plt.ylabel('Millions or Billions? Dollars')
-plt.legend(LEGEND)
+plt.legend()
 plt.grid()
 plt.show()

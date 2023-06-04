@@ -32,7 +32,7 @@ def main() -> None:
     }
     pd.read_excel(**kwargs).pct_change()
     # =========================================================================
-    # A191RD3@dataset USA CobbDouglas Modern Dataset.csv
+    # A006RD@'dataset USA CobbDouglas Modern Dataset.csv'
     # =========================================================================
     combine_usa_bea_def().pct_change()
     combine_bea_def_from_file().pct_change()

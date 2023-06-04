@@ -1,3 +1,4 @@
+import datetime
 import io
 import sqlite3
 from functools import cache
@@ -182,7 +183,7 @@ def read_pull_for_autocorrelation(filepath_or_buffer: str, series_id: str) -> Da
 def read_usa_bea_excel_web(
     wb_name: str,
     sh_name: str,
-    url: str = "https://apps.bea.gov/national/Release/ZIP/Survey/Survey.zip"
+    url: str = 'https://apps.bea.gov/national/Release/ZIP/Survey/Survey.zip'
 ) -> DataFrame:
     """
     Retrieves DataFrame from Bureau of Economic Analysis Zip Archives
@@ -193,7 +194,7 @@ def read_usa_bea_excel_web(
     sh_name : str
         DESCRIPTION.
     url : str, optional
-        DESCRIPTION. The default is "https://apps.bea.gov/national/Release/ZIP/Survey/Survey.zip".
+        DESCRIPTION. The default is 'https://apps.bea.gov/national/Release/ZIP/Survey/Survey.zip'.
     Returns
     -------
     DataFrame
@@ -218,3 +219,13 @@ def read_usa_bea_excel_web(
         kwargs['index_col'] = 0
         kwargs['usecols'] = range(2, df.shape[1])
         return pd.read_excel(**kwargs).dropna(axis=0).transpose()
+
+
+def read_gdelt(date: datetime.date) -> DataFrame:
+    """The GDELT Project"""
+    PATH_SRC = '/media/green-machine/KINGSTON'
+    kwargs = {
+        'filepath_or_buffer': Path(PATH_SRC).joinpath(f"dataset_world_{str(date).replace('-', '')}.export.csv"),
+        'sep': '\t'
+    }
+    return pd.read_csv(**kwargs)

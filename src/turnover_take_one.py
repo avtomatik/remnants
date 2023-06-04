@@ -15,5 +15,8 @@ from remnants.src.lib.plot import plot_turnover_take_one
 from thesis.src.lib.stockpile import stockpile_cobb_douglas
 
 if __name__ == '__main__':
-    stockpile_cobb_douglas().iloc[:, [0, 2]].pipe(plot_turnover_take_one)
-
+    stockpile_cobb_douglas().pipe(
+        transform_cobb_douglas
+    )[0].iloc[:, [0, 2]].pipe(
+        plot_turnover_take_one
+    )
