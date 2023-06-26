@@ -11,23 +11,22 @@ import pandas as pd
 
 from remnants.src.lib.combine import (combine_bea_def_from_file,
                                       combine_usa_bea_def)
-from thesis.src.lib.tools import (price_direct, price_inverse,
-                                  price_inverse_double)
+from thesis.src.lib.tools import price_direct, price_inverse_double
 
 
 def main() -> None:
     kwargs = {
-        'io': 'pricesDirect.xlsm',
+        'io': 'pricesDirect.xlsm' or 'archiveProjectPricesConverterDirect.xlsm',
         'index_col': 0
     }
     pd.read_excel(**kwargs).pipe(price_direct, year_base=2005)
     kwargs = {
-        'io': 'pricesDatasetBeaGdp.xlsm',
+        'io': 'pricesDatasetBeaGdp.xlsm' or 'archiveProjectPricesConverterGDP.xlsm',
         'index_col': 0
     }
     pd.read_excel(**kwargs).pipe(price_inverse_double)
     kwargs = {
-        'io': 'pricesInverse.xlsm',
+        'io': 'pricesInverse.xlsm' or 'archiveProjectPricesConverterReverse.xlsm',
         'index_col': 0
     }
     pd.read_excel(**kwargs).pct_change()
@@ -40,3 +39,33 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
+
+# =============================================================================
+# 'pricesDatasetBeaGdp.xlsm' or 'archiveProjectPricesConverterGDP.xlsm': A191RC & A191RX
+# =============================================================================
+# =============================================================================
+# 'pricesInverse.xlsm' or 'archiveProjectPricesConverterReverse.xlsm': A191RX/A191RC
+# =============================================================================
+# =============================================================================
+# TODO: Eliminate XLSM
+# =============================================================================
+
+
+def main():
+    file_name = 'pricesDirect.xlsm' or 'archiveProjectPricesConverterDirect.xlsm'
+    pd.read_excel(file_name).pipe(price_direct, 2005)
+
+    file_name = 'dataset USA.csv'
+    pd.read_csv(file_name).pipe(pricesInverseCsv, 7, 8)
+
+    file_name = 'pricesDatasetBeaGdp.xlsm' or 'archiveProjectPricesConverterGDP.xlsm'
+    pd.read_excel(file_name).pipe(price_inverse, 1, 2)
+
+    file_name = 'pricesInverse.xlsm' or 'archiveProjectPricesConverterReverse.xlsm'
+    pd.read_excel(file_name).pipe(price_inverse)
+
+    # =============================================================================
+    # A191RD3@'dataset USA CobbDouglas Modern Dataset.csv'
+    # =============================================================================
+    combine_bea_def_from_file().pct_change()

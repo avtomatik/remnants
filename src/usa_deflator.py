@@ -9,15 +9,17 @@ Created on Sun Apr  2 12:42:58 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
-
 from constants import SERIES_IDS_CD, SERIES_IDS_PRCH
+
 from thesis.src.lib.tools import construct_usa_hist_deflator
 
 # =============================================================================
 # usa_cobb_douglas0008.py
 # =============================================================================
 
-LEGEND = ['Cobb$-$Douglas Work', 'Census HSUS 1975']
+LABEL = ['Cobb$-$Douglas Work', 'Census HSUS 1975']
+
+
 df = pd.concat(
     map(construct_usa_hist_deflator, (SERIES_IDS_CD, SERIES_IDS_PRCH)),
     axis=1,
@@ -26,9 +28,9 @@ df = pd.concat(
 plt.figure()
 plt.plot(df.iloc[:, 0], 'r', linewidth=3)
 plt.plot(df.iloc[:, 1])
-plt.title(f'Manufacturing Fixed Assets Deflator, {df.iloc[55, 0]}=100')
+plt.title(f'Manufacturing Fixed Assets Deflator')
 plt.xlabel('Period')
 plt.ylabel('Index')
 plt.grid()
-plt.legend()
+plt.legend(LABEL)
 plt.show()

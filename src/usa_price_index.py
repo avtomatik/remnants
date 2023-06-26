@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from thesis.src.lib.stockpile import stockpile_usa_hist
 
 # =============================================================================
-# project_usa_cobb_douglas0010.py
+# usa_cobb_douglas0010.py
 # =============================================================================
 SERIES_IDS = {
     'CDT2S1': 'dataset_usa_cobb-douglas.zip',
@@ -27,13 +27,12 @@ df = stockpile_usa_hist(SERIES_IDS)
 SERIES_IDS = ['P0107', 'P0110']
 df.loc[:, SERIES_IDS] = df.loc[:, SERIES_IDS].mul(1000)
 
-df['price_index'] = df.loc[:, 'P0110'].div(df.loc[:, 'P0107']).mul(
-    df.loc[YEAR_BASE, 'P0107']).div(df.loc[YEAR_BASE, 'P0110'])
+df['price_index'] = df.loc[:, 'P0107'].div(df.loc[:, 'P0110'])
 
-LEGEND = ['CDT2S1', 'J0149', '$1000 \\times P107$']
+LABEL = ['CDT2S1', 'J0149', '$1000 \\times P107$']
 
 plt.figure(1)
-plt.plot(df.iloc[:, range(3)], label=LEGEND)
+plt.plot(df.iloc[:, range(3)], label=LABEL)
 plt.title('Annual Increase of Fixed Assets in Terms of Cost Price')
 plt.xlabel('Period')
 plt.ylabel('Millions, USD')

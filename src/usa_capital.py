@@ -29,7 +29,7 @@ def transform_cobb_douglas_extension_capital(df: DataFrame) -> DataFrame:
     df.loc[:, SERIES_IDS] = df.loc[:, SERIES_IDS].mul(1000)
 
     # =========================================================================
-    # Nominal Fixed Assets Values, Billions of Dollars, as per Cobb-Douglas: Revised
+    # Nominal Fixed Assets Values, Billions of Dollars, as per Cobb--Douglas: Revised
     # =========================================================================
     df['nominal_cbb_dg'] = df.loc[:, 'CDT2S1'].mul(
         df.loc[:, 'CDT2S4']).div(df.loc[:, 'CDT2S3'])
