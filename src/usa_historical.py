@@ -9,7 +9,8 @@ Created on Sun Apr  2 13:03:14 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from constants import SERIES_IDS_CB, SERIES_IDS_CD, SERIES_IDS_PRCH
+from constants import (SERIES_IDS_CB, SERIES_IDS_CD, SERIES_IDS_COL,
+                       SERIES_IDS_PRCH)
 
 from thesis.src.lib.stockpile import stockpile_usa_hist
 from thesis.src.lib.tools import construct_usa_hist_deflator
@@ -112,32 +113,10 @@ plt.grid()
 
 ARCHIVE_NAME = 'dataset_uscb.zip'
 
-SERIES_IDS = [
-    # =========================================================================
-    # Cost-of-Living Indexes
-    # =========================================================================
-    # =========================================================================
-    # Federal Reserve Bank, 1913=100
-    # =========================================================================
-    'E0183' or 'L0036',
-    # =========================================================================
-    # Burgess, 1913=100
-    # =========================================================================
-    'E0184' or 'L0038',
-    # =========================================================================
-    # Douglas, 1890-99=100
-    # =========================================================================
-    'E0185' or 'L0039',
-    # =========================================================================
-    # Rees, 1914=100
-    # =========================================================================
-    'E0186'
-]  # No
-
 plt.figure(2)
 plt.plot(
-    stockpile_usa_hist(dict.fromkeys(SERIES_IDS, ARCHIVE_NAME)).pct_change(),
-    label=SERIES_IDS
+    stockpile_usa_hist(dict.fromkeys(SERIES_IDS_COL, ARCHIVE_NAME)).pct_change(),
+    label=SERIES_IDS_COL
 )
 plt.title('Cost-of-Living Indexes')
 plt.xlabel('Period')

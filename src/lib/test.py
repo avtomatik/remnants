@@ -319,7 +319,7 @@ def test_usa_bea_sfat_series_ids(
         'header': 0,
         'names': ('source_id', 'series_id', 'period', 'value'),
         'index_col': 2,
-        'usecols': (0, 8, 9, 10),
+        'usecols': [0, 8, 9, 10],
     }
     df = pd.read_csv(**kwargs)
     # =========================================================================
