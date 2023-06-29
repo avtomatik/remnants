@@ -188,3 +188,14 @@ SERIES_IDS_COL = [
     # =========================================================================
     'E0186'
 ]  # No
+
+
+MAP_KENDRICK = {
+    'KTD02S01': 'Output',
+    'KTD02S02': 'Persons Engaged',
+    'KTD02S03': 'Output Per Person',
+    'KTD02S04': 'Manhours',
+    'KTD02S05': 'Output Per Manhour',
+    'KTD02S06': 'Labor Input',
+    'KTD02S07': 'Output per Unit of Labor Input',
+}

@@ -9,9 +9,8 @@ Created on Sun Apr  2 10:38:12 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from core.read import read_pull_for_autocorrelation
 from pandas.plotting import autocorrelation_plot, bootstrap_plot, lag_plot
-
-from remnants.src.lib.read import read_pull_for_autocorrelation
 
 FUNCTIONS = (
     # =========================================================================

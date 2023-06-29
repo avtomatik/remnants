@@ -1,3 +1,4 @@
+from core.strings.funcs import trim_string
 from pandas import DataFrame
 
 
@@ -23,4 +24,9 @@ def transform_sub_special(df: DataFrame) -> DataFrame:
 
 def transform_usa_macroeconomics(df: DataFrame) -> DataFrame:
     df.loc[:, 'A191RD'] = df.loc[:, 'A191RD'].rdiv(100)
+    return df
+
+
+def trim_columns(df: DataFrame) -> DataFrame:
+    df.columns = map(lambda _: trim_string(_, fill='_').lower(), df.columns)
     return df

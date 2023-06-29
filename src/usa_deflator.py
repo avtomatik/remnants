@@ -9,7 +9,7 @@ Created on Sun Apr  2 12:42:58 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from constants import SERIES_IDS_CD, SERIES_IDS_PRCH
+from core.constants import SERIES_IDS_CD, SERIES_IDS_PRCH
 
 from thesis.src.lib.tools import construct_usa_hist_deflator
 

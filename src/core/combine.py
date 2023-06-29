@@ -1,8 +1,8 @@
 import pandas as pd
+from core.constants import SERIES_IDS_LAB
 from pandas import DataFrame
 
 from thesis.src.lib.combine import combine_usa_money
-from thesis.src.lib.constants import SERIES_IDS_LAB
 from thesis.src.lib.pull import pull_by_series_id
 from thesis.src.lib.read import (read_temporary, read_usa_bea,
                                  read_usa_frb_g17, read_usa_fred)

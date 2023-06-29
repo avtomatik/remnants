@@ -11,7 +11,8 @@ Created on Sun Apr  2 12:05:32 2023
 # =============================================================================
 
 
-from remnants.src.lib.plot import plot_turnover_take_one
+from core.plot import plot_turnover_take_one
+
 from thesis.src.lib.stockpile import stockpile_cobb_douglas
 
 if __name__ == '__main__':

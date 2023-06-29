@@ -1,7 +1,6 @@
 import pandas as pd
 from pandas import DataFrame
-
-from remnants.src.lib.read import read_usa_bea_excel
+from read import read_usa_bea_excel
 
 
 def stockpile_usa_bea(series_ids: dict[str, str]) -> DataFrame:

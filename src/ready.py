@@ -8,7 +8,7 @@ Created on Tue Jun 27 20:48:46 2023
 
 import os
 
-from funcs import stockpile_usa_hist
+from core.funcs import stockpile_usa_hist
 
 if __name__ == '__main__':
     PATH = '/media/green-machine/KINGSTON'

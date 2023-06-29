@@ -9,11 +9,11 @@ Created on Sun Apr  2 11:31:58 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from lib.plot import plot_cobb_douglas_3d
-from lib.transform import transform_add_dx_dy, transform_usa_macroeconomics
+from core.combine import combine_usa_macroeconomics
+from core.plot import plot_cobb_douglas_3d
+from core.transform import transform_add_dx_dy, transform_usa_macroeconomics
 from pandas import DataFrame
 
-from remnants.src.lib.combine import combine_usa_macroeconomics
 from thesis.src.visualization.annotations import transform_add_dx_dy
 
 # =============================================================================

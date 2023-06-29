@@ -13,9 +13,9 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from constants import SERIES_IDS_LAB
-from funcs import (read_temporary, stockpile_usa_bea, stockpile_usa_hist,
-                   transform_mean)
+from core.constants import SERIES_IDS_LAB
+from core.funcs import (read_temporary, stockpile_usa_bea, stockpile_usa_hist,
+                        transform_mean)
 
 # =============================================================================
 # Manufacturing Laborers' Series Comparison
