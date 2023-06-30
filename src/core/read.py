@@ -9,7 +9,7 @@ import pandas as pd
 import requests
 from pandas import DataFrame
 
-from thesis.src.lib.pull import pull_by_series_id
+from core.funcs import pull_by_series_id
 
 
 def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
@@ -227,5 +227,17 @@ def read_gdelt(date: datetime.date) -> DataFrame:
     kwargs = {
         'filepath_or_buffer': Path(PATH_SRC).joinpath(f"dataset_world_{str(date).replace('-', '')}.export.csv"),
         'sep': '\t'
+    }
+    return pd.read_csv(**kwargs)
+
+
+def read_usa_bls_cpiu() -> DataFrame:
+    """BLS CPI-U Price Index Fetch"""
+    kwargs = {
+        'filepath_or_buffer': 'dataset_usa_bls_cpiai.txt',
+        'sep': '\s+',
+        'index_col': 0,
+        'usecols': range(13),
+        'skiprows': 16,
     }
     return pd.read_csv(**kwargs)

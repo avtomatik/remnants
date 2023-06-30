@@ -10,28 +10,6 @@ from thesis.src.lib.stockpile import stockpile_usa_bea
 from thesis.src.lib.transform import transform_mean
 
 
-def combine_usa_bls_cpiu() -> DataFrame:
-    """BLS CPI-U Price Index Fetch"""
-    kwargs = {
-        'filepath_or_buffer': 'dataset_usa_bls_cpiai.txt',
-        'sep': '\s+',
-        'index_col': 0,
-        'usecols': range(13),
-        'skiprows': 16,
-    }
-    df = pd.read_csv(**kwargs)
-    df.rename_axis('period', inplace=True)
-    df['mean'] = df.mean(axis=1)
-    df['sqrt'] = df.iloc[:, :-1].prod(1).pow(1/12)
-    # =========================================================================
-    # Tests
-    # =========================================================================
-    df['mean_less_sqrt'] = df.iloc[:, -2].sub(df.iloc[:, -1])
-    df['dec_on_dec'] = df.iloc[:, -3].pct_change()
-    df['mean_on_mean'] = df.iloc[:, -4].pct_change()
-    return df.iloc[:, [-1]].dropna(axis=0)
-
-
 def combine_usa_xlsm() -> DataFrame:
     FILE_NAME = 'dataset_usa_0025_p_r.txt'
     SERIES_IDS = {

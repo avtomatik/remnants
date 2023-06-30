@@ -2,8 +2,8 @@ import os
 
 import pandas as pd
 import seaborn as sns
-from constants import SERIES_IDS, SERIES_IDS_PRCH
-from funcs import stockpile_usa_hist, transform_deflator
+from core.constants import SERIES_IDS, SERIES_IDS_PRCH
+from core.funcs import stockpile_usa_hist, transform_deflator
 from matplotlib import pyplot as plt
 from pandas import DataFrame
 

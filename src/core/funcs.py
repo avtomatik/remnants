@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 import requests
-from constants import MAP_READ_USA_HIST
+from core.constants import MAP_READ_USA_HIST
 from pandas import DataFrame
 
 
