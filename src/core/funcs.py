@@ -49,36 +49,6 @@ def read_usa_bea(url: str) -> DataFrame:
 
 
 @cache
-def read_usa_frb() -> DataFrame:
-    """
-
-
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, ...]    Series
-        ================== =================================
-    """
-    kwargs = {
-        'filepath_or_buffer': 'dataset_usa_frb_invest_capital.csv',
-        'skiprows': 4,
-    }
-    # =========================================================================
-    # Load
-    # =========================================================================
-    df = pd.read_csv(**kwargs)
-    kwargs['header'] = 0
-    kwargs['names'] = ('period', *map(int, df.columns[1:]))
-    kwargs['index_col'] = 0
-    # =========================================================================
-    # Re-Load
-    # =========================================================================
-    return pd.read_csv(**kwargs).transpose()
-
-
-@cache
 def read_usa_hist(filepath_or_buffer: str) -> DataFrame:
     """
     Retrieves Data from Enumerated Historical Datasets
@@ -190,33 +160,6 @@ def stockpile_usa_hist(series_ids: dict[str, str]) -> DataFrame:
         axis=1,
         sort=True
     )
-
-
-def transform_usa_frb_fa_def(df: DataFrame) -> DataFrame:
-    """
-    Retrieves DataFrame for Deflator for Manufacturing Fixed Assets Series
-
-    Parameters
-    ----------
-    df : DataFrame
-        ================== =================================
-        df.index           Period
-        ...                ...
-        df.iloc[:, -1]     Values
-        ================== =================================
-
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Deflator
-        ================== =================================
-
-    """
-    df['fa_def_frb'] = (df.iloc[:, [1, 4]].sum(axis=1)).div(
-        df.iloc[:, [0, 3]].sum(axis=1))
-    return df.iloc[:, [-1]]
 
 
 def transform_deflator(df: DataFrame) -> DataFrame:

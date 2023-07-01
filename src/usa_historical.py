@@ -9,12 +9,10 @@ Created on Sun Apr  2 13:03:14 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from constants import (SERIES_IDS_CB, SERIES_IDS_CD, SERIES_IDS_COL,
-                       SERIES_IDS_PRCH)
-
-from thesis.src.lib.stockpile import stockpile_usa_hist
-from thesis.src.lib.tools import construct_usa_hist_deflator
-from thesis.src.lib.transform import transform_mean
+from core.constants import (SERIES_IDS_CB, SERIES_IDS_CD, SERIES_IDS_COL,
+                            SERIES_IDS_PRCH)
+from core.funcs import (construct_usa_hist_deflator, stockpile_usa_hist,
+                        transform_mean)
 
 # =============================================================================
 # uscb_cost_index.py
@@ -115,7 +113,8 @@ ARCHIVE_NAME = 'dataset_uscb.zip'
 
 plt.figure(2)
 plt.plot(
-    stockpile_usa_hist(dict.fromkeys(SERIES_IDS_COL, ARCHIVE_NAME)).pct_change(),
+    stockpile_usa_hist(dict.fromkeys(
+        SERIES_IDS_COL, ARCHIVE_NAME)).pct_change(),
     label=SERIES_IDS_COL
 )
 plt.title('Cost-of-Living Indexes')

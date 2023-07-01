@@ -15,13 +15,12 @@ import itertools
 from pathlib import Path
 
 import pandas as pd
+from core.funcs import stockpile_usa_bea, stockpile_usa_hist
 from pandas import DataFrame
 from pandas.plotting import autocorrelation_plot
 from read import read_usa_bea_excel
 from stockpile import stockpile_usa_bea_excel_zip
 from transform import transform_sub_special, transform_sub_sum
-
-from thesis.src.lib.stockpile import stockpile_usa_bea, stockpile_usa_hist
 
 
 def test_data_capital_combined_archived():

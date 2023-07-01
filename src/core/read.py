@@ -7,9 +7,8 @@ from zipfile import ZipFile
 
 import pandas as pd
 import requests
-from pandas import DataFrame
-
 from core.funcs import pull_by_series_id
+from pandas import DataFrame
 
 
 def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:

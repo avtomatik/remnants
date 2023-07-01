@@ -12,7 +12,6 @@ from core.combine import combine_bea_def_from_file, combine_usa_bea_def
 
 from thesis.src.lib.tools import price_direct, price_inverse_double
 
-
 # =============================================================================
 # TODO: Eliminate XLSM
 # =============================================================================

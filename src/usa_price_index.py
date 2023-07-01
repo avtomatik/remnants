@@ -7,8 +7,7 @@ Created on Sun Apr  2 14:02:58 2023
 """
 
 import matplotlib.pyplot as plt
-
-from thesis.src.lib.stockpile import stockpile_usa_hist
+from core.funcs import stockpile_usa_hist
 
 # =============================================================================
 # usa_cobb_douglas0010.py

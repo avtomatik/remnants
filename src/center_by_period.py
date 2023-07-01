@@ -7,10 +7,9 @@ Created on Sun Apr  2 11:23:21 2023
 """
 
 
+from core.constants import MAP_MC_CONNEL
+from core.funcs import stockpile_usa_bea, stockpile_usa_hist
 from core.tools import transform_center_by_period
-
-from thesis.src.lib.constants import MAP_MC_CONNEL
-from thesis.src.lib.stockpile import stockpile_usa_bea, stockpile_usa_hist
 
 
 def main() -> None:
