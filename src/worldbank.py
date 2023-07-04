@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Apr  2 10:38:12 2023
+Created on Tue Jul  4 22:17:50 2023
 
 @author: green-machine
 """
 
 
+from functools import partial
+
 import matplotlib.pyplot as plt
-import pandas as pd
-from core.read import read_pull_for_autocorrelation
+from core.funcs import read_worldbank
 from pandas.plotting import autocorrelation_plot, lag_plot
 
 if __name__ == '__main__':
@@ -28,19 +29,16 @@ if __name__ == '__main__':
         lag_plot,
     )
 
+    SOURCE_ID = 'NY.GDP.MKTP.CD'
+
+    df = read_worldbank(SOURCE_ID)
+
     for func in FUNCTIONS:
-        FILE_NAME = 'datasetAutocorrelation.txt'
-        SERIES_IDS = sorted(set(pd.read_csv(FILE_NAME).iloc[:, [1]]))
-        for _, series_id in enumerate(SERIES_IDS, start=1):
-            plt.figure(_)
-            read_pull_for_autocorrelation(FILE_NAME, series_id).pipe(func)
-            plt.grid()
-
-        SERIES_IDS = sorted(set(pd.read_csv(FILE_NAME).iloc[:, [1]]))
-        FILE_NAME = 'CHN_TUR_GDP.zip'
-        for _, series_id in enumerate(SERIES_IDS, start=5):
-            plt.figure(_)
-            read_pull_for_autocorrelation(FILE_NAME, series_id).pipe(func)
-            plt.grid()
-
+        for _, country in enumerate(df.columns, start=1):
+            chunk = df.loc[:, [country]].dropna(axis=0)
+            if not chunk.empty:
+                plt.figure(_)
+                partial(func, chunk)()
+                plt.title(country)
+                plt.grid()
         plt.show()

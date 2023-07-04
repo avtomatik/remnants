@@ -10,6 +10,7 @@ Created on Tue Jun 27 20:44:03 2023
 import io
 from functools import cache
 from pathlib import Path
+from zipfile import ZipFile
 
 import pandas as pd
 import requests
@@ -256,3 +257,35 @@ def read_temporary(
         'index_col': 0,
     }
     return pd.read_csv(**kwargs)
+
+
+def read_worldbank(
+    source_id: str,
+    url_template: str = 'https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv'
+) -> DataFrame:
+    """
+    Returns DataFrame with World Bank API
+    Parameters
+    ----------
+    source_id : str
+        Like ('NY.GDP.MKTP.CD').
+    url_template : str, optional
+        DESCRIPTION. The default is 'https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv'.
+    Returns
+    -------
+    DataFrame
+    """
+    kwargs = {
+        'index_col': 0,
+        'skiprows': 4
+    }
+    with ZipFile(io.BytesIO(requests.get(url_template.format(source_id)).content)) as archive:
+        # =====================================================================
+        # Select the Largest File with min() Function
+        # =====================================================================
+        with archive.open(
+            min({_.filename: _.file_size for _ in archive.filelist})
+        ) as f:
+            kwargs['filepath_or_buffer'] = f
+            df = pd.read_csv(**kwargs).dropna(axis=1, how='all').transpose()
+            return df.drop(df.index[:3]).rename_axis('period')

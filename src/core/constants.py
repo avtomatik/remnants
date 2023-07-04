@@ -31,7 +31,6 @@ DATED_ARCHIVE_FILE_NAMES_UTILISED = (
     'dataset_uscb.zip',
     'dataset_uscb.zip',
     'dataset_usa_cobb-douglas.zip',
-    'dataset_usa_infcf16652007.zip',
     'dataset_usa_0025_p_r.txt',
     'dataset_usa_bea-GDPDEF.xls',
     'dataset_usa_davis-j-h-ip-total.xls',
