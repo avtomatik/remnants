@@ -156,28 +156,6 @@ def read_pull_K160021():
     return read_usa_bea_excel(**kwargs).loc[:, [SERIES_ID]]
 
 
-def read_pull_for_autocorrelation(filepath_or_buffer: str, series_id: str) -> DataFrame:
-    """
-    Parameters
-    ----------
-    filepath_or_buffer : str
-        'datasetAutocorrelation.txt' | 'CHN_TUR_GDP.zip'.
-    series_id : str
-        DESCRIPTION.
-    Returns
-    -------
-    DataFrame
-        DESCRIPTION.
-    """
-    kwargs = {
-        'filepath_or_buffer': filepath_or_buffer,
-        'names': ('period', 'series_id', 'value'),
-        'index_col': 0,
-        'skiprows': 1
-    }
-    return pd.read_csv(**kwargs).pipe(pull_by_series_id, series_id)
-
-
 @cache
 def read_usa_bea_excel_web(
     wb_name: str,
