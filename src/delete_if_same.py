@@ -16,7 +16,7 @@ def unlink_file_if_same(path_ctrl: PosixPath, path_test: PosixPath) -> None:
     if pd.read_csv(filepath_or_buffer_c).equals(
         pd.read_csv(filepath_or_buffer_t)
     ):
-        os.unlink(path_test)
+        path_test.unlink()
 
 
 def unlink_archive_if_same(path_ctrl: PosixPath, path_test: PosixPath) -> None:
@@ -28,7 +28,7 @@ def unlink_archive_if_same(path_ctrl: PosixPath, path_test: PosixPath) -> None:
     if pd.read_csv(filepath_or_buffer_c).equals(
         pd.read_csv(filepath_or_buffer_t)
     ):
-        os.unlink(path_test)
+        path_test.unlink()
 
 
 if __name__ == '__main__':

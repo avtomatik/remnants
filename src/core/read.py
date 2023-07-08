@@ -7,7 +7,6 @@ from zipfile import ZipFile
 
 import pandas as pd
 import requests
-from core.funcs import pull_by_series_id
 from pandas import DataFrame
 
 

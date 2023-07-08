@@ -41,12 +41,12 @@ DATED_ARCHIVE_FILE_NAMES_UTILISED = (
 
 
 MAP_READ_USA_HIST = {
-    'dataset_douglas.zip': {'series_id': 4, 'period': 5, 'value': 6},
-    'dataset_usa_brown.zip': {'series_id': 5, 'period': 6, 'value': 7},
-    'dataset_usa_cobb-douglas.zip': {'series_id': 5, 'period': 6, 'value': 7},
-    'dataset_usa_kendrick.zip': {'series_id': 4, 'period': 5, 'value': 6},
-    'dataset_usa_mc_connell_brue.zip': {'series_id': 1, 'period': 2, 'value': 3},
-    'dataset_uscb.zip': {'series_id': 9, 'period': 10, 'value': 11},
+    'dataset_douglas.zip': dict(zip(['series_id', 'period', 'value'], [4, 5, 6])),
+    'dataset_usa_brown.zip': dict(zip(['series_id', 'period', 'value'], [5, 6, 7])),
+    'dataset_usa_cobb-douglas.zip': dict(zip(['series_id', 'period', 'value'], [5, 6, 7])),
+    'dataset_usa_kendrick.zip': dict(zip(['series_id', 'period', 'value'], [4, 5, 6])),
+    'dataset_usa_mc_connell_brue.zip': dict(zip(['series_id', 'period', 'value'], [1, 2, 3])),
+    'dataset_uscb.zip': dict(zip(['series_id', 'period', 'value'], [9, 10, 11])),
 }
 
 
