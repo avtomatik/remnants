@@ -12,8 +12,10 @@ from functools import cache
 from pathlib import Path
 from zipfile import ZipFile
 
+import numpy as np
 import pandas as pd
 import requests
+import scipy.optimize as optimization
 from core.constants import MAP_READ_USA_HIST
 from pandas import DataFrame
 
@@ -289,3 +291,24 @@ def read_worldbank(
             kwargs['filepath_or_buffer'] = f
             df = pd.read_csv(**kwargs).dropna(axis=1, how='all').transpose()
             return df.drop(df.index[:3]).rename_axis('period')
+
+
+def calculate_curve_fit_params(df: DataFrame) -> None:
+    """
+        ================== =================================
+        df.index           Period
+        df.iloc[:, 0]      Labor Capital Intensity
+        df.iloc[:, 1]      Labor Productivity
+        ================== =================================
+    """
+
+    def _curve(regressor: pd.Series, b: float, k: float) -> pd.Series:
+        return regressor.pow(k).mul(b)
+
+    params, _matrix = optimization.curve_fit(
+        _curve,
+        df.iloc[:, -2],
+        df.iloc[:, -1],
+        np.array([1.0, 0.5])
+    )
+    print('Factor, b: {:,.4f}; Index, k: {:,.4f}'.format(*params))

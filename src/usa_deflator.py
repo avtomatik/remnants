@@ -27,7 +27,7 @@ df = pd.concat(
 plt.figure()
 plt.plot(df.iloc[:, 0], 'r', linewidth=3)
 plt.plot(df.iloc[:, 1])
-plt.title(f'Manufacturing Fixed Assets Deflator')
+plt.title('Manufacturing Fixed Assets Deflator')
 plt.xlabel('Period')
 plt.ylabel('Index')
 plt.grid()
