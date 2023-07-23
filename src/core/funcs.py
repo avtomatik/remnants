@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 import requests
 import scipy.optimize as optimization
-from core.constants import MAP_READ_USA_HIST
+from core.classes import Token
 from pandas import DataFrame
 
 
@@ -52,12 +52,12 @@ def read_usa_bea(url: str) -> DataFrame:
 
 
 @cache
-def read_usa_hist(filepath_or_buffer: str) -> DataFrame:
+def read_usa_hist(token: Token) -> DataFrame:
     """
     Retrieves Data from Enumerated Historical Datasets
     Parameters
     ----------
-    filepath_or_buffer : str
+    token : Token
 
     Returns
     -------
@@ -68,15 +68,8 @@ def read_usa_hist(filepath_or_buffer: str) -> DataFrame:
         df.iloc[:, 1]      Values
         ================== =================================
     """
-    kwargs = {
-        'filepath_or_buffer': filepath_or_buffer,
-        'header': 0,
-        'names': tuple(MAP_READ_USA_HIST.get(filepath_or_buffer).keys()),
-        'index_col': 1,
-        'skiprows': (0, 4)[filepath_or_buffer == 'dataset_usa_brown.zip'],
-        'usecols': tuple(MAP_READ_USA_HIST.get(filepath_or_buffer).values()),
-    }
-    return pd.read_csv(**kwargs)
+
+    return pd.read_csv(**token.get_kwargs())
 
 
 def pull_by_series_id(df: DataFrame, series_id: str) -> DataFrame:

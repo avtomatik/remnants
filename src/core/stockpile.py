@@ -1,6 +1,7 @@
 import pandas as pd
+from core.funcs import pull_by_series_id
+from core.read import read_usa_bea
 from pandas import DataFrame
-from read import read_usa_bea_excel
 
 
 def stockpile_usa_bea(series_ids: dict[str, str]) -> DataFrame:

@@ -10,6 +10,7 @@ Created on Sun Apr  2 11:23:21 2023
 from core.constants import MAP_MC_CONNEL
 from core.funcs import stockpile_usa_bea, stockpile_usa_hist
 from core.tools import transform_center_by_period
+from core.classes import Token
 
 
 def main() -> None:
@@ -18,7 +19,7 @@ def main() -> None:
     # =============================================================================
 
     SERIES_ID = {
-        'Национальный доход, млрд долл. США': 'dataset_usa_mc_connell_brue.zip'
+        'Национальный доход, млрд долл. США': Token.USA_MC_CONNELL
     }
     stockpile_usa_hist(SERIES_ID).truncate(before=1980).rename(
         columns=MAP_MC_CONNEL

@@ -13,24 +13,17 @@ DATED_DATED_ARCHIVE_FILE_NAMES_UTILISED = (
     'dataset USA Census HSUS 1975 Series K5.csv',
     'dataset USA Census HSUS 1975 Series P107-P176 & P231-P317 Refined.csv',
     'dataset USA Census HSUS 1975 Series P107-P176 & P231-P317.csv',
-    'dataset_uscb.zip',
-    'dataset_douglas.zip',
     'dataset USA Reference RU Brown M. 0597_088.csv',
 )
 
 
 DATED_ARCHIVE_FILE_NAMES_UTILISED = (
-    'dataset_douglas.zip',
     'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip',
     'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1969_2012.zip',
     'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1929_1969.zip',
     'dataset_usa_bea-release-2015-02-27-SectionAll_xls_1969_2015.zip',
     'dataset_usa_bea-sfat-release-2012-08-15-SectionAll_xls.zip',
     'dataset_usa_bea-sfat-release-2017-08-23-SectionAll_xls.zip',
-    'dataset_usa_brown.zip',
-    'dataset_uscb.zip',
-    'dataset_uscb.zip',
-    'dataset_usa_cobb-douglas.zip',
     'dataset_usa_0025_p_r.txt',
     'dataset_usa_bea-GDPDEF.xls',
     'dataset_usa_davis-j-h-ip-total.xls',
@@ -38,16 +31,6 @@ DATED_ARCHIVE_FILE_NAMES_UTILISED = (
     'dataset_usa_frb_us3_ip_2018_09_02.csv',
     'dataset_usa_reference_ru_kurenkov_yu_v.csv',
 )
-
-
-MAP_READ_USA_HIST = {
-    'dataset_douglas.zip': dict(zip(['series_id', 'period', 'value'], [4, 5, 6])),
-    'dataset_usa_brown.zip': dict(zip(['series_id', 'period', 'value'], [5, 6, 7])),
-    'dataset_usa_cobb-douglas.zip': dict(zip(['series_id', 'period', 'value'], [5, 6, 7])),
-    'dataset_usa_kendrick.zip': dict(zip(['series_id', 'period', 'value'], [4, 5, 6])),
-    'dataset_usa_mc_connell_brue.zip': dict(zip(['series_id', 'period', 'value'], [1, 2, 3])),
-    'dataset_uscb.zip': dict(zip(['series_id', 'period', 'value'], [9, 10, 11])),
-}
 
 
 # =============================================================================
