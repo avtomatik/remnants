@@ -7,10 +7,10 @@ Created on Sun Apr  2 11:23:21 2023
 """
 
 
+from core.classes import Token
 from core.constants import MAP_MC_CONNEL
 from core.funcs import stockpile_usa_bea, stockpile_usa_hist
 from core.tools import transform_center_by_period
-from core.classes import Token
 
 
 def main() -> None:
