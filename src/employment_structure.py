@@ -1,31 +1,22 @@
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
-from pandas import DataFrame
 
 
-def read_employment() -> DataFrame:
-    """
+def get_kwargs() -> dict[str, Any]:
 
-
-    Returns
-    -------
-    DataFrame
-        DESCRIPTION.
-
-    """
     PATH = '/home/green-machine/Downloads'
 
     FILE_NAME = 'graduate_project_figures.xlsx'
 
     SHEET_NAME = 'Лист1'
 
-    kwargs = {
+    return {
         'io': Path(PATH).joinpath(FILE_NAME),
         'sheet_name': SHEET_NAME,
         'index_col': 0
     }
-    return pd.read_excel(**kwargs)
 
 
 if __name__ == '__main__':
@@ -42,6 +33,6 @@ if __name__ == '__main__':
     # =============================================================================
     # FILE_NAME = 'graduate_project_financial_plan_revised.xlsx'
 
-    read_employment().transpose().rename(
+    pd.read_excel(**get_kwargs()).transpose().rename(
         columns=MAP_COLUMNS
     ).rename_axis('period').plot(grid=True)

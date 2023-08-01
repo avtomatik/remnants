@@ -263,13 +263,14 @@ def test_usa_bea_fixed_assets():
     # Tested: "k3n31gd1es00" = "k3n31gd1eq00" + "k3n31gd1ip00" + "k3n31gd1st00"
     # =========================================================================
 
+    URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
     SERIES_ID = {
-        'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+        'k3n31gd1es00': URL_FIXED_ASSETS
     }
     SERIES_IDS = {
-        'k3n31gd1eq00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1ip00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1st00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+        'k3n31gd1eq00': URL_FIXED_ASSETS,
+        'k3n31gd1ip00': URL_FIXED_ASSETS,
+        'k3n31gd1st00': URL_FIXED_ASSETS
     }
 
     stockpile_usa_bea(SERIES_ID | SERIES_IDS).pipe(
@@ -302,13 +303,14 @@ def test_usa_bea_sfat_series_ids(
     # Test if Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
     # =========================================================================
 
+    URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
     SERIES_ID = {
-        'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+        'k3n31gd1es00': URL_FIXED_ASSETS
     }
     SERIES_IDS = {
-        'k3n31gd1eq00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1ip00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-        'k3n31gd1st00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+        'k3n31gd1eq00': URL_FIXED_ASSETS,
+        'k3n31gd1ip00': URL_FIXED_ASSETS,
+        'k3n31gd1st00': URL_FIXED_ASSETS
     }
 
     df_test = stockpile_usa_bea(SERIES_ID | SERIES_IDS)

@@ -47,32 +47,33 @@ PARAMS = [
 ]
 
 
+URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
 SERIES_IDS_EA = {
     # =========================================================================
     # Not Used: Fixed Assets: Table 4.3. Historical-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k3n31gd1es00': URL_FIXED_ASSETS,
     # =========================================================================
     # Not Used: Fixed Assets: Table 2.3. Historical-Cost Net Stock of Private Fixed Assets, Equipment, Structures, and Intellectual Property Products by Type
     # =========================================================================
-    'k3ntotl1si00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k3ntotl1si00': URL_FIXED_ASSETS,
     # =========================================================================
     # Not Used: Table 4.5. Chain-Type Quantity Indexes for Depreciation of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'mcn31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'mcn31gd1es00': URL_FIXED_ASSETS,
     # =========================================================================
     # Not Used: Table 2.5. Chain-Type Quantity Indexes for Depreciation of Private Fixed Assets, Equipment, Structures, and Intellectual Property Products by Type
     # =========================================================================
-    'mcntotl1si00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+    'mcntotl1si00': URL_FIXED_ASSETS
 } | {
     # =========================================================================
     # Fixed Assets: Table 4.1. Current-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'k1n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k1n31gd1es00': URL_FIXED_ASSETS,
     # =========================================================================
     # Fixed Assets: Table 4.2. Chain-Type Quantity Indexes for Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'kcn31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+    'kcn31gd1es00': URL_FIXED_ASSETS
 }
 
 
@@ -126,6 +127,7 @@ SERIES_IDS = [
 SERIES_IDS_CB = dict.fromkeys(SERIES_IDS, ARCHIVE_NAME)
 
 
+URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
 SERIES_IDS_LAB = {
     # =========================================================================
     # U.S. Bureau of Economic Analysis (BEA), Manufacturing Labor Series
@@ -133,19 +135,19 @@ SERIES_IDS_LAB = {
     # =========================================================================
     # 1929--1948
     # =========================================================================
-    'H4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
+    'H4313C': URL_NIPA_DATA_A,
     # =========================================================================
     # 1948--1987
     # =========================================================================
-    'J4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
+    'J4313C': URL_NIPA_DATA_A,
     # =========================================================================
     # 1987--2000
     # =========================================================================
-    'A4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
+    'A4313C': URL_NIPA_DATA_A,
     # =========================================================================
     # 1998--2020
     # =========================================================================
-    'N4313C': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
+    'N4313C': URL_NIPA_DATA_A,
 }
 
 

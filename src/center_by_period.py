@@ -25,9 +25,8 @@ def main() -> None:
         columns=MAP_MC_CONNEL
     ).pipe(transform_center_by_period)
 
-    SERIES_ID = {
-        'A032RC': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
-    }
+    URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
+    SERIES_ID = {'A032RC': URL_NIPA_DATA_A}
     stockpile_usa_bea(SERIES_ID).pipe(transform_center_by_period)
 
 

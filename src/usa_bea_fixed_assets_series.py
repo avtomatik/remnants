@@ -10,129 +10,130 @@ Created on Sat Oct 22 12:30:16 2022
 # TODO: CHECK IT
 # =============================================================================
 
+URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
 SERIES_IDS = {
     # =============================================================================
     # Investment
     # =============================================================================
-    'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'i3ptotl1es00': URL_FIXED_ASSETS,
     # =============================================================================
     # Investment
     # =============================================================================
-    'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'icptotl1es00': URL_FIXED_ASSETS,
     # =============================================================================
     # Table 3.1ESI. Current-Cost Net Stock of Private Fixed Assets by Industry
     # =============================================================================
-    'k1n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k1n31gd1es00': URL_FIXED_ASSETS,
     # =============================================================================
     # Table 4.1. Current-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =============================================================================
-    'k1ntotl1si00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k1ntotl1si00': URL_FIXED_ASSETS,
     # =============================================================================
     # OK
     # =============================================================================
-    'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k3n31gd1es00': URL_FIXED_ASSETS,
     # =============================================================================
     # OK
     # =============================================================================
-    'k3ntotl1si00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    'kcn31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    'mcn31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    'mcntotl1si00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'k3ntotl1si00': URL_FIXED_ASSETS,
+    'k3ptotl1es00': URL_FIXED_ASSETS,
+    'kcn31gd1es00': URL_FIXED_ASSETS,
+    'mcn31gd1es00': URL_FIXED_ASSETS,
+    'mcntotl1si00': URL_FIXED_ASSETS,
 }
 
 
 """US BEA Fixed Assets Series Tests"""
 """Item 1.1"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 1.2"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 1.3"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 1.4: Don't Use"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 1.5"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 2.1: Don't Use, Use Item 1.1 Instead"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 2.2: Don't Use, Use Item 1.2 Instead"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 2.3: Don't Use, Use Item 1.3 Instead"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 2.4"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 2.5: Don't Use, Use Item 1.5 Instead"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 3.1: Don't Use, Use Item 1.1 Instead"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 3.2: Don't Use, Use Item 1.2 Instead"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 3.3: Don't Use, Use Item 1.3 Instead"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 3.4: Don't Use, Use Item 2.4 Instead"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 3.5: Don't Use, Use Item 1.5 Instead"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 4.1: Don't Use"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 4.2: Don't Use"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 4.3: Don't Use"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 4.4: Don't Use"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 4.5: Don't Use"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 5.1: Don't Use"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 5.2: Don't Use"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 5.3: Don't Use"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 5.4: Don't Use"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 5.5: Don't Use"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 6.1: Don't Use, Use Item 1.1 Instead"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 6.2: Don't Use, Use Item 1.2 Instead"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 6.3: Don't Use, Use Item 1.3 Instead"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 6.4: Don't Use, Use Item 2.4 Instead"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 6.5: Don't Use, Use Item 1.5 Instead"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 7.1: Don't Use"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 7.2: Don't Use"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 7.3: Don't Use"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 7.4: Don't Use"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 7.5: Don't Use"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 8.1: Don't Use"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 8.2: Don't Use"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 8.3: Don't Use"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 8.4: Don't Use"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 8.5: Don't Use"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 """Item 9.1: Don't Use"""
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 """Item 9.2: Don't Use"""
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 """Item 9.3: Don't Use"""
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 """Item 9.4: Don't Use"""
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 """Item 9.5: Don't Use"""
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 
 
 # =============================================================================
@@ -141,183 +142,183 @@ SERIES_IDS = {
 # =============================================================================
 # Item 1.1
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 1.2
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 1.3
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 1.4: Don't Use
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 1.5
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 2.1: Don't Use, Use Item 1.1 Instead
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 2.2: Don't Use, Use Item 1.2 Instead
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 2.3: Don't Use, Use Item 1.3 Instead
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 2.4
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 2.5: Don't Use, Use Item 1.5 Instead
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 3.1: Don't Use, Use Item 1.1 Instead
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 3.2: Don't Use, Use Item 1.2 Instead
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 3.3: Don't Use, Use Item 1.3 Instead
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 3.4: Don't Use, Use Item 2.4 Instead
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 3.5: Don't Use, Use Item 1.5 Instead
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 4.1: Don't Use
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 4.2: Don't Use
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 4.3: Don't Use
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 4.4: Don't Use
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 4.5: Don't Use
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 5.1: Don't Use
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 5.2: Don't Use
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 5.3: Don't Use
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 5.4: Don't Use
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 5.5: Don't Use
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 6.1: Don't Use, Use Item 1.1 Instead
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 6.2: Don't Use, Use Item 1.2 Instead
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 6.3: Don't Use, Use Item 1.3 Instead
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 6.4: Don't Use, Use Item 2.4 Instead
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 6.5: Don't Use, Use Item 1.5 Instead
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 7.1: Don't Use
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 7.2: Don't Use
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 7.3: Don't Use
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 7.4: Don't Use
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 7.5: Don't Use
 # =================================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 8.1: Don't Use
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 8.2: Don't Use
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 8.3: Don't Use
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 8.4: Don't Use
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 8.5: Don't Use
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 9.1: Don't Use
 # =============================================================================
-{'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'i3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 9.2: Don't Use
 # =============================================================================
-{'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'icptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 9.3: Don't Use
 # =============================================================================
-{'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k1ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 9.4: Don't Use
 # =============================================================================
-{'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'k3ptotl1es00': URL_FIXED_ASSETS}
 # =============================================================================
 # Item 9.5: Don't Use
 # =============================================================================
-{'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+{'kcptotl1es00': URL_FIXED_ASSETS}
 collect_usa_general:
 A = """
     # =========================================================================
@@ -326,183 +327,183 @@ A = """
     # =========================================================================
     # Item 1.1
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 1.2
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 1.3
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 1.4: Don't Use
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 1.5
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 2.1: Don't Use, Use Item 1.1 Instead
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 2.2: Don't Use, Use Item 1.2 Instead
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 2.3: Don't Use, Use Item 1.3 Instead
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 2.4
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 2.5: Don't Use, Use Item 1.5 Instead
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 3.1: Don't Use, Use Item 1.1 Instead
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 3.2: Don't Use, Use Item 1.2 Instead
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 3.3: Don't Use, Use Item 1.3 Instead
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 3.4: Don't Use, Use Item 2.4 Instead
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 3.5: Don't Use, Use Item 1.5 Instead
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 4.1: Don't Use
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 4.2: Don't Use
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 4.3: Don't Use
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 4.4: Don't Use
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 4.5: Don't Use
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 5.1: Don't Use
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 5.2: Don't Use
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 5.3: Don't Use
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 5.4: Don't Use
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 5.5: Don't Use
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 6.1: Don't Use, Use Item 1.1 Instead
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 6.2: Don't Use, Use Item 1.2 Instead
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 6.3: Don't Use, Use Item 1.3 Instead
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 6.4: Don't Use, Use Item 2.4 Instead
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 6.5: Don't Use, Use Item 1.5 Instead
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 7.1: Don't Use
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 7.2: Don't Use
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 7.3: Don't Use
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 7.4: Don't Use
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 7.5: Don't Use
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 8.1: Don't Use
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 8.2: Don't Use
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 8.3: Don't Use
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 8.4: Don't Use
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 8.5: Don't Use
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 9.1: Don't Use
     # =========================================================================
-    # {'i3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'i3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 9.2: Don't Use
     # =========================================================================
-    # {'icptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'icptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 9.3: Don't Use
     # =========================================================================
-    # {'k1ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k1ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 9.4: Don't Use
     # =========================================================================
-    # {'k3ptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'k3ptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Item 9.5: Don't Use
     # =========================================================================
-    # {'kcptotl1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'}
+    # {'kcptotl1es00': URL_FIXED_ASSETS}
     # =========================================================================
     # Investment in Fixed Assets, Private, i3ptotl1es000, 1901--2016
     # =========================================================================

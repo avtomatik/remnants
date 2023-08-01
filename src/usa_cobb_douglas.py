@@ -25,20 +25,22 @@ from thesis.src.lib.read import read_usa_frb_g17, read_usa_frb_us3
 # Capacity Utilization Series: CAPUTL.B50001.A, 1967--2012
 # =============================================================================
 SERIES_ID = 'CAPUTL.B50001.A'
+URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
 SERIES_IDS = {
     # =========================================================================
     # Fixed Assets Series
     # =========================================================================
-    'kcn31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
+    'kcn31gd1es00': URL_FIXED_ASSETS,
+    'k3n31gd1es00': URL_FIXED_ASSETS,
     # =========================================================================
     # Nominal Gross Domestic Product Series: A191RC
     # =========================================================================
-    'A191RC': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt',
+    'A191RC': URL_NIPA_DATA_A,
     # =========================================================================
     # Real Gross Domestic Product Series: A191RX
     # =========================================================================
-    'A191RX': 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
+    'A191RX': URL_NIPA_DATA_A
 }
 
 df = pd.concat(
@@ -86,8 +88,8 @@ SERIES_IDS = {
     # =========================================================================
     # Fixed Assets Series
     # =========================================================================
-    'kcn31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt',
-    'k3n31gd1es00': 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+    'kcn31gd1es00': URL_FIXED_ASSETS,
+    'k3n31gd1es00': URL_FIXED_ASSETS
 }
 # =============================================================================
 # TODO: Continue Series

@@ -65,9 +65,7 @@ def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:
     """
     Retrieve Historical Manufacturing Series from BEA SFAT CSV File
     """
-    MAP = {
-        'source_id': 0, 'group1': 6, 'series_id': 8, 'period': 9, 'value': 10
-    }
+    MAP = dict(zip(['source_id', 'group1', 'series_id', 'period', 'value'], [0, 6, 8, 9, 10]))
     kwargs = {
         'filepath_or_buffer': 'dataset_usa_bea-nipa-2017-08-23-sfat.zip',
         'header': 0,
