@@ -1,11 +1,11 @@
 import pandas as pd
 from core.constants import SERIES_IDS_LAB
+from core.funcs import get_pre_kwargs
 from pandas import DataFrame
 
 from thesis.src.lib.combine import combine_usa_money
 from thesis.src.lib.pull import pull_by_series_id
-from thesis.src.lib.read import (read_temporary, read_usa_bea,
-                                 read_usa_frb_g17, read_usa_fred)
+from thesis.src.lib.read import read_usa_bea, read_usa_frb_g17, read_usa_fred
 from thesis.src.lib.stockpile import stockpile_usa_bea
 from thesis.src.lib.transform import transform_mean
 
@@ -13,28 +13,28 @@ from thesis.src.lib.transform import transform_mean
 def combine_usa_xlsm() -> DataFrame:
     FILE_NAME = 'dataset_usa_0025_p_r.txt'
     URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
-    SERIES_IDS = {
+    SERIES_IDS = [
         # =====================================================================
         # Nominal Investment Series: A006RC, 1929--2021
         # =====================================================================
-        'A006RC': URL_NIPA_DATA_A,
+        'A006RC',
         # =====================================================================
         # Nominal Nominal Gross Domestic Product Series: A191RC, 1929--2021
         # =====================================================================
-        'A191RC': URL_NIPA_DATA_A,
+        'A191RC',
         # =====================================================================
         # Real Gross Domestic Product Series, 2012=100: A191RX, 1929--2021
         # =====================================================================
-        'A191RX': URL_NIPA_DATA_A,
+        'A191RX',
         # =====================================================================
         # Nominal National income Series: A032RC, 1929--2021
         # =====================================================================
-        'A032RC': URL_NIPA_DATA_A,
-    }
+        'A032RC',
+    ]
     return pd.concat(
         [
-            stockpile_usa_bea(SERIES_IDS),
-            read_temporary(FILE_NAME),
+            stockpile_usa_bea(dict.fromkeys(SERIES_IDS, URL_NIPA_DATA_A)),
+            pd.read_csv(**get_pre_kwargs(FILE_NAME)),
         ],
         axis=1
     )
@@ -136,7 +136,7 @@ def combine_usa_general() -> DataFrame:
                 sort=True
             ),
             combine_usa_money(),
-            read_temporary(FILE_NAME),
+            pd.read_csv(**get_pre_kwargs(FILE_NAME)),
         ],
         axis=1
     )

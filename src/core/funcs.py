@@ -10,6 +10,7 @@ Created on Tue Jun 27 20:44:03 2023
 import io
 from functools import cache
 from pathlib import Path
+from typing import Any
 from zipfile import ZipFile
 
 import numpy as np
@@ -228,32 +229,6 @@ def construct_usa_hist_deflator(series_ids: dict[str, str]) -> DataFrame:
     return stockpile_usa_hist(series_ids).pipe(transform_deflator)
 
 
-def read_temporary(
-    file_name: str, path_src: str = '/home/green-machine/data_science/data/interim'
-) -> DataFrame:
-    """
-
-
-    Parameters
-    ----------
-    file_name : str
-        DESCRIPTION.
-    path_src : str, optional
-        DESCRIPTION. The default is '/home/green-machine/data_science/data/interim'.
-
-    Returns
-    -------
-    DataFrame
-        DESCRIPTION.
-
-    """
-    kwargs = {
-        'filepath_or_buffer': Path(path_src).joinpath(file_name),
-        'index_col': 0,
-    }
-    return pd.read_csv(**kwargs)
-
-
 def read_worldbank(
     source_id: str,
     url_template: str = 'https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv'
@@ -305,3 +280,25 @@ def calculate_curve_fit_params(df: DataFrame) -> None:
         np.array([1.0, 0.5])
     )
     print('Factor, b: {:,.4f}; Index, k: {:,.4f}'.format(*params))
+
+
+def get_pre_kwargs(file_name: str) -> dict[str, Any]:
+    """
+    Returns `kwargs` for `pd.read_csv()` for Usual Cases
+
+    Parameters
+    ----------
+    file_name : str
+        DESCRIPTION.
+
+    Returns
+    -------
+    dict[str, Any]
+        DESCRIPTION.
+
+    """
+    PATH_SRC = '/home/green-machine/data_science/data/interim'
+    return {
+        'filepath_or_buffer': Path(PATH_SRC).joinpath(file_name),
+        'index_col': 0,
+    }

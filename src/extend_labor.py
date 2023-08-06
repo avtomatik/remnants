@@ -14,7 +14,7 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from core.constants import SERIES_IDS_LAB
-from core.funcs import (read_temporary, stockpile_usa_bea, stockpile_usa_hist,
+from core.funcs import (get_pre_kwargs, stockpile_usa_bea, stockpile_usa_hist,
                         transform_mean)
 
 # =============================================================================
@@ -60,7 +60,7 @@ def combine_data():
             stockpile_usa_bea(SERIES_IDS_LAB).pipe(
                 transform_mean, name='bea_labor_mfg'
             ),
-            read_temporary(FILE_NAME).iloc[:, [1]]
+            pd.read_csv(**get_pre_kwargs(FILE_NAME)).iloc[:, [1]]
         ],
         axis=1
     )
