@@ -3,6 +3,7 @@ import io
 import sqlite3
 from functools import cache
 from pathlib import Path
+from typing import Any
 from zipfile import ZipFile
 
 import pandas as pd
@@ -198,23 +199,23 @@ def read_usa_bea_excel_web(
         return pd.read_excel(**kwargs).dropna(axis=0).transpose()
 
 
-def read_gdelt(date: datetime.date) -> DataFrame:
+def get_kwargs_gdelt(date: datetime.date) -> dict[str, Any]:
     """The GDELT Project"""
+
     PATH_SRC = '/media/green-machine/KINGSTON'
-    kwargs = {
+
+    return {
         'filepath_or_buffer': Path(PATH_SRC).joinpath(f"dataset_world_{str(date).replace('-', '')}.export.csv"),
         'sep': '\t'
     }
-    return pd.read_csv(**kwargs)
 
 
-def read_usa_bls_cpiu() -> DataFrame:
+def get_kwargs_usa_bls_cpiu() -> dict[str, Any]:
     """BLS CPI-U Price Index Fetch"""
-    kwargs = {
+    return {
         'filepath_or_buffer': 'dataset_usa_bls_cpiai.txt',
         'sep': '\s+',
         'index_col': 0,
         'usecols': range(13),
         'skiprows': 16,
     }
-    return pd.read_csv(**kwargs)
