@@ -204,7 +204,7 @@ def combine_bea_def_from_file() -> DataFrame:
     """
 
     df = pd.read_excel(**get_kwargs_usa_bea_def())
-    return df.groupby(df.index.year).prod().pow(1/4)
+    return df.groupby(df.index.year).agg('prod').pow(1/4)
 
 
 def get_kwargs_usa_bea_def() -> dict[str, Any]:
