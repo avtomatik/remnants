@@ -2,8 +2,9 @@ import os
 
 import pandas as pd
 import seaborn as sns
+from core.classes import Dataset
 from core.constants import SERIES_IDS, SERIES_IDS_PRCH
-from core.funcs import stockpile_usa_hist, transform_deflator
+from core.funcs import stockpile, transform_deflator
 from matplotlib import pyplot as plt
 from pandas import DataFrame
 
@@ -11,10 +12,10 @@ from pandas import DataFrame
 def get_data(series_ids: dict[str, str]) -> DataFrame:
     return pd.concat(
         [
-            stockpile_usa_hist(SERIES_IDS_PRCH).pipe(
+            stockpile(SERIES_IDS_PRCH).pipe(
                 transform_deflator
             ).truncate(before=1885),
-            stockpile_usa_hist(series_ids).pct_change(),
+            stockpile(series_ids).pct_change(),
         ],
         axis=1
     )
@@ -50,9 +51,8 @@ def print_corr(df: DataFrame, method: str) -> None:
 
 def main():
     PATH = '/media/green-machine/KINGSTON'
-    ARCHIVE_NAME = 'dataset_uscb.zip'
 
-    series_ids = dict.fromkeys(SERIES_IDS, ARCHIVE_NAME)
+    series_ids = enlist_series_ids(SERIES_IDS, Dataset.USCB)
 
     os.chdir(PATH)
 

@@ -6,7 +6,8 @@ Created on Sat May  2 22:26:24 2020
 """
 
 
-from core.read import read_unstats
+import pandas as pd
+from core.read import get_kwargs_unstats
 from pandas import DataFrame
 
 
@@ -23,7 +24,7 @@ def main() -> None:
     None.
 
     """
-    _df = read_unstats()
+    _df = pd.read_excel(**get_kwargs_unstats())
     _df = _df[_df.iloc[:, 1] == 'Gross Domestic Product (GDP)']
     _df = _df.drop(_df.columns[:2], axis=1).transpose()
     df = DataFrame()

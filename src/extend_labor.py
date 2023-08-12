@@ -14,8 +14,7 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from core.constants import SERIES_IDS_LAB
-from core.funcs import (get_pre_kwargs, stockpile_usa_bea, stockpile_usa_hist,
-                        transform_mean)
+from core.funcs import get_pre_kwargs, stockpile, transform_mean
 
 # =============================================================================
 # Manufacturing Laborers' Series Comparison
@@ -30,34 +29,34 @@ def combine_data():
         # =====================================================================
         # Cobb C.W., Douglas P.H. Labor Series: Average Number Employed (in thousands)
         # =====================================================================
-        'CDT3S1': 'dataset_usa_cobb-douglas.zip',
+        'CDT3S1': Dataset.USA_COBB_DOUGLAS,
         # =====================================================================
         # Bureau of the Census 1949, D0069
         # =====================================================================
-        'D0069': 'dataset_uscb.zip',
+        'D0069': Dataset.USCB,
         # =====================================================================
         # Bureau of the Census 1975, D0130
         # =====================================================================
-        'D0130': 'dataset_uscb.zip',
+        'D0130': Dataset.USCB,
     } or {
         # =====================================================================
         # Bureau of the Census 1949, J0004
         # =====================================================================
-        'J0004': 'dataset_uscb.zip',
+        'J0004': Dataset.USCB,
         # =====================================================================
         # Bureau of the Census 1975, P0005
         # =====================================================================
-        'P0005': 'dataset_uscb.zip',
+        'P0005': Dataset.USCB,
         # =====================================================================
         # Bureau of the Census 1975, P0062
         # =====================================================================
-        'P0062': 'dataset_uscb.zip',
+        'P0062': Dataset.USCB,
     }
 
     return pd.concat(
         [
-            stockpile_usa_hist(SERIES_IDS),
-            stockpile_usa_bea(SERIES_IDS_LAB).pipe(
+            stockpile(SERIES_IDS),
+            stockpile(SERIES_IDS_LAB).pipe(
                 transform_mean, name='bea_labor_mfg'
             ),
             pd.read_csv(**get_pre_kwargs(FILE_NAME)).iloc[:, [1]]
@@ -82,7 +81,7 @@ if __name__ == '__main__':
     # =============================================================================
     # Kendrick J.W., Productivity Trends in the United States, Table D-II, 'Persons Engaged' Column, pp. 465--466
     # =============================================================================
-    SERIES_ID = {'KTD02S02': 'dataset_usa_kendrick.zip'}
+    SERIES_ID = [SeriesID('KTD02S02', Dataset.USA_KENDRICK)]
 
     os.chdir(PATH)
 
@@ -107,7 +106,7 @@ if __name__ == '__main__':
 
     df_right = df_hist.pipe(transform_mean, name=COL_NAME)
 
-    df_left = stockpile_usa_hist(SERIES_ID).mul(
+    df_left = stockpile(SERIES_ID).mul(
         df_right.at[YEAR_BASE, COL_NAME]
     ).div(100)
 

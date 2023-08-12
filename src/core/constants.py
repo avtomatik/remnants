@@ -47,55 +47,52 @@ PARAMS = [
 ]
 
 
-URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
 SERIES_IDS_EA = {
     # =========================================================================
     # Not Used: Fixed Assets: Table 4.3. Historical-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'k3n31gd1es00': URL_FIXED_ASSETS,
+    'k3n31gd1es00': URL.FIAS,
     # =========================================================================
     # Not Used: Fixed Assets: Table 2.3. Historical-Cost Net Stock of Private Fixed Assets, Equipment, Structures, and Intellectual Property Products by Type
     # =========================================================================
-    'k3ntotl1si00': URL_FIXED_ASSETS,
+    'k3ntotl1si00': URL.FIAS,
     # =========================================================================
     # Not Used: Table 4.5. Chain-Type Quantity Indexes for Depreciation of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'mcn31gd1es00': URL_FIXED_ASSETS,
+    'mcn31gd1es00': URL.FIAS,
     # =========================================================================
     # Not Used: Table 2.5. Chain-Type Quantity Indexes for Depreciation of Private Fixed Assets, Equipment, Structures, and Intellectual Property Products by Type
     # =========================================================================
-    'mcntotl1si00': URL_FIXED_ASSETS
+    'mcntotl1si00': URL.FIAS
 } | {
     # =========================================================================
     # Fixed Assets: Table 4.1. Current-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'k1n31gd1es00': URL_FIXED_ASSETS,
+    'k1n31gd1es00': URL.FIAS,
     # =========================================================================
     # Fixed Assets: Table 4.2. Chain-Type Quantity Indexes for Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'kcn31gd1es00': URL_FIXED_ASSETS
+    'kcn31gd1es00': URL.FIAS
 }
 
 
-SERIES_IDS_CD = {
+SERIES_IDS = [
     # =========================================================================
     # Annual Increase in Terms of Cost Price (1)
     # =========================================================================
-    'CDT2S1': 'dataset_usa_cobb-douglas.zip',
+    'CDT2S1',
     # =========================================================================
     # Annual Increase in Terms of 1880 dollars (3)
     # =========================================================================
-    'CDT2S3': 'dataset_usa_cobb-douglas.zip'
-}
+    'CDT2S3'
+]
+
+SERIES_IDS_CD = enlist_series_ids(SERIES_IDS, Dataset.USA_COBB_DOUGLAS)
 
 
-SERIES_IDS_PRCH = {
-    'P0107': 'dataset_uscb.zip',
-    'P0110': 'dataset_uscb.zip',
-}
+SERIES_IDS = ['P0107', 'P0110']
+SERIES_IDS_PRCH = enlist_series_ids(SERIES_IDS, Dataset.USCB)
 
-
-ARCHIVE_NAME = 'dataset_uscb.zip'
 
 SERIES_IDS = [
     'E0007',
@@ -124,10 +121,9 @@ SERIES_IDS = [
     'L0037',
 ]
 
-SERIES_IDS_CB = dict.fromkeys(SERIES_IDS, ARCHIVE_NAME)
+SERIES_IDS_CB = enlist_series_ids(SERIES_IDS, Dataset.USCB)
 
 
-URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
 SERIES_IDS = [
     # =========================================================================
     # U.S. Bureau of Economic Analysis (BEA), Manufacturing Labor Series
@@ -149,7 +145,7 @@ SERIES_IDS = [
     # =========================================================================
     'N4313C',
 ]
-SERIES_IDS_LAB = dict.fromkeys(SERIES_IDS, URL_NIPA_DATA_A)
+SERIES_IDS_LAB = enlist_series_ids(SERIES_IDS, URL.NIPA)
 
 
 SERIES_IDS_COL = [

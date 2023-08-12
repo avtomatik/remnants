@@ -10,7 +10,7 @@ Created on Sat Oct 22 12:30:16 2022
 # TODO: CHECK IT
 # =============================================================================
 
-URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
+
 SERIES_IDS = [
     # =============================================================================
     # Investment

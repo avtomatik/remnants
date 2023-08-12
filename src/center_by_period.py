@@ -7,9 +7,9 @@ Created on Sun Apr  2 11:23:21 2023
 """
 
 
-from core.classes import Token
+from core.classes import Dataset
 from core.constants import MAP_MC_CONNEL
-from core.funcs import stockpile_usa_bea, stockpile_usa_hist
+from core.funcs import stockpile
 from core.tools import transform_center_by_period
 
 
@@ -19,15 +19,14 @@ def main() -> None:
     # =============================================================================
 
     SERIES_ID = {
-        'Национальный доход, млрд долл. США': Token.USA_MC_CONNELL
+        'Национальный доход, млрд долл. США': Dataset.USA_MC_CONNELL
     }
-    stockpile_usa_hist(SERIES_ID).truncate(before=1980).rename(
+    stockpile(SERIES_ID).truncate(before=1980).rename(
         columns=MAP_MC_CONNEL
     ).pipe(transform_center_by_period)
 
-    URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
-    SERIES_ID = {'A032RC': URL_NIPA_DATA_A}
-    stockpile_usa_bea(SERIES_ID).pipe(transform_center_by_period)
+    SERIES_ID = [SeriesID('A032RC', URL.NIPA)]
+    stockpile(SERIES_ID).pipe(transform_center_by_period)
 
 
 if __name__ == '__main__':

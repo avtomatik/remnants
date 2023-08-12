@@ -7,7 +7,6 @@ Created on Sun Apr  2 10:21:08 2023
 """
 
 
-import re
 
 import pandas as pd
 from pandas import DataFrame
@@ -57,32 +56,6 @@ def lash_up_ewm(df: DataFrame, window: int = 5, alpha: float = 0.5) -> DataFrame
 
 def lash_up_ewm_core(current: float, cumulated: float, alpha: float) -> float:
     return alpha * current + (1 - alpha) * cumulated
-
-
-def pull_can_capital(df: DataFrame) -> list[str]:
-    """
-    Retrieves Series IDs from Statistics Canada -- Fixed Assets Tables
-    """
-    {
-        "table": "031-0004",
-        "title": "Flows and stocks of fixed non-residential capital, total all industries, by asset, provinces and territories, annual (dollars x 1,000,000)",
-        "file_name": "dataset_can_00310004-eng.zip"
-    }
-    _filter = (
-        (df.iloc[:, 2].str.contains('2007 constant prices')) &
-        (df.iloc[:, 4] == 'Geometric (infinite) end-year net stock') &
-        (df.iloc[:, 5].str.contains('Industrial', flags=re.IGNORECASE))
-    )
-    {
-        "table": "36-10-0238-01 (formerly CANSIM 031-0004)",
-        "title": "Flows and stocks of fixed non-residential capital, total all industries, by asset, provinces and territories, annual (dollars x 1,000,000)"
-    }
-    _filter = (
-        (df.iloc[:, 3].str.contains('2007 constant prices')) &
-        (df.iloc[:, 5] == 'Straight-line end-year net stock') &
-        (df.iloc[:, 6].str.contains('Industrial', flags=re.IGNORECASE))
-    )
-    return sorted(set(df[_filter].loc[:, "VECTOR"]))
 
 
 def transform_center_by_period(df: DataFrame) -> DataFrame:

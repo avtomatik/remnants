@@ -17,18 +17,19 @@ import numpy as np
 import pandas as pd
 import requests
 import scipy.optimize as optimization
-from core.classes import Token
+from core.classes import SeriesID
 from pandas import DataFrame
 
 
 @cache
-def read_usa_bea(url: str) -> DataFrame:
+def read_source(series_id: SeriesID) -> DataFrame:
     """
-    Retrieves U.S. Bureau of Economic Analysis DataFrame from URL
+
 
     Parameters
     ----------
-    url : str
+    series_id : SeriesID
+        DESCRIPTION.
 
     Returns
     -------
@@ -37,77 +38,19 @@ def read_usa_bea(url: str) -> DataFrame:
         df.index           Period
         df.iloc[:, 0]      Series IDs
         df.iloc[:, 1]      Values
-        ================== =================================
+        ================== =================================.
+
     """
-    kwargs = {
-        'header': 0,
-        'names': ('series_ids', 'period', 'value'),
-        'index_col': 1,
-        'thousands': ','
-    }
-    if requests.head(url).status_code == 200:
-        kwargs['filepath_or_buffer'] = io.BytesIO(requests.get(url).content)
-    else:
-        kwargs['filepath_or_buffer'] = url.split('/')[-1]
-    return pd.read_csv(**kwargs)
+    return pd.read_csv(**series_id.source.get_kwargs())
 
 
-@cache
-def read_usa_hist(token: Token) -> DataFrame:
-    """
-    Retrieves Data from Enumerated Historical Datasets
-    Parameters
-    ----------
-    token : Token
-
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Series IDs
-        df.iloc[:, 1]      Values
-        ================== =================================
-    """
-
-    return pd.read_csv(**token.get_kwargs())
-
-
-def pull_by_series_id(df: DataFrame, series_id: str) -> DataFrame:
+def stockpile(series_ids: list[SeriesID]) -> DataFrame:
     """
 
 
     Parameters
     ----------
-    df : DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Series IDs
-        df.iloc[:, 1]      Values
-        ================== =================================
-    series_id : str
-
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Series
-        ================== =================================
-    """
-    assert df.shape[1] == 2
-    return df[df.iloc[:, 0] == series_id].iloc[:, [1]].rename(
-        columns={"value": series_id}
-    )
-
-
-def stockpile_usa_bea(series_ids: dict[str, str]) -> DataFrame:
-    """
-
-
-    Parameters
-    ----------
-    series_ids : dict[str, str]
+    series_ids : list[SeriesID]
         DESCRIPTION.
 
     Returns
@@ -117,42 +60,13 @@ def stockpile_usa_bea(series_ids: dict[str, str]) -> DataFrame:
         df.index           Period
         ...                ...
         df.iloc[:, -1]     Values
-        ================== =================================
+        ================== =================================.
 
     """
     return pd.concat(
         map(
-            lambda _: read_usa_bea(_[-1]).pipe(pull_by_series_id, _[0]),
-            series_ids.items()
-        ),
-        axis=1,
-        sort=True
-    )
-
-
-def stockpile_usa_hist(series_ids: dict[str, str]) -> DataFrame:
-    """
-
-
-    Parameters
-    ----------
-    series_ids : dict[str, str]
-        DESCRIPTION.
-
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        ...                ...
-        df.iloc[:, -1]     Values
-        ================== =================================
-
-    """
-    return pd.concat(
-        map(
-            lambda _: read_usa_hist(_[-1]).pipe(pull_by_series_id, _[0]),
-            series_ids.items()
+            lambda _: read_source(_).pipe(pull_by_series_id, _),
+            series_ids
         ),
         axis=1,
         sort=True
@@ -226,7 +140,7 @@ def construct_usa_hist_deflator(series_ids: dict[str, str]) -> DataFrame:
         df.iloc[:, 0]      Deflator PRC
         ================== =================================
     """
-    return stockpile_usa_hist(series_ids).pipe(transform_deflator)
+    return stockpile(series_ids).pipe(transform_deflator)
 
 
 def read_worldbank(

@@ -9,10 +9,10 @@ Created on Sun Apr  2 13:03:14 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from core.classes import Dataset
 from core.constants import (SERIES_IDS_CB, SERIES_IDS_CD, SERIES_IDS_COL,
                             SERIES_IDS_PRCH)
-from core.funcs import (construct_usa_hist_deflator, stockpile_usa_hist,
-                        transform_mean)
+from core.funcs import construct_usa_hist_deflator, stockpile, transform_mean
 
 # =============================================================================
 # uscb_cost_index.py
@@ -30,7 +30,7 @@ df = pd.concat(
     [
         pd.concat(
             [
-                stockpile_usa_hist(SERIES_IDS_CB).pct_change(),
+                stockpile(SERIES_IDS_CB).pct_change(),
                 construct_usa_hist_deflator(SERIES_IDS_PRCH)
             ],
             axis=1
@@ -83,7 +83,7 @@ plt.show()
 # TODO: Bureau of Labor Statistics: PPIACO
 # =============================================================================
 
-df = stockpile_usa_hist(SERIES_IDS_CB).pct_change()
+df = stockpile(SERIES_IDS_CB).pct_change()
 
 SERIES_IDS = [
     'E0007',
@@ -109,12 +109,12 @@ plt.ylabel('Index')
 plt.legend()
 plt.grid()
 
-ARCHIVE_NAME = 'dataset_uscb.zip'
 
 plt.figure(2)
 plt.plot(
-    stockpile_usa_hist(dict.fromkeys(
-        SERIES_IDS_COL, ARCHIVE_NAME)).pct_change(),
+    stockpile(
+        enlist_series_ids(SERIES_IDS_COL, Dataset.USCB)
+    ).pct_change(),
     label=SERIES_IDS_COL
 )
 plt.title('Cost-of-Living Indexes')
@@ -130,17 +130,17 @@ plt.show()
 # =============================================================================
 # Census Manufacturing Fixed Assets Series
 # =============================================================================
-ARCHIVE_NAME = 'dataset_uscb.zip'
+
 
 # =============================================================================
 # TODO: Re-Confirm Below Series
 # =============================================================================
 
 SERIES_IDS = dict.fromkeys(
-    map(lambda _: f'P{_:04}', range(107, 123)), ARCHIVE_NAME
+    map(lambda _: f'P{_:04}', range(107, 123)), Dataset.USCB
 )
 
-df = stockpile_usa_hist(SERIES_IDS)
+df = stockpile(SERIES_IDS)
 
 df['p110_over_p107'] = df.loc[:, 'P0110'].div(df.loc[:, 'P0107'])
 df['p111_over_p108'] = df.loc[:, 'P0111'].div(df.loc[:, 'P0108'])
@@ -175,17 +175,17 @@ plt.show()
 # =============================================================================
 
 SERIES_IDS = {
-    'DT63AS01': 'dataset_douglas.zip',
-    'J0149': 'dataset_uscb.zip',
-    'J0150': 'dataset_uscb.zip',
-    'J0151': 'dataset_uscb.zip',
-    'P0107': 'dataset_uscb.zip',
-    'P0108': 'dataset_uscb.zip',
-    'P0109': 'dataset_uscb.zip',
+    'DT63AS01': Dataset.DOUGLAS,
+    'J0149': Dataset.USCB,
+    'J0150': Dataset.USCB,
+    'J0151': Dataset.USCB,
+    'P0107': Dataset.USCB,
+    'P0108': Dataset.USCB,
+    'P0109': Dataset.USCB,
 }
 
 
-df = stockpile_usa_hist(SERIES_IDS_CD | SERIES_IDS)
+df = stockpile(SERIES_IDS_CD | SERIES_IDS)
 
 
 LABEL = ['CDT2S1', 'J0149', 'J0150', 'J0151']

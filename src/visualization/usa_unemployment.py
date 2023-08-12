@@ -11,7 +11,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from core.funcs import pull_by_series_id, stockpile_usa_hist, transform_mean
+from core.funcs import pull_by_series_id, stockpile, transform_mean
 from pandas.plotting import autocorrelation_plot
 
 from thesis.src.lib.read import read_usa_bls
@@ -23,7 +23,7 @@ def main(
     path_export: str = '/home/green-machine/Downloads',
     file_name: str = 'plot_usa_unemployment_autocorrelation.pdf'
 ) -> None:
-    SERIES_ID_CB = {'D0086': 'dataset_uscb.zip'}
+    SERIES_ID_CB = [SeriesID('D0086', Dataset.USCB)]
     SERIES_ID_LS = {
         'LNU04000000': 'dataset_usa_bls-2017-07-06-ln.data.1.AllData'
     }
@@ -32,7 +32,7 @@ def main(
 
     df = pd.concat(
         [
-            stockpile_usa_hist(SERIES_ID_CB),
+            stockpile(SERIES_ID_CB),
             pd.concat(
                 map(
                     lambda _: read_usa_bls(_[-1]).pipe(

@@ -7,21 +7,23 @@ Created on Sun Apr  2 14:02:58 2023
 """
 
 import matplotlib.pyplot as plt
-from core.funcs import stockpile_usa_hist
+from core.classes import Dataset
+from core.funcs import stockpile
 
 # =============================================================================
 # usa_cobb_douglas0010.py
 # =============================================================================
-SERIES_IDS = {
-    'CDT2S1': 'dataset_usa_cobb-douglas.zip',
-    'J0149': 'dataset_uscb.zip',
-    'P0107': 'dataset_uscb.zip',
-    'P0110': 'dataset_uscb.zip',
-}
+SERIES_IDS = ['J0149', 'P0107', 'P0110']
+
+SERIES_IDS = enlist_series_ids(
+    ['CDT2S1'], Dataset.USA_COBB_DOUGLAS
+) + enlist_series_ids(
+    SERIES_IDS, Dataset.USCB
+)
 
 YEAR_BASE = 1958
 
-df = stockpile_usa_hist(SERIES_IDS)
+df = stockpile(SERIES_IDS)
 
 SERIES_IDS = ['P0107', 'P0110']
 df.loc[:, SERIES_IDS] = df.loc[:, SERIES_IDS].mul(1000)

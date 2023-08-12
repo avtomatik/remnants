@@ -9,8 +9,7 @@ Created on Sun Apr  2 13:36:47 2023
 
 import pandas as pd
 from core.constants import SERIES_IDS_LAB
-from core.funcs import (stockpile_usa_bea, transform_cobb_douglas,
-                        transform_mean)
+from core.funcs import stockpile, transform_cobb_douglas, transform_mean
 
 from thesis.src.lib.plot import plot_cobb_douglas
 from thesis.src.lib.read import read_usa_frb_g17, read_usa_frb_us3
@@ -25,30 +24,30 @@ from thesis.src.lib.read import read_usa_frb_g17, read_usa_frb_us3
 # Capacity Utilization Series: CAPUTL.B50001.A, 1967--2012
 # =============================================================================
 SERIES_ID = 'CAPUTL.B50001.A'
-URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
-URL_NIPA_DATA_A = 'https://apps.bea.gov/national/Release/TXT/NipaDataA.txt'
+
+
 SERIES_IDS = {
     # =========================================================================
     # Fixed Assets Series
     # =========================================================================
-    'kcn31gd1es00': URL_FIXED_ASSETS,
-    'k3n31gd1es00': URL_FIXED_ASSETS,
+    'kcn31gd1es00': URL.FIAS,
+    'k3n31gd1es00': URL.FIAS,
     # =========================================================================
     # Nominal Gross Domestic Product Series: A191RC
     # =========================================================================
-    'A191RC': URL_NIPA_DATA_A,
+    'A191RC': URL.NIPA,
     # =========================================================================
     # Real Gross Domestic Product Series: A191RX
     # =========================================================================
-    'A191RX': URL_NIPA_DATA_A
+    'A191RX': URL.NIPA
 }
 
 df = pd.concat(
     [
-        stockpile_usa_bea(SERIES_IDS_LAB).pipe(
+        stockpile(SERIES_IDS_LAB).pipe(
             transform_mean, name='bea_labor_mfg'
         ),
-        stockpile_usa_bea(SERIES_IDS),
+        stockpile(SERIES_IDS),
         read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0)
     ],
     axis=1,
@@ -88,18 +87,18 @@ SERIES_IDS = {
     # =========================================================================
     # Fixed Assets Series
     # =========================================================================
-    'kcn31gd1es00': URL_FIXED_ASSETS,
-    'k3n31gd1es00': URL_FIXED_ASSETS
+    'kcn31gd1es00': URL.FIAS,
+    'k3n31gd1es00': URL.FIAS
 }
 # =============================================================================
 # TODO: Continue Series
 # =============================================================================
 df = pd.concat(
     [
-        stockpile_usa_bea(SERIES_IDS_LAB).pipe(
+        stockpile(SERIES_IDS_LAB).pipe(
             transform_mean, name='bea_labor_mfg'
         ),
-        stockpile_usa_bea(SERIES_IDS),
+        stockpile(SERIES_IDS),
         # =========================================================================
         # Manufacturing Series: FRBIP G17 IP, AIPMA_SA_IX, 1919--2018
         # =========================================================================

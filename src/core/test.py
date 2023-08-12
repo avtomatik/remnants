@@ -13,9 +13,10 @@ Created on Sun Jun 12 16:24:57 2022
 
 import itertools
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
-from core.funcs import stockpile_usa_bea, stockpile_usa_hist
+from core.funcs import stockpile
 from pandas import DataFrame
 from pandas.plotting import autocorrelation_plot
 from read import read_usa_bea_excel
@@ -263,17 +264,16 @@ def test_usa_bea_fixed_assets():
     # Tested: "k3n31gd1es00" = "k3n31gd1eq00" + "k3n31gd1ip00" + "k3n31gd1st00"
     # =========================================================================
 
-    URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
-    SERIES_ID = {
-        'k3n31gd1es00': URL_FIXED_ASSETS
-    }
-    SERIES_IDS = {
-        'k3n31gd1eq00': URL_FIXED_ASSETS,
-        'k3n31gd1ip00': URL_FIXED_ASSETS,
-        'k3n31gd1st00': URL_FIXED_ASSETS
-    }
+    SERIES_ID = [
+        'k3n31gd1es00'
+    ]
+    SERIES_IDS = [
+        'k3n31gd1eq00',
+        'k3n31gd1ip00',
+        'k3n31gd1st00'
+    ]
 
-    stockpile_usa_bea(SERIES_ID | SERIES_IDS).pipe(
+    stockpile(enlist_series_ids(SERIES_ID + SERIES_IDS, URL.FIAS)).pipe(
         transform_sub_sum
     ).iloc[:, [-1]].dropna(axis=0).pipe(autocorrelation_plot)
 
@@ -303,26 +303,20 @@ def test_usa_bea_sfat_series_ids(
     # Test if Ratio of Manufacturing Fixed Assets to Overall Fixed Assets
     # =========================================================================
 
-    URL_FIXED_ASSETS = 'https://apps.bea.gov/national/FixedAssets/Release/TXT/FixedAssets.txt'
-    SERIES_ID = {
-        'k3n31gd1es00': URL_FIXED_ASSETS
-    }
-    SERIES_IDS = {
-        'k3n31gd1eq00': URL_FIXED_ASSETS,
-        'k3n31gd1ip00': URL_FIXED_ASSETS,
-        'k3n31gd1st00': URL_FIXED_ASSETS
-    }
+    SERIES_ID = [
+        'k3n31gd1es00'
+    ]
+    SERIES_IDS = [
+        'k3n31gd1eq00',
+        'k3n31gd1ip00',
+        'k3n31gd1st00'
+    ]
 
-    df_test = stockpile_usa_bea(SERIES_ID | SERIES_IDS)
+    df_test = stockpile(
+        enlist_series_ids(SERIES_ID + SERIES_IDS, URL.FIAS)
+    )
 
-    kwargs = {
-        'filepath_or_buffer': Path(path_src).joinpath(file_name),
-        'header': 0,
-        'names': ('source_id', 'series_id', 'period', 'value'),
-        'index_col': 2,
-        'usecols': [0, 8, 9, 10],
-    }
-    df = pd.read_csv(**kwargs)
+    df = pd.read_csv(**get_kwargs(path_src, file_name))
     # =========================================================================
     # Option I
     # =========================================================================
@@ -349,6 +343,16 @@ def test_usa_bea_sfat_series_ids(
     return pd.concat([df_test, df_control], axis=1, sort=True)
 
 
+def get_kwargs(path_src, file_name) -> dict[str, Any]:
+    return {
+        'filepath_or_buffer': Path(path_src).joinpath(file_name),
+        'header': 0,
+        'names': ('source_id', 'series_id', 'period', 'value'),
+        'index_col': 2,
+        'usecols': [0, 8, 9, 10],
+    }
+
+
 def test_douglas() -> None:
     """
     Data Consistency Test
@@ -357,10 +361,10 @@ def test_douglas() -> None:
     None
     """
     SERIES_IDS = {
-        'J0014': 'dataset_uscb.zip',
-        'DT24AS01': 'dataset_douglas.zip'
+        'J0014': Dataset.USCB,
+        'DT24AS01': Dataset.DOUGLAS
     }
-    df = stockpile_usa_hist(SERIES_IDS)
+    df = stockpile(SERIES_IDS)
     df.loc[:, [0]] = df.loc[:, [0]].div(df.loc[1899, [0]]).mul(100).round(0)
     df['dif'] = df.iloc[:, 1].sub(df.iloc[:, 0])
     df.dropna(axis=0).plot(
@@ -371,13 +375,13 @@ def test_douglas() -> None:
         # =================================================================
         # Cobb C.W., Douglas P.H. Capital Series: Total Fixed Capital in 1880 dollars (4)
         # =================================================================
-        'CDT2S4': 'dataset_usa_cobb-douglas.zip',
+        'CDT2S4': Dataset.USA_COBB_DOUGLAS,
         # =================================================================
         # Douglas P.H., Theory of Wages, Page 332
         # =================================================================
-        'DT63AS01': 'dataset_douglas.zip',
+        'DT63AS01': Dataset.DOUGLAS,
     }
-    df = stockpile_usa_hist(SERIES_IDS)
+    df = stockpile(SERIES_IDS)
     df['div'] = df.iloc[:, 0].div(df.iloc[:, 1])
     df.dropna(axis=0).plot(
         title='Cobb--Douglas Data Comparison', legend=True, grid=True
@@ -398,16 +402,16 @@ def test_usa_brown_kendrick() -> DataFrame:
     DataFrame
         DESCRIPTION.
     """
-    SERIES_IDS = {f'brown_{hex(_)}': 'dataset_usa_brown.zip' for _ in range(6)}
-    df_b = stockpile_usa_hist(SERIES_IDS)
+    SERIES_IDS = {f'brown_{hex(_)}': Dataset.USA_BROWN for _ in range(6)}
+    df_b = stockpile(SERIES_IDS)
     SERIES_IDS = {
-        'KTA03S07': 'dataset_usa_kendrick.zip',
-        'KTA03S08': 'dataset_usa_kendrick.zip',
-        'KTA10S08': 'dataset_usa_kendrick.zip',
-        'KTA15S07': 'dataset_usa_kendrick.zip',
-        'KTA15S08': 'dataset_usa_kendrick.zip'
+        'KTA03S07': Dataset.USA_KENDRICK,
+        'KTA03S08': Dataset.USA_KENDRICK,
+        'KTA10S08': Dataset.USA_KENDRICK,
+        'KTA15S07': Dataset.USA_KENDRICK,
+        'KTA15S08': Dataset.USA_KENDRICK
     }
-    df_k = stockpile_usa_hist(SERIES_IDS).truncate(
+    df_k = stockpile(SERIES_IDS).truncate(
         before=1889).truncate(after=1954)
     df = pd.concat(
         [
