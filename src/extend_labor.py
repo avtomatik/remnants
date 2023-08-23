@@ -9,10 +9,10 @@ Created on Wed Jun 28 22:20:06 2023
 # =============================================================================
 # usa_cobb_douglas0011.py
 # =============================================================================
-import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from core.classes import Dataset, SeriesID
 from core.constants import SERIES_IDS_LAB
 from core.funcs import get_pre_kwargs, stockpile, transform_mean
 
@@ -21,37 +21,37 @@ from core.funcs import get_pre_kwargs, stockpile, transform_mean
 # =============================================================================
 
 
-def combine_data():
+def get_data_frame():
 
     FILE_NAME = 'dataset_usa_reference_ru_kurenkov_yu_v.csv'
 
-    SERIES_IDS = {
+    SERIES_IDS = [
         # =====================================================================
         # Cobb C.W., Douglas P.H. Labor Series: Average Number Employed (in thousands)
         # =====================================================================
-        'CDT3S1': Dataset.USA_COBB_DOUGLAS,
+        SeriesID('CDT3S1', Dataset.USA_COBB_DOUGLAS),
         # =====================================================================
         # Bureau of the Census 1949, D0069
         # =====================================================================
-        'D0069': Dataset.USCB,
+        SeriesID('D0069', Dataset.USCB),
         # =====================================================================
         # Bureau of the Census 1975, D0130
         # =====================================================================
-        'D0130': Dataset.USCB,
-    } or {
+        SeriesID('D0130', Dataset.USCB),
+    ] or [
         # =====================================================================
         # Bureau of the Census 1949, J0004
         # =====================================================================
-        'J0004': Dataset.USCB,
+        SeriesID('J0004', Dataset.USCB),
         # =====================================================================
         # Bureau of the Census 1975, P0005
         # =====================================================================
-        'P0005': Dataset.USCB,
+        SeriesID('P0005', Dataset.USCB),
         # =====================================================================
         # Bureau of the Census 1975, P0062
         # =====================================================================
-        'P0062': Dataset.USCB,
-    }
+        SeriesID('P0062', Dataset.USCB),
+    ]
 
     return pd.concat(
         [
@@ -73,19 +73,15 @@ if __name__ == '__main__':
     # TODO: Federal Reserve Board
     # =============================================================================
 
-    PATH = '/media/green-machine/KINGSTON'
-
     YEAR_BASE = 1929
     COL_NAME = 'historical'
 
     # =============================================================================
-    # Kendrick J.W., Productivity Trends in the United States, Table D-II, 'Persons Engaged' Column, pp. 465--466
+    # J.W. Kendrick, Productivity Trends in the United States, Table D-II, 'Persons Engaged' Column, pp. 465--466
     # =============================================================================
     SERIES_ID = [SeriesID('KTD02S02', Dataset.USA_KENDRICK)]
 
-    os.chdir(PATH)
-
-    df_hist = combine_data()
+    df_hist = get_data_frame()
 
     LABEL = [
         'C.W. Cobb, P.H. Douglas Labor Series',
@@ -112,7 +108,7 @@ if __name__ == '__main__':
 
     plt.figure(2)
     plt.plot(df_right, label=COL_NAME, linewidth=4)
-    plt.plot(df_left, label='Kendrick J.W.')
+    plt.plot(df_left, label='J.W. Kendrick')
     plt.title('Manufacturing Workers Number')
     plt.xlabel('Period')
     plt.ylabel('Thousands People')

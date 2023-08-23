@@ -10,15 +10,19 @@ Created on Tue Jun 27 20:44:03 2023
 import io
 from functools import cache
 from pathlib import Path
-from typing import Any
+from typing import Any, Union
 from zipfile import ZipFile
 
 import numpy as np
 import pandas as pd
 import requests
 import scipy.optimize as optimization
-from core.classes import SeriesID
+from core.classes import URL, Dataset, SeriesID
 from pandas import DataFrame
+
+
+def enlist_series_ids(series_ids: list[str], source: Union[Dataset, URL]) -> list[SeriesID]:
+    return list(map(lambda _: SeriesID(_, source), series_ids))
 
 
 @cache
@@ -70,6 +74,36 @@ def stockpile(series_ids: list[SeriesID]) -> DataFrame:
         ),
         axis=1,
         sort=True
+    )
+
+
+def pull_by_series_id(df: DataFrame, series_id: SeriesID) -> DataFrame:
+    """
+
+
+    Parameters
+    ----------
+    df : DataFrame
+        ================== =================================
+        df.index           Period
+        df.iloc[:, 0]      Series IDs
+        df.iloc[:, 1]      Values
+        ================== =================================.
+    series_id : SeriesID
+        DESCRIPTION.
+
+    Returns
+    -------
+    DataFrame
+        ================== =================================
+        df.index           Period
+        df.iloc[:, 0]      Series
+        ================== =================================.
+
+    """
+    assert df.shape[1] == 2
+    return df[df.iloc[:, 0] == series_id.series_id].iloc[:, [1]].rename(
+        columns={"value": series_id.series_id}
     )
 
 

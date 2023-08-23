@@ -16,12 +16,14 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
-from core.funcs import stockpile
+from core.classes import Dataset, SeriesID
+from core.funcs import enlist_series_ids, stockpile
 from pandas import DataFrame
 from pandas.plotting import autocorrelation_plot
-from read import read_usa_bea_excel
 from stockpile import stockpile_usa_bea_excel_zip
 from transform import transform_sub_special, transform_sub_sum
+
+from stats.src.usa.bea.backend import read_usa_bea_excel
 
 
 def test_data_capital_combined_archived():
@@ -344,12 +346,16 @@ def test_usa_bea_sfat_series_ids(
 
 
 def get_kwargs(path_src, file_name) -> dict[str, Any]:
+
+    NAMES = ['source_id', 'series_id', 'period', 'value']
+    USECOLS = [0, 8, 9, 10]
+
     return {
         'filepath_or_buffer': Path(path_src).joinpath(file_name),
         'header': 0,
-        'names': ('source_id', 'series_id', 'period', 'value'),
+        'names': NAMES,
         'index_col': 2,
-        'usecols': [0, 8, 9, 10],
+        'usecols': USECOLS,
     }
 
 
@@ -360,10 +366,10 @@ def test_douglas() -> None:
     -------
     None
     """
-    SERIES_IDS = {
-        'J0014': Dataset.USCB,
-        'DT24AS01': Dataset.DOUGLAS
-    }
+    SERIES_IDS = [
+        SeriesID('J0014', Dataset.USCB),
+        SeriesID('DT24AS01', Dataset.DOUGLAS)
+    ]
     df = stockpile(SERIES_IDS)
     df.loc[:, [0]] = df.loc[:, [0]].div(df.loc[1899, [0]]).mul(100).round(0)
     df['dif'] = df.iloc[:, 1].sub(df.iloc[:, 0])
@@ -371,75 +377,18 @@ def test_douglas() -> None:
         title='Cobb--Douglas Data Comparison', legend=True, grid=True
     )
 
-    SERIES_IDS = {
+    SERIES_IDS = [
         # =================================================================
         # Cobb C.W., Douglas P.H. Capital Series: Total Fixed Capital in 1880 dollars (4)
         # =================================================================
-        'CDT2S4': Dataset.USA_COBB_DOUGLAS,
+        SeriesID('CDT2S4', Dataset.USA_COBB_DOUGLAS),
         # =================================================================
         # Douglas P.H., Theory of Wages, Page 332
         # =================================================================
-        'DT63AS01': Dataset.DOUGLAS,
-    }
+        SeriesID('DT63AS01', Dataset.DOUGLAS),
+    ]
     df = stockpile(SERIES_IDS)
     df['div'] = df.iloc[:, 0].div(df.iloc[:, 1])
     df.dropna(axis=0).plot(
         title='Cobb--Douglas Data Comparison', legend=True, grid=True
     )
-
-
-def test_usa_brown_kendrick() -> DataFrame:
-    """
-    Fetch Data from:
-        <reference_ru_brown_m_0597_088.pdf>, Page 193 &
-        Out of Kendrick J.W. Data & Table 2. of <reference_ru_brown_m_0597_088.pdf>
-    FN:Murray Brown
-    ORG:University at Buffalo;Economics
-    TITLE:Professor Emeritus, Retired
-    EMAIL;PREF;INTERNET:mbrown@buffalo.edu
-    Returns
-    -------
-    DataFrame
-        DESCRIPTION.
-    """
-    SERIES_IDS = {f'brown_{hex(_)}': Dataset.USA_BROWN for _ in range(6)}
-    df_b = stockpile(SERIES_IDS)
-    SERIES_IDS = {
-        'KTA03S07': Dataset.USA_KENDRICK,
-        'KTA03S08': Dataset.USA_KENDRICK,
-        'KTA10S08': Dataset.USA_KENDRICK,
-        'KTA15S07': Dataset.USA_KENDRICK,
-        'KTA15S08': Dataset.USA_KENDRICK
-    }
-    df_k = stockpile(SERIES_IDS).truncate(
-        before=1889).truncate(after=1954)
-    df = pd.concat(
-        [
-            # =================================================================
-            # Omit Two Last Rows
-            # =================================================================
-            df_k[~df_k.index.duplicated(keep='first')],
-            # =================================================================
-            # Первая аппроксимация рядов загрузки мощностей, полученная с помощью метода Уортонской школы
-            # =================================================================
-            df_b.loc[:, ["brown_0x4"]].truncate(after=1953)
-        ],
-        axis=1,
-        sort=True
-    )
-    df = df.assign(
-        brown_0x0=df.iloc[:, 0].sub(df.iloc[:, 1]),
-        brown_0x1=df.iloc[:, 3].add(df.iloc[:, 4]),
-        brown_0x2=df.iloc[:, [3, 4]].sum(axis=1).rolling(
-            2).mean().mul(df.iloc[:, 5]).div(100),
-        brown_0x3=df.iloc[:, 2]
-    )
-    return pd.concat(
-        [
-            df.iloc[:, -4:].dropna(axis=0),
-            # =================================================================
-            # Brown M. Numbers Not Found in Kendrick J.W. For Years Starting From 1954 Inclusive
-            # =================================================================
-            df_b.iloc[:, range(4)].truncate(before=1954)
-        ]
-    ).round()

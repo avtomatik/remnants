@@ -18,9 +18,10 @@ def main() -> None:
     # Nominal National income Series: A032RC
     # =============================================================================
 
-    SERIES_ID = {
-        'Национальный доход, млрд долл. США': Dataset.USA_MC_CONNELL
-    }
+    SERIES_ID = SeriesID(
+        'Национальный доход, млрд долл. США',
+        Dataset.USA_MC_CONNELL
+    )
     stockpile(SERIES_ID).truncate(before=1980).rename(
         columns=MAP_MC_CONNEL
     ).pipe(transform_center_by_period)

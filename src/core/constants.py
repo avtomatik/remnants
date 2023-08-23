@@ -1,4 +1,7 @@
 
+from core.classes import URL, Dataset, SeriesID
+from core.funcs import enlist_series_ids
+
 DATED_DATED_ARCHIVE_FILE_NAMES_UTILISED = (
     'dataset USA BEA 2013-12-02.csv',
     'dataset_usa_bea-nipa-2015-05-01.zip',
@@ -13,7 +16,6 @@ DATED_DATED_ARCHIVE_FILE_NAMES_UTILISED = (
     'dataset USA Census HSUS 1975 Series K5.csv',
     'dataset USA Census HSUS 1975 Series P107-P176 & P231-P317 Refined.csv',
     'dataset USA Census HSUS 1975 Series P107-P176 & P231-P317.csv',
-    'dataset USA Reference RU Brown M. 0597_088.csv',
 )
 
 
@@ -47,33 +49,33 @@ PARAMS = [
 ]
 
 
-SERIES_IDS_EA = {
+SERIES_IDS_EA = [
     # =========================================================================
     # Not Used: Fixed Assets: Table 4.3. Historical-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'k3n31gd1es00': URL.FIAS,
+    SeriesID('k3n31gd1es00', URL.FIAS),
     # =========================================================================
     # Not Used: Fixed Assets: Table 2.3. Historical-Cost Net Stock of Private Fixed Assets, Equipment, Structures, and Intellectual Property Products by Type
     # =========================================================================
-    'k3ntotl1si00': URL.FIAS,
+    SeriesID('k3ntotl1si00', URL.FIAS),
     # =========================================================================
     # Not Used: Table 4.5. Chain-Type Quantity Indexes for Depreciation of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'mcn31gd1es00': URL.FIAS,
+    SeriesID('mcn31gd1es00', URL.FIAS),
     # =========================================================================
     # Not Used: Table 2.5. Chain-Type Quantity Indexes for Depreciation of Private Fixed Assets, Equipment, Structures, and Intellectual Property Products by Type
     # =========================================================================
-    'mcntotl1si00': URL.FIAS
-} | {
+    SeriesID('mcntotl1si00', URL.FIAS)
+] + [
     # =========================================================================
     # Fixed Assets: Table 4.1. Current-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'k1n31gd1es00': URL.FIAS,
+    SeriesID('k1n31gd1es00', URL.FIAS),
     # =========================================================================
     # Fixed Assets: Table 4.2. Chain-Type Quantity Indexes for Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization
     # =========================================================================
-    'kcn31gd1es00': URL.FIAS
-}
+    SeriesID('kcn31gd1es00', URL.FIAS)
+]
 
 
 SERIES_IDS = [

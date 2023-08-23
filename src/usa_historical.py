@@ -136,7 +136,7 @@ plt.show()
 # TODO: Re-Confirm Below Series
 # =============================================================================
 
-SERIES_IDS = dict.fromkeys(
+SERIES_IDS = enlist_series_ids(
     map(lambda _: f'P{_:04}', range(107, 123)), Dataset.USCB
 )
 
@@ -174,18 +174,17 @@ plt.show()
 # usa_cobb_douglas0010_flow.py
 # =============================================================================
 
-SERIES_IDS = {
-    'DT63AS01': Dataset.DOUGLAS,
-    'J0149': Dataset.USCB,
-    'J0150': Dataset.USCB,
-    'J0151': Dataset.USCB,
-    'P0107': Dataset.USCB,
-    'P0108': Dataset.USCB,
-    'P0109': Dataset.USCB,
-}
+SERIES_IDS = [
+    SeriesID('DT63AS01', Dataset.DOUGLAS),
+    SeriesID('J0149', Dataset.USCB),
+    SeriesID('J0150', Dataset.USCB),
+    SeriesID('J0151', Dataset.USCB),
+    SeriesID('P0107', Dataset.USCB),
+    SeriesID('P0108', Dataset.USCB),
+    SeriesID('P0109', Dataset.USCB),
+]
 
-
-df = stockpile(SERIES_IDS_CD | SERIES_IDS)
+df = stockpile(SERIES_IDS_CD + SERIES_IDS)
 
 
 LABEL = ['CDT2S1', 'J0149', 'J0150', 'J0151']

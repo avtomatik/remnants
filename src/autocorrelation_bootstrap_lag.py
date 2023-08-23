@@ -17,11 +17,14 @@ from pandas.plotting import autocorrelation_plot, lag_plot
 
 
 def get_kwargs(file_name: str) -> dict[str, Union[int, str, PosixPath]]:
+
     PATH = '/home/green-machine/data_science/remnants/data'
+    NAMES = ['period', 'series_ids', 'value']
+
     return {
         'filepath_or_buffer': Path(PATH).joinpath(file_name),
         'header': 0,
-        'names': ['period', 'series_ids', 'value'],
+        'names': NAMES,
         'index_col': 0,
     }
 

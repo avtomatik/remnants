@@ -1,13 +1,9 @@
 import datetime
-import io
 import sqlite3
-from functools import cache
 from pathlib import Path
 from typing import Any
-from zipfile import ZipFile
 
 import pandas as pd
-import requests
 from pandas import DataFrame
 
 
@@ -66,6 +62,7 @@ def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:
     """
     Retrieve Historical Manufacturing Series from BEA SFAT CSV File
     """
+
     NAMES = ['source_id', 'group1', 'series_id', 'period', 'value']
     USECOLS = [0, 6, 8, 9, 10]
 
@@ -101,102 +98,6 @@ def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:
         for source_id in source_ids
     ]
     return chunk
-
-
-@cache
-def read_usa_bea_excel(archive_name: str, wb_name: str, sh_name: str) -> DataFrame:
-    """
-    Retrieves DataFrame from Bureau of Economic Analysis Zip Archives
-    Parameters
-    ----------
-    archive_name : str
-    wb_name : str
-    sh_name : str
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, ...]    Series
-        ================== =================================
-    """
-    kwargs = {
-        'sheet_name': sh_name,
-        'skiprows': 7
-    }
-    with pd.ExcelFile(ZipFile(archive_name).open(wb_name)) as xl_file:
-        # =====================================================================
-        # Load
-        # =====================================================================
-        kwargs['io'] = xl_file
-        df = pd.read_excel(**kwargs)
-        # =====================================================================
-        # Re-Load
-        # =====================================================================
-        kwargs['index_col'] = 0
-        kwargs['usecols'] = range(2, df.shape[1])
-        return pd.read_excel(**kwargs).dropna(axis=0).transpose()
-
-
-# =============================================================================
-# www.bea.gov/histdata/Releases/GDP_and_PI/2012/Q1/Second_May-31-2012/Section5ALL_Hist.xls
-# =============================================================================
-# =============================================================================
-# Metadata: 'Section5ALL_Hist.xls'@['dataset_usa_bea-release-2010-08-05 Section5ALL_Hist.xls' Offsets 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip']"""
-# =============================================================================
-def read_pull_K160021():
-    kwargs = {
-        'archive_name': 'dataset_usa_bea-release-2013-01-31-SectionAll_xls_1929_1969.zip',
-        'wb_name': 'Section5ALL_Hist.xls',
-        'sh_name': '50900 Ann',
-    }
-    # =============================================================================
-    # Fixed Assets Series: K160021, 1951--1969
-    # =============================================================================
-    SERIES_ID = 'K160021'
-    return read_usa_bea_excel(**kwargs).loc[:, [SERIES_ID]]
-
-
-@cache
-def read_usa_bea_excel_web(
-    wb_name: str,
-    sh_name: str,
-    url: str = 'https://apps.bea.gov/national/Release/ZIP/Survey/Survey.zip'
-) -> DataFrame:
-    """
-    Retrieves DataFrame from Bureau of Economic Analysis Zip Archives
-    Parameters
-    ----------
-    wb_name : str
-        DESCRIPTION.
-    sh_name : str
-        DESCRIPTION.
-    url : str, optional
-        DESCRIPTION. The default is 'https://apps.bea.gov/national/Release/ZIP/Survey/Survey.zip'.
-    Returns
-    -------
-    DataFrame
-        ================== =================================
-        df.index           Period
-        df.iloc[:, ...]    Series
-        ================== =================================
-    """
-    kwargs = {
-        'sheet_name': sh_name,
-        'skiprows': 7
-    }
-    with pd.ExcelFile(ZipFile(io.BytesIO(requests.get(url).content)).open(wb_name)) as xl_file:
-        # =====================================================================
-        # Load
-        # =====================================================================
-        kwargs['io'] = xl_file
-        df = pd.read_excel(**kwargs)
-        # =====================================================================
-        # Re-Load
-        # =====================================================================
-        kwargs['index_col'] = 0
-        kwargs['usecols'] = range(2, df.shape[1])
-        return pd.read_excel(**kwargs).dropna(axis=0).transpose()
 
 
 def get_kwargs_gdelt(date: datetime.date) -> dict[str, Any]:
