@@ -1,11 +1,11 @@
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 from core.classes import URL, SeriesID
+from core.config import DATA_DIR
 from core.constants import SERIES_IDS_LAB
 from core.funcs import get_pre_kwargs
-from pandas import DataFrame
-
 from thesis.src.lib.combine import combine_usa_money
 from thesis.src.lib.pull import pull_by_series_id
 from thesis.src.lib.read import read_source, read_usa_frb_g17, read_usa_fred
@@ -13,7 +13,7 @@ from thesis.src.lib.stockpile import stockpile
 from thesis.src.lib.transform import transform_mean
 
 
-def combine_usa_xlsm() -> DataFrame:
+def combine_usa_xlsm() -> pd.DataFrame:
     FILE_NAME = 'dataset_usa_0025_p_r.txt'
 
     SERIES_IDS = [
@@ -43,11 +43,11 @@ def combine_usa_xlsm() -> DataFrame:
     )
 
 
-def combine_usa_general() -> DataFrame:
+def combine_usa_general() -> pd.DataFrame:
     """
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         DESCRIPTION.
     """
     FILE_NAME = 'dataset_usa_0025_p_r.txt'
@@ -144,12 +144,12 @@ def combine_usa_general() -> DataFrame:
     )
 
 
-def combine_usa_bea_gdp() -> DataFrame:
+def combine_usa_bea_gdp() -> pd.DataFrame:
     """
     USA BEA Gross Domestic Product
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Nominal
@@ -170,13 +170,13 @@ def combine_usa_bea_gdp() -> DataFrame:
     return stockpile(SERIES_IDS)
 
 
-def transform_def(df: DataFrame) -> DataFrame:
+def transform_def(df: pd.DataFrame) -> pd.DataFrame:
     """
     Cumulative Price Index
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Nominal
@@ -185,7 +185,7 @@ def transform_def(df: DataFrame) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Gross Domestic Product Deflator
@@ -196,11 +196,11 @@ def transform_def(df: DataFrame) -> DataFrame:
     return df.iloc[:, [-1]]
 
 
-def combine_bea_def_from_file() -> DataFrame:
+def combine_bea_def_from_file() -> pd.DataFrame:
     """
     Returns Cumulative Price Index for Some Base Year from Certain Type BEA Deflator File
     -------
-    DataFrame
+    pd.DataFrame
         DESCRIPTION.
     """
 
@@ -209,8 +209,9 @@ def combine_bea_def_from_file() -> DataFrame:
 
 
 def get_kwargs_usa_bea_def() -> dict[str, Any]:
+    FILE_NAME = 'dataset_usa_bea-GDPDEF.xls'
     return {
-        "io": "../../data/external/dataset_usa_bea-GDPDEF.xls",
+        "io": DATA_DIR.joinpath(FILE_NAME),
         "names": ('period', 'deflator_gdp'),
         "index_col": 0,
         "skiprows": 15,
@@ -218,7 +219,7 @@ def get_kwargs_usa_bea_def() -> dict[str, Any]:
     }
 
 
-def combine_usa_investment_capital() -> DataFrame:
+def combine_usa_investment_capital() -> pd.DataFrame:
     SERIES_ID = 'PPIACO'
 
     SERIES_IDS = [
@@ -240,7 +241,7 @@ def combine_usa_investment_capital() -> DataFrame:
     ).dropna(axis=0)
 
 
-def combine_usa_macroeconomics() -> DataFrame:
+def combine_usa_macroeconomics() -> pd.DataFrame:
     """Data Fetch"""
     SERIES_ID = 'CAPUTL.B50001.A'
 
@@ -301,7 +302,7 @@ def combine_usa_macroeconomics() -> DataFrame:
     )
 
 
-def combine_capital_combined_archived() -> DataFrame:
+def combine_capital_combined_archived() -> pd.DataFrame:
 
     SERIES_IDS = [
         # =====================================================================
@@ -344,7 +345,7 @@ def combine_capital_combined_archived() -> DataFrame:
     )
 
 
-def combine_usa_investment_turnover_bls() -> DataFrame:
+def combine_usa_investment_turnover_bls() -> pd.DataFrame:
     SERIES_ID = 'PPIACO'
 
     SERIES_IDS = [
@@ -395,7 +396,7 @@ def combine_usa_investment_turnover_bls() -> DataFrame:
     )
 
 
-def combine_combined_archived() -> DataFrame:
+def combine_combined_archived() -> pd.DataFrame:
     """Version: 02 December 2013"""
 
     SERIES_IDS = {
@@ -457,7 +458,7 @@ def combine_combined_archived() -> DataFrame:
     )
 
 
-def combine_local() -> DataFrame:
+def combine_local() -> pd.DataFrame:
 
     SERIES_IDS = [
         # =====================================================================

@@ -1,19 +1,19 @@
+import pandas as pd
 from core.strings.funcs import trim_string
-from pandas import DataFrame
 
 
-def filter_data_frame(df: DataFrame, query: dict[str]) -> DataFrame:
+def filter_data_frame(df: pd.DataFrame, query: dict[str]) -> pd.DataFrame:
     for column, criterion in query['filter'].items():
         df = df[df.iloc[:, column] == criterion]
     return df
 
 
-def transform_sub_sum(df: DataFrame) -> DataFrame:
+def transform_sub_sum(df: pd.DataFrame) -> pd.DataFrame:
     df["delta"] = df.iloc[:, 0].sub(df.iloc[:, 1:].sum(axis=1))
     return df
 
 
-def transform_sub_special(df: DataFrame) -> DataFrame:
+def transform_sub_special(df: pd.DataFrame) -> pd.DataFrame:
     # =========================================================================
     # df['delta_eq'] = df.iloc[:, 0].sub(df.iloc[:, -1])
     # =========================================================================
@@ -22,17 +22,17 @@ def transform_sub_special(df: DataFrame) -> DataFrame:
     return df
 
 
-def transform_usa_macroeconomics(df: DataFrame) -> DataFrame:
+def transform_usa_macroeconomics(df: pd.DataFrame) -> pd.DataFrame:
     df.loc[:, 'A191RD'] = df.loc[:, 'A191RD'].rdiv(100)
     return df
 
 
-def trim_columns(df: DataFrame) -> DataFrame:
+def trim_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = map(lambda _: trim_string(_, fill='_').lower(), df.columns)
     return df
 
 
-def transform_usa_bls_cpiu(df: DataFrame) -> DataFrame:
+def transform_usa_bls_cpiu(df: pd.DataFrame) -> pd.DataFrame:
     df.rename_axis('period', inplace=True)
     df['mean'] = df.mean(axis=1)
     df['sqrt'] = df.iloc[:, :-1].prod(1).pow(1 / 12)

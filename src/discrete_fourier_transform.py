@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from scipy.fftpack import fft, irfft, rfft
-
 from thesis.src.lib.combine import combine_cobb_douglas
 from thesis.src.lib.transform import transform_cobb_douglas
 

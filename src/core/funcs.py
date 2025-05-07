@@ -8,17 +8,16 @@ Created on Tue Jun 27 20:44:03 2023
 
 
 import io
+import zipfile
 from functools import cache
-from pathlib import Path
 from typing import Any, Union
-from zipfile import ZipFile
 
 import numpy as np
 import pandas as pd
 import requests
 import scipy.optimize as optimization
 from core.classes import URL, Dataset, SeriesID
-from pandas import DataFrame
+from core.config import DATA_INTERIM_DATA_DIR
 
 
 def enlist_series_ids(series_ids: list[str], source: Union[Dataset, URL]) -> list[SeriesID]:
@@ -26,7 +25,7 @@ def enlist_series_ids(series_ids: list[str], source: Union[Dataset, URL]) -> lis
 
 
 @cache
-def read_source(series_id: SeriesID) -> DataFrame:
+def read_source(series_id: SeriesID) -> pd.DataFrame:
     """
 
 
@@ -37,7 +36,7 @@ def read_source(series_id: SeriesID) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Series IDs
@@ -48,7 +47,7 @@ def read_source(series_id: SeriesID) -> DataFrame:
     return pd.read_csv(**series_id.source.get_kwargs())
 
 
-def stockpile(series_ids: list[SeriesID]) -> DataFrame:
+def stockpile(series_ids: list[SeriesID]) -> pd.DataFrame:
     """
 
 
@@ -59,7 +58,7 @@ def stockpile(series_ids: list[SeriesID]) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         ...                ...
@@ -77,13 +76,13 @@ def stockpile(series_ids: list[SeriesID]) -> DataFrame:
     )
 
 
-def pull_by_series_id(df: DataFrame, series_id: SeriesID) -> DataFrame:
+def pull_by_series_id(df: pd.DataFrame, series_id: SeriesID) -> pd.DataFrame:
     """
 
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Series IDs
@@ -94,7 +93,7 @@ def pull_by_series_id(df: DataFrame, series_id: SeriesID) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Series
@@ -103,17 +102,17 @@ def pull_by_series_id(df: DataFrame, series_id: SeriesID) -> DataFrame:
     """
     assert df.shape[1] == 2
     return df[df.iloc[:, 0] == series_id.series_id].iloc[:, [1]].rename(
-        columns={"value": series_id.series_id}
+        columns={'value': series_id.series_id}
     )
 
 
-def transform_deflator(df: DataFrame) -> DataFrame:
+def transform_deflator(df: pd.DataFrame) -> pd.DataFrame:
     """
 
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Nominal
@@ -122,7 +121,7 @@ def transform_deflator(df: DataFrame) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Deflator PRC
@@ -134,13 +133,13 @@ def transform_deflator(df: DataFrame) -> DataFrame:
     return df.iloc[:, [-1]].dropna(axis=0)
 
 
-def transform_mean(df: DataFrame, name: str) -> DataFrame:
+def transform_mean(df: pd.DataFrame, name: str) -> pd.DataFrame:
     """
 
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, ...]    Series
@@ -150,7 +149,7 @@ def transform_mean(df: DataFrame, name: str) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Sum of <series_ids>
@@ -160,7 +159,7 @@ def transform_mean(df: DataFrame, name: str) -> DataFrame:
     return df.iloc[:, [-1]]
 
 
-def construct_usa_hist_deflator(series_ids: dict[str, str]) -> DataFrame:
+def construct_usa_hist_deflator(series_ids: dict[str, str]) -> pd.DataFrame:
     """
     Parameters
     ----------
@@ -168,7 +167,7 @@ def construct_usa_hist_deflator(series_ids: dict[str, str]) -> DataFrame:
         DESCRIPTION.
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Deflator PRC
@@ -180,9 +179,9 @@ def construct_usa_hist_deflator(series_ids: dict[str, str]) -> DataFrame:
 def read_worldbank(
     source_id: str,
     url_template: str = 'https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv'
-) -> DataFrame:
+) -> pd.DataFrame:
     """
-    Returns DataFrame with World Bank API
+    Returns pd.DataFrame with World Bank API
     Parameters
     ----------
     source_id : str
@@ -191,13 +190,13 @@ def read_worldbank(
         DESCRIPTION. The default is 'https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv'.
     Returns
     -------
-    DataFrame
+    pd.DataFrame
     """
     kwargs = {
         'index_col': 0,
         'skiprows': 4
     }
-    with ZipFile(io.BytesIO(requests.get(url_template.format(source_id)).content)) as archive:
+    with zipfile.ZipFile(io.BytesIO(requests.get(url_template.format(source_id)).content)) as archive:
         # =====================================================================
         # Select the Largest File with min() Function
         # =====================================================================
@@ -209,7 +208,7 @@ def read_worldbank(
             return df.drop(df.index[:3]).rename_axis('period')
 
 
-def calculate_curve_fit_params(df: DataFrame) -> None:
+def calculate_curve_fit_params(df: pd.DataFrame) -> None:
     """
         ================== =================================
         df.index           Period
@@ -245,8 +244,7 @@ def get_pre_kwargs(file_name: str) -> dict[str, Any]:
         DESCRIPTION.
 
     """
-    PATH_SRC = '/home/green-machine/data_science/data/interim'
     return {
-        'filepath_or_buffer': Path(PATH_SRC).joinpath(file_name),
+        'filepath_or_buffer': DATA_INTERIM_DATA_DIR.joinpath(file_name),
         'index_col': 0,
     }

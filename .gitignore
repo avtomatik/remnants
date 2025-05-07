@@ -123,7 +123,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Mac
+# Apple Desktop Services Store
 .DS_Store
 
 # Special

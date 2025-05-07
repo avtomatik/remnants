@@ -8,8 +8,7 @@ Created on Sun Apr  2 12:59:39 2023
 
 
 import matplotlib.pyplot as plt
-from pandas import DataFrame
-
+import pandas as pd
 from thesis.src.lib.combine import combine_usa_capital
 
 # =============================================================================
@@ -20,7 +19,7 @@ from thesis.src.lib.combine import combine_usa_capital
 # =============================================================================
 
 
-def transform_cobb_douglas_extension_capital(df: DataFrame) -> DataFrame:
+def transform_cobb_douglas_extension_capital(df: pd.DataFrame) -> pd.DataFrame:
     """Manufacturing Fixed Assets Series Comparison"""
     # =========================================================================
     # TODO: Adjust Multiples of 1000

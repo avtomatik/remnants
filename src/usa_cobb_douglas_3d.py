@@ -2,7 +2,6 @@
 # archiveProjectUSACobbDouglas3D.py
 # =============================================================================
 import pandas as pd
-
 from thesis.src.lib.plot import plot_cobb_douglas_3d
 from thesis.src.visualization.annotations import transform_add_dx_dy
 

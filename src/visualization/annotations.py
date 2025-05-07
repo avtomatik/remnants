@@ -9,17 +9,17 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from core.combine import (combine_usa_macroeconomics,
                           combine_usa_manufacturing_latest)
+from core.config import DATA_DIR
 from core.plot import plot_increment
-from pandas import DataFrame
 
 
-def transform_add_dx_dy(df: DataFrame) -> DataFrame:
+def transform_add_dx_dy(df: pd.DataFrame) -> pd.DataFrame:
     """
 
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Capital
@@ -28,7 +28,7 @@ def transform_add_dx_dy(df: DataFrame) -> DataFrame:
         ================== =================================
     Returns
     -------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Labor Capital Intensity
@@ -58,13 +58,13 @@ def transform_add_dx_dy(df: DataFrame) -> DataFrame:
     return _df.iloc[:, -4:].dropna(axis=0)
 
 
-def plot_increment(df: DataFrame) -> None:
+def plot_increment(df: pd.DataFrame) -> None:
     """
 
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Labor Capital Intensity
@@ -100,14 +100,12 @@ def plot_increment(df: DataFrame) -> None:
     plt.show()
 
 
-def main(
-    path_src: str = '/media/green-machine/KINGSTON'
-):
+def main():
     # =========================================================================
     # TODO: Revise Dataset
     # =========================================================================
 
-    os.chdir(path_src)
+    os.chdir(DATA_DIR)
     df = combine_usa_macroeconomics().pipe(transform_usa_macroeconomics)
 
     # =========================================================================

@@ -1,19 +1,17 @@
-from pathlib import Path
 from typing import Any
 
 import pandas as pd
+from core.config import DATA_DIR
 
 
 def get_kwargs() -> dict[str, Any]:
-
-    PATH = '/home/green-machine/Downloads'
 
     FILE_NAME = 'graduate_project_figures.xlsx'
 
     SHEET_NAME = 'Лист1'
 
     return {
-        'io': Path(PATH).joinpath(FILE_NAME),
+        'io': DATA_DIR.joinpath(FILE_NAME),
         'sheet_name': SHEET_NAME,
         'index_col': 0
     }

@@ -7,22 +7,21 @@ Created on Thu Jul  6 21:27:14 2023
 """
 
 
-from pathlib import Path, PosixPath
+from pathlib import Path
 from typing import Union
 
 import matplotlib.pyplot as plt
-import pandas as pd
-from core.funcs import pull_by_series_id, read_worldbank
+from core.config import DATA_DIR
+from core.funcs import read_worldbank
 from pandas.plotting import autocorrelation_plot, lag_plot
 
 
-def get_kwargs(file_name: str) -> dict[str, Union[int, str, PosixPath]]:
+def get_kwargs(file_name: str) -> dict[str, Union[int, str, Path]]:
 
-    PATH = '/home/green-machine/data_science/remnants/data'
     NAMES = ['period', 'series_ids', 'value']
 
     return {
-        'filepath_or_buffer': Path(PATH).joinpath(file_name),
+        'filepath_or_buffer': DATA_DIR.joinpath(file_name),
         'header': 0,
         'names': NAMES,
         'index_col': 0,

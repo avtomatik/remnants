@@ -7,19 +7,17 @@ Created on Sun Apr  2 10:21:08 2023
 """
 
 
-
 import pandas as pd
-from pandas import DataFrame
 
 
-def lash_up_ewm(df: DataFrame, window: int = 5, alpha: float = 0.5) -> DataFrame:
+def lash_up_ewm(df: pd.DataFrame, window: int = 5, alpha: float = 0.5) -> pd.DataFrame:
     """
     Single Exponential Smoothing
     Robert Goodell Brown, 1956
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         ...                ...
@@ -32,7 +30,7 @@ def lash_up_ewm(df: DataFrame, window: int = 5, alpha: float = 0.5) -> DataFrame
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         DESCRIPTION.
 
     """
@@ -58,24 +56,24 @@ def lash_up_ewm_core(current: float, cumulated: float, alpha: float) -> float:
     return alpha * current + (1 - alpha) * cumulated
 
 
-def transform_center_by_period(df: DataFrame) -> DataFrame:
+def transform_center_by_period(df: pd.DataFrame) -> pd.DataFrame:
     """
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, 0]      Target Series
         ================== =================================
     Returns
     -------
-    DataFrame
+    pd.DataFrame
     """
     # =========================================================================
     # TODO: Any Use?
     # =========================================================================
     # =========================================================================
-    # DataFrame for Results
+    # pd.DataFrame for Results
     # =========================================================================
     _df = df.reset_index(level=0).copy()
     period = _df.iloc[:, 0]

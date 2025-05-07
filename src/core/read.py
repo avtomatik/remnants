@@ -1,13 +1,12 @@
 import datetime
 import sqlite3
-from pathlib import Path
 from typing import Any
 
 import pandas as pd
-from pandas import DataFrame
+from core.config import DATA_DIR
 
 
-def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
+def read_usa_bea_pull_by_series_id(series_id: str) -> pd.DataFrame:
     """
     Retrieves Yearly Data for BEA Series' series_id
     Parameters
@@ -16,17 +15,16 @@ def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
         DESCRIPTION.
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         DESCRIPTION.
     """
-    PATH_SRC = "/home/green-machine/data_science"
     DBNAME = "temporary"
     kwargs = {
         'filepath_or_buffer': 'dataset_usa_bea-nipa-2015-05-01.zip',
         'usecols': [0, *range(14, 18)],
     }
     _df = pd.read_csv(**kwargs)
-    database = Path(PATH_SRC).joinpath(f"{DBNAME}.db")
+    database = DATA_DIR.joinpath(f"{DBNAME}.db")
     with sqlite3.connect(database) as conn:
         cursor = conn.cursor()
         _df.to_sql("temporary", conn, if_exists="replace", index=False)
@@ -38,7 +36,7 @@ def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
             ;
         """
         cursor = conn.execute(stmt)
-    _df = DataFrame(
+    _df = pd.DataFrame(
         cursor.fetchall(),
         columns=['source_id', 'series_id', 'period', 'sub_period', 'value'],
     )
@@ -58,7 +56,7 @@ def read_usa_bea_pull_by_series_id(series_id: str) -> DataFrame:
     return df
 
 
-def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:
+def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> pd.DataFrame:
     """
     Retrieve Historical Manufacturing Series from BEA SFAT CSV File
     """
@@ -103,10 +101,8 @@ def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> DataFrame:
 def get_kwargs_gdelt(date: datetime.date) -> dict[str, Any]:
     """The GDELT Project"""
 
-    PATH_SRC = '/media/green-machine/KINGSTON'
-
     return {
-        'filepath_or_buffer': Path(PATH_SRC).joinpath(f"dataset_world_{str(date).replace('-', '')}.export.csv"),
+        'filepath_or_buffer': DATA_DIR.joinpath(f"dataset_world_{str(date).replace('-', '')}.export.csv"),
         'sep': '\t'
     }
 

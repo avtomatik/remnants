@@ -7,20 +7,17 @@ Created on Tue Sep 10 23:12:03 2019
 
 
 import os
-from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from core.config import BASE_DIR, DATA_DIR
 from core.funcs import pull_by_series_id, stockpile, transform_mean
 from pandas.plotting import autocorrelation_plot
-
 from thesis.src.lib.read import read_usa_bls
 
 
 def main(
     savefig: bool = False,
-    path_src: str = '/media/green-machine/KINGSTON',
-    path_export: str = '/home/green-machine/Downloads',
     file_name: str = 'plot_usa_unemployment_autocorrelation.pdf'
 ) -> None:
     SERIES_ID_CB = [SeriesID('D0086', Dataset.USCB)]
@@ -28,7 +25,7 @@ def main(
         'LNU04000000': 'dataset_usa_bls-2017-07-06-ln.data.1.AllData'
     }
 
-    os.chdir(path_src)
+    os.chdir(BASE_DIR)
 
     df = pd.concat(
         [
@@ -50,9 +47,7 @@ def main(
     df.pipe(transform_mean, name="fused").pipe(autocorrelation_plot)
 
     if savefig:
-        plt.savefig(
-            Path(path_export).joinpath(file_name), format='pdf', dpi=900
-        )
+        plt.savefig(DATA_DIR.joinpath(file_name), format='pdf', dpi=900)
 
 
 if __name__ == '__main__':

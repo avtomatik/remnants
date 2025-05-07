@@ -2,7 +2,6 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from pandas import DataFrame
 
 
 def plot_usa_un_former() -> None:
@@ -17,7 +16,7 @@ def plot_usa_un_former() -> None:
     _df = pd.read_excel(**get_kwargs_usa_un())
     _df = _df[_df.iloc[:, 0] == 'Gross Domestic Product (GDP)']
     _df = _df.select_dtypes(exclude=['object']).transpose()
-    df = DataFrame()
+    df = pd.DataFrame()
     df['us_to_world'] = _df.loc[:, 'United States'].div(_df.sum(axis=1))
     df.plot(grid=True)
 
@@ -30,7 +29,7 @@ def get_kwargs_usa_un() -> dict[str, Any]:
     }
 
 
-def plot_turnover_take_one(df: DataFrame) -> None:
+def plot_turnover_take_one(df: pd.DataFrame) -> None:
     """
         ================== =================================
         df.index           Period

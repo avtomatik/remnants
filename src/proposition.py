@@ -12,7 +12,6 @@ from functools import cache
 from typing import Any, Union
 
 import pandas as pd
-from pandas import DataFrame
 
 
 class Token(str, Enum):
@@ -66,13 +65,13 @@ class Token(str, Enum):
 
 
 @cache
-def read_usa_frb() -> DataFrame:
+def read_usa_frb() -> pd.DataFrame:
     """
 
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, ...]    Series
@@ -95,13 +94,13 @@ def read_usa_frb() -> DataFrame:
     return pd.read_csv(**kwargs).transpose()
 
 
-def read_usa_frb_g17() -> DataFrame:
+def read_usa_frb_g17() -> pd.DataFrame:
     """
 
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, ...]    Series
@@ -128,13 +127,13 @@ def read_usa_frb_g17() -> DataFrame:
     return pd.read_csv(**kwargs).transpose()
 
 
-def read_usa_frb_us3() -> DataFrame:
+def read_usa_frb_us3() -> pd.DataFrame:
     """
 
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, ...]    Series
@@ -144,7 +143,7 @@ def read_usa_frb_us3() -> DataFrame:
     # TODO: https://www.federalreserve.gov/datadownload/Output.aspx?rel=g17&filetype=zip
     # =========================================================================
     # =========================================================================
-    # with ZipFile('FRB_g17.zip').open('G17_data.xml') as f:
+    # with zipfile.ZipFile('FRB_g17.zip').open('G17_data.xml') as f:
     # =========================================================================
     kwargs = {
         'filepath_or_buffer': 'dataset_usa_frb_us3_ip_2018_09_02.csv',
@@ -165,7 +164,7 @@ def read_usa_frb_us3() -> DataFrame:
     return df.groupby(df.index.year).mean()
 
 
-def read_usa_nber(filepath_or_buffer: str) -> DataFrame:
+def read_usa_nber(filepath_or_buffer: str) -> pd.DataFrame:
     """
 
 
@@ -178,7 +177,7 @@ def read_usa_nber(filepath_or_buffer: str) -> DataFrame:
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         ================== =================================
         df.index           Period
         df.iloc[:, ...]    Series

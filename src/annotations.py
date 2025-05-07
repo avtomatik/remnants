@@ -12,8 +12,6 @@ import pandas as pd
 from core.combine import combine_usa_macroeconomics
 from core.plot import plot_cobb_douglas_3d
 from core.transform import transform_add_dx_dy, transform_usa_macroeconomics
-from pandas import DataFrame
-
 from thesis.src.visualization.annotations import transform_add_dx_dy
 
 # =============================================================================
@@ -69,7 +67,7 @@ pd.concat([df['cap_0x3'], L, df['prd_0x2']], axis=1).pipe(
 # =============================================================================
 
 
-def plot_increment_a(df: DataFrame) -> None:
+def plot_increment_a(df: pd.DataFrame) -> None:
     """
         ================== =================================
         df.index           Period
@@ -161,7 +159,7 @@ def plot_increment_a(df: DataFrame) -> None:
     plt.show()
 
 
-def plot_increment_b(df: DataFrame) -> None:
+def plot_increment_b(df: pd.DataFrame) -> None:
     """
         ================== =================================
         df.index           Period
@@ -518,7 +516,7 @@ def annotations_y():
 
 
 # =============================================================================
-# def transform_usa_macroeconomics(df: DataFrame) -> DataFrame:
+# def transform_usa_macroeconomics(df: pd.DataFrame) -> pd.DataFrame:
 #     # =========================================================================
 #     # Deflator, 2012=100
 #     # =========================================================================

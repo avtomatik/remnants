@@ -12,9 +12,9 @@ Created on Wed Mar 23 21:11:19 2022
 
 
 # =============================================================================
-# DataFrame.mad(axis=None, skipna=True, level=None)
-# DataFrame.pct_change(periods=1, fill_method='pad', limit=None, freq=None, **kwargs)
-# DataFrame.rpow(other, axis='columns', level=None, fill_value=None)
+# pd.DataFrame.mad(axis=None, skipna=True, level=None)
+# pd.DataFrame.pct_change(periods=1, fill_method='pad', limit=None, freq=None, **kwargs)
+# pd.DataFrame.rpow(other, axis='columns', level=None, fill_value=None)
 # =============================================================================
 
 

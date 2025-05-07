@@ -3,13 +3,13 @@ import os
 import pandas as pd
 import seaborn as sns
 from core.classes import Dataset
+from core.config import DATA_DIR
 from core.constants import SERIES_IDS, SERIES_IDS_PRCH
 from core.funcs import stockpile, transform_deflator
 from matplotlib import pyplot as plt
-from pandas import DataFrame
 
 
-def get_data(series_ids: dict[str, str]) -> DataFrame:
+def get_data(series_ids: dict[str, str]) -> pd.DataFrame:
     return pd.concat(
         [
             stockpile(SERIES_IDS_PRCH).pipe(
@@ -21,13 +21,13 @@ def get_data(series_ids: dict[str, str]) -> DataFrame:
     )
 
 
-def draw_heatmap(df: DataFrame) -> None:
+def draw_heatmap(df: pd.DataFrame) -> None:
     """
     Draws Correlation Matrix, Pearson
 
     Parameters
     ----------
-    df : DataFrame
+    df : pd.DataFrame
         DESCRIPTION.
 
     Returns
@@ -40,7 +40,7 @@ def draw_heatmap(df: DataFrame) -> None:
     sns.heatmap(data=df.corr(), cmap="YlGnBu", annot=True)
 
 
-def print_corr(df: DataFrame, method: str) -> None:
+def print_corr(df: pd.DataFrame, method: str) -> None:
     df_corr = df.corr(method=method)
     df_corr.loc['total_scores'] = df_corr.sum()
     print(
@@ -50,11 +50,10 @@ def print_corr(df: DataFrame, method: str) -> None:
 
 
 def main():
-    PATH = '/media/green-machine/KINGSTON'
 
     series_ids = enlist_series_ids(SERIES_IDS, Dataset.USCB)
 
-    os.chdir(PATH)
+    os.chdir(DATA_DIR)
 
     df = get_data(series_ids)
 

@@ -17,8 +17,8 @@ from typing import Any
 
 import pandas as pd
 from core.classes import Dataset, SeriesID
+from core.config import DATA_DIR
 from core.funcs import enlist_series_ids, stockpile
-from pandas import DataFrame
 from pandas.plotting import autocorrelation_plot
 from stockpile import stockpile_usa_bea_excel_zip
 from transform import transform_sub_special, transform_sub_sum
@@ -292,11 +292,10 @@ def test_usa_bea_fixed_assets():
 
 
 def test_usa_bea_sfat_series_ids(
-    path_src: str = '/media/green-machine/KINGSTON',
     file_name: str = 'dataset_usa_bea-nipa-selected.zip',
     source_id: str = 'Table 4.3. Historical-Cost Net Stock of Private Nonresidential Fixed Assets by Industry Group and Legal Form of Organization',
     series_id: str = 'k3n31gd1es000'
-) -> DataFrame:
+) -> pd.DataFrame:
     """
     Earlier Version of 'k3n31gd1es000'
     """
@@ -318,13 +317,13 @@ def test_usa_bea_sfat_series_ids(
         enlist_series_ids(SERIES_ID + SERIES_IDS, URL.FIAS)
     )
 
-    df = pd.read_csv(**get_kwargs(path_src, file_name))
+    df = pd.read_csv(**get_kwargs(DATA_DIR, file_name))
     # =========================================================================
     # Option I
     # =========================================================================
     df = df[df.iloc[:, 1] == series_id]
 
-    df_control = DataFrame()
+    df_control = pd.DataFrame()
     for source_id in sorted(set(df.iloc[:, 0])):
         chunk = df[df.iloc[:, 0] == source_id].iloc[:, [2]]
         chunk.columns = [
@@ -339,19 +338,19 @@ def test_usa_bea_sfat_series_ids(
     # df_control = df[
     #     (df.loc[:, 'source_id'] == source_id) &
     #     (df.loc[:, 'series_id'] == series_id)
-    # ].iloc[:, [-1]].rename(columns={"value": series_id})
+    # ].iloc[:, [-1]].rename(columns={'value': series_id})
     # =========================================================================
 
     return pd.concat([df_test, df_control], axis=1, sort=True)
 
 
-def get_kwargs(path_src, file_name) -> dict[str, Any]:
+def get_kwargs(file_path: Path) -> dict[str, Any]:
 
     NAMES = ['source_id', 'series_id', 'period', 'value']
     USECOLS = [0, 8, 9, 10]
 
     return {
-        'filepath_or_buffer': Path(path_src).joinpath(file_name),
+        'filepath_or_buffer': file_path,
         'header': 0,
         'names': NAMES,
         'index_col': 2,
