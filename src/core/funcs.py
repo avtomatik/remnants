@@ -17,7 +17,7 @@ import pandas as pd
 import requests
 import scipy.optimize as optimization
 from core.classes import URL, Dataset, SeriesID
-from core.config import DATA_INTERIM_DATA_DIR
+from core.config import DATA_DIR
 
 
 def enlist_series_ids(series_ids: list[str], source: Union[Dataset, URL]) -> list[SeriesID]:
@@ -245,6 +245,6 @@ def get_pre_kwargs(file_name: str) -> dict[str, Any]:
 
     """
     return {
-        'filepath_or_buffer': DATA_INTERIM_DATA_DIR.joinpath(file_name),
+        'filepath_or_buffer': DATA_DIR.joinpath(file_name),
         'index_col': 0,
     }

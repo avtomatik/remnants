@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -6,6 +5,7 @@ from core.classes import URL, SeriesID
 from core.config import DATA_DIR
 from core.constants import SERIES_IDS_LAB
 from core.funcs import get_pre_kwargs
+
 from thesis.src.lib.combine import combine_usa_money
 from thesis.src.lib.pull import pull_by_series_id
 from thesis.src.lib.read import read_source, read_usa_frb_g17, read_usa_fred

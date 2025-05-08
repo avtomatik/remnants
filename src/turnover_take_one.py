@@ -12,6 +12,7 @@ Created on Sun Apr  2 12:05:32 2023
 
 
 from core.plot import plot_turnover_take_one
+
 from thesis.src.lib.stockpile import combine_cobb_douglas
 
 if __name__ == '__main__':

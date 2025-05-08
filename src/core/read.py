@@ -19,8 +19,9 @@ def read_usa_bea_pull_by_series_id(series_id: str) -> pd.DataFrame:
         DESCRIPTION.
     """
     DBNAME = "temporary"
+    FILE_NAME = 'dataset_usa_bea-nipa-2015-05-01.zip'
     kwargs = {
-        'filepath_or_buffer': 'dataset_usa_bea-nipa-2015-05-01.zip',
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'usecols': [0, *range(14, 18)],
     }
     _df = pd.read_csv(**kwargs)
@@ -64,8 +65,9 @@ def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> pd.DataFrame:
     NAMES = ['source_id', 'group1', 'series_id', 'period', 'value']
     USECOLS = [0, 6, 8, 9, 10]
 
+    FILE_NAME = 'dataset_usa_bea-nipa-2017-08-23-sfat.zip'
     kwargs = {
-        'filepath_or_buffer': 'dataset_usa_bea-nipa-2017-08-23-sfat.zip',
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'header': 0,
         'names': NAMES,
         'index_col': 3,
@@ -101,16 +103,18 @@ def read_usa_bea_sfat_pull_by_series_id(series_id: str) -> pd.DataFrame:
 def get_kwargs_gdelt(date: datetime.date) -> dict[str, Any]:
     """The GDELT Project"""
 
+    FILE_NAME = f"dataset_world_{str(date).replace('-', '')}.export.csv"
     return {
-        'filepath_or_buffer': DATA_DIR.joinpath(f"dataset_world_{str(date).replace('-', '')}.export.csv"),
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'sep': '\t'
     }
 
 
 def get_kwargs_usa_bls_cpiu() -> dict[str, Any]:
     """BLS CPI-U Price Index Fetch"""
+    FILE_NAME = 'dataset_usa_bls_cpiai.txt'
     return {
-        'filepath_or_buffer': 'dataset_usa_bls_cpiai.txt',
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'sep': '\s+',
         'index_col': 0,
         'usecols': range(13),

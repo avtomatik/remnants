@@ -2,6 +2,7 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from core.config import DATA_DIR
 
 
 def plot_usa_un_former() -> None:
@@ -22,8 +23,9 @@ def plot_usa_un_former() -> None:
 
 
 def get_kwargs_usa_un() -> dict[str, Any]:
+    FILE_NAME = "dataset_world_united-nations-Download-GDPcurrent-USD-countries.xls"
     return {
-        "io": "dataset_world_united-nations-Download-GDPcurrent-USD-countries.xls",
+        "io": DATA_DIR.joinpath(FILE_NAME),
         "index_col": 0,
         "skiprows": 2,
     }

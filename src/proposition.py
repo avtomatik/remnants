@@ -12,6 +12,7 @@ from functools import cache
 from typing import Any, Union
 
 import pandas as pd
+from core.config import DATA_DIR
 
 
 class Token(str, Enum):
@@ -34,7 +35,7 @@ class Token(str, Enum):
         START = 5
 
         kwargs = {
-            'filepath_or_buffer': self.value,
+            'filepath_or_buffer': DATA_DIR.joinpath(self.value),
             'skiprows': self.skiprows,
             'parse_dates': self.parse_dates
         }
@@ -52,7 +53,7 @@ class Token(str, Enum):
         }
 
         return {
-            'filepath_or_buffer': self.value,
+            'filepath_or_buffer': DATA_DIR.joinpath(self.value),
             'skiprows': self.skiprows,
             'parse_dates': self.parse_dates,
             'header': 0,
@@ -77,8 +78,9 @@ def read_usa_frb() -> pd.DataFrame:
         df.iloc[:, ...]    Series
         ================== =================================
     """
+    FILE_NAME = 'dataset_usa_frb_invest_capital.csv'
     kwargs = {
-        'filepath_or_buffer': 'dataset_usa_frb_invest_capital.csv',
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'skiprows': 4,
     }
     # =========================================================================
@@ -107,8 +109,9 @@ def read_usa_frb_g17() -> pd.DataFrame:
         ================== =================================
     """
     _start = 5
+    FILE_NAME = 'dataset_usa_frb_g17_all_annual_2013_06_23.csv'
     kwargs = {
-        'filepath_or_buffer': 'dataset_usa_frb_g17_all_annual_2013_06_23.csv',
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'skiprows': 1,
     }
     # =========================================================================
@@ -145,8 +148,9 @@ def read_usa_frb_us3() -> pd.DataFrame:
     # =========================================================================
     # with zipfile.ZipFile('FRB_g17.zip').open('G17_data.xml') as f:
     # =========================================================================
+    FILE_NAME = 'dataset_usa_frb_us3_ip_2018_09_02.csv'
     kwargs = {
-        'filepath_or_buffer': 'dataset_usa_frb_us3_ip_2018_09_02.csv',
+        'filepath_or_buffer': DATA_DIR.joinpath(FILE_NAME),
         'skiprows': 7,
         'parse_dates': True
     }
@@ -183,7 +187,7 @@ def read_usa_nber(filepath_or_buffer: str) -> pd.DataFrame:
         df.iloc[:, ...]    Series
         ================== =================================
     """
-    kwargs = {"filepath_or_buffer": filepath_or_buffer}
+    kwargs = {'filepath_or_buffer': filepath_or_buffer}
     # =========================================================================
     # Load
     # =========================================================================

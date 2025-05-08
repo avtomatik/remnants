@@ -9,6 +9,7 @@ Created on Sun Apr  2 12:59:39 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
+
 from thesis.src.lib.combine import combine_usa_capital
 
 # =============================================================================
