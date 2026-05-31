@@ -1,5 +1,5 @@
 import pandas as pd
-from core.strings.funcs import trim_string
+from textcraft import transliterate
 
 
 def filter_data_frame(df: pd.DataFrame, query: dict[str]) -> pd.DataFrame:
@@ -28,7 +28,7 @@ def transform_usa_macroeconomics(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def trim_columns(df: pd.DataFrame) -> pd.DataFrame:
-    df.columns = map(lambda _: trim_string(_, fill='_').lower(), df.columns)
+    df.columns = map(lambda _: transliterate(_, fill='_').lower(), df.columns)
     return df
 
 
