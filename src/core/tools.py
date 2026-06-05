@@ -10,7 +10,9 @@ Created on Sun Apr  2 10:21:08 2023
 import pandas as pd
 
 
-def lash_up_ewm(df: pd.DataFrame, window: int = 5, alpha: float = 0.5) -> pd.DataFrame:
+def lash_up_ewm(
+    df: pd.DataFrame, window: int = 5, alpha: float = 0.5
+) -> pd.DataFrame:
     """
     Single Exponential Smoothing
     Robert Goodell Brown, 1956
@@ -41,14 +43,14 @@ def lash_up_ewm(df: pd.DataFrame, window: int = 5, alpha: float = 0.5) -> pd.Dat
             # Average of Window-First Entries
             # =================================================================
             df.iloc[:window, -1].mean(),
-            alpha
+            alpha,
         )
     ]
 
     for _ in range(1, df.shape[0]):
         ses.append(lash_up_ewm_core(df.iloc[_, -1], ses[-1], alpha))
 
-    df[f'ses{window:02d}_{alpha:,.6f}'] = ses
+    df[f"ses{window:02d}_{alpha:,.6f}"] = ses
     return df
 
 
@@ -92,10 +94,12 @@ def transform_center_by_period(df: pd.DataFrame) -> pd.DataFrame:
                 period_roll,
                 series_roll,
                 series_roll.div(_df.iloc[:, 1]),
-                series_roll.shift(-2).sub(series_roll).div(
-                    series_roll.shift(-1)).div(2),
+                series_roll.shift(-2)
+                .sub(series_roll)
+                .div(series_roll.shift(-1))
+                .div(2),
             ],
             axis=1,
-            sort=True
+            sort=True,
         )
     return _df

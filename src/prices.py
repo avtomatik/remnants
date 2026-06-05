@@ -8,43 +8,46 @@ Created on Sun Apr  2 10:33:07 2023
 
 
 import pandas as pd
-from core.combine import combine_bea_def_from_file, combine_usa_bea_def
-from core.config import DATA_DIR
 
-from thesis.src.lib.tools import price_direct, price_inverse_double
+from core.combine import combine_bea_def_from_file
+from core.paths import DATA_DIR
 
 # =============================================================================
 # TODO: Eliminate XLSM
 # =============================================================================
 
+
 def main() -> None:
-    FILE_NAME = 'pricesDirect.xlsm' or 'archiveProjectPricesConverterDirect.xlsm'
-    kwargs = {
-        'io': DATA_DIR.joinpath(FILE_NAME),
-        'index_col': 0
-    }
+    FILE_NAME = (
+        "pricesDirect.xlsm" or "archiveProjectPricesConverterDirect.xlsm"
+    )
+    kwargs = {"io": DATA_DIR / FILE_NAME, "index_col": 0}
     pd.read_excel(**kwargs).pipe(price_direct, year_base=2005)
 
-    file_name = 'dataset USA.csv'
+    file_name = "dataset USA.csv"
     pd.read_csv(file_name).pipe(price_inverse_double, 7, 8)
 
-    FILE_NAME = 'pricesDatasetBeaGdp.xlsm' or 'archiveProjectPricesConverterGDP.xlsm'
+    FILE_NAME = (
+        "pricesDatasetBeaGdp.xlsm" or "archiveProjectPricesConverterGDP.xlsm"
+    )
     kwargs = {
-        'io': DATA_DIR.joinpath(FILE_NAME),
+        "io": DATA_DIR / FILE_NAME,
         # =====================================================================
         # Where A191RC & A191RX
         # =====================================================================
-        'index_col': 0
+        "index_col": 0,
     }
     pd.read_excel(**kwargs).pipe(price_inverse_double, 0, 1)
 
-    FILE_NAME = 'pricesInverse.xlsm' or 'archiveProjectPricesConverterReverse.xlsm'
+    FILE_NAME = (
+        "pricesInverse.xlsm" or "archiveProjectPricesConverterReverse.xlsm"
+    )
     kwargs = {
-        'io': DATA_DIR.joinpath(FILE_NAME),
+        "io": DATA_DIR / FILE_NAME,
         # =====================================================================
         # Where A191RX/A191RC
         # =====================================================================
-        'index_col': 0
+        "index_col": 0,
     }
     pd.read_excel(**kwargs).pct_change().dropna(axis=0)
 
@@ -58,5 +61,5 @@ def main() -> None:
     combine_bea_def_from_file().pct_change().dropna(axis=0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

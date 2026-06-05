@@ -14,8 +14,6 @@ Created on Mon Jun 26 22:35:24 2023
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from thesis.src.lib.transform import transform_cobb_douglas
-
 
 def transform_plot(df: pd.DataFrame):
     """
@@ -26,12 +24,12 @@ def transform_plot(df: pd.DataFrame):
     df.iloc[:, 2]      Product
     ================== =================================
     """
-    df['lab_cap_int'] = df.iloc[:, 0].div(df.iloc[:, 1])
-    df['lab_product'] = df.iloc[:, 2].div(df.iloc[:, 1])
+    df["lab_cap_int"] = df.iloc[:, 0].div(df.iloc[:, 1])
+    df["lab_product"] = df.iloc[:, 2].div(df.iloc[:, 1])
 
-    df['lab_cap_int'].pipe(plot_filter_kol_zur)
-    df['lab_cap_int'].pipe(plot_filter_rolling_mean)
-    df['lab_cap_int'].pipe(plot_ewm)
+    df["lab_cap_int"].pipe(plot_filter_kol_zur)
+    df["lab_cap_int"].pipe(plot_filter_rolling_mean)
+    df["lab_cap_int"].pipe(plot_ewm)
     # =========================================================================
     # Figure 1
     # =========================================================================
@@ -135,23 +133,23 @@ def transform_plot(df: pd.DataFrame):
     # Extra: 10
     # =========================================================================
     plt.figure(1)
-    plt.plot(df['lab_cap_int'])
-    plt.plot(df['lab_cap_int'].rolling(2, center=True).mean(), ':')
-    plt.xlabel('Period')
-    plt.ylabel('Labor Capital Intensity')
+    plt.plot(df["lab_cap_int"])
+    plt.plot(df["lab_cap_int"].rolling(2, center=True).mean(), ":")
+    plt.xlabel("Period")
+    plt.ylabel("Labor Capital Intensity")
     plt.grid()
     plt.figure(2)
-    plt.plot(df['lab_product'])
-    plt.plot(df['lab_product'].rolling(2, center=True).mean(), ':')
-    plt.plot(df['lab_product'].rolling(3, center=True).mean(), ':')
-    plt.plot(df['lab_product'].rolling(4, center=True).mean(), ':')
-    plt.xlabel('Period')
-    plt.ylabel('Labor Productivity')
+    plt.plot(df["lab_product"])
+    plt.plot(df["lab_product"].rolling(2, center=True).mean(), ":")
+    plt.plot(df["lab_product"].rolling(3, center=True).mean(), ":")
+    plt.plot(df["lab_product"].rolling(4, center=True).mean(), ":")
+    plt.xlabel("Period")
+    plt.ylabel("Labor Productivity")
     plt.grid()
     plt.show()
 
 
 YEAR_BASE = 1899
-combine_cobb_douglas().pipe(
-    transform_cobb_douglas, year_base=YEAR_BASE
-)[0].pipe(transform_plot)
+combine_cobb_douglas().pipe(transform_cobb_douglas, year_base=YEAR_BASE)[
+    0
+].pipe(transform_plot)

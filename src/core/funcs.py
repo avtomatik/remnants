@@ -10,17 +10,19 @@ Created on Tue Jun 27 20:44:03 2023
 import io
 import zipfile
 from functools import cache
-from typing import Any, Union
+from typing import Union
 
 import numpy as np
 import pandas as pd
 import requests
 import scipy.optimize as optimization
+
 from core.classes import URL, Dataset, SeriesID
-from core.config import DATA_DIR
 
 
-def enlist_series_ids(series_ids: list[str], source: Union[Dataset, URL]) -> list[SeriesID]:
+def enlist_series_ids(
+    series_ids: list[str], source: Union[Dataset, URL]
+) -> list[SeriesID]:
     return list(map(lambda _: SeriesID(_, source), series_ids))
 
 
@@ -67,12 +69,9 @@ def stockpile(series_ids: list[SeriesID]) -> pd.DataFrame:
 
     """
     return pd.concat(
-        map(
-            lambda _: read_source(_).pipe(pull_by_series_id, _),
-            series_ids
-        ),
+        map(lambda _: read_source(_).pipe(pull_by_series_id, _), series_ids),
         axis=1,
-        sort=True
+        sort=True,
     )
 
 
@@ -101,8 +100,10 @@ def pull_by_series_id(df: pd.DataFrame, series_id: SeriesID) -> pd.DataFrame:
 
     """
     assert df.shape[1] == 2
-    return df[df.iloc[:, 0] == series_id.series_id].iloc[:, [1]].rename(
-        columns={'value': series_id.series_id}
+    return (
+        df[df.iloc[:, 0] == series_id.series_id]
+        .iloc[:, [1]]
+        .rename(columns={"value": series_id.series_id})
     )
 
 
@@ -128,8 +129,8 @@ def transform_deflator(df: pd.DataFrame) -> pd.DataFrame:
         ================== =================================
     """
     assert df.shape[1] == 2
-    df['deflator'] = df.iloc[:, 0].div(df.iloc[:, 1])
-    df['prc'] = df.iloc[:, -1].pct_change()
+    df["deflator"] = df.iloc[:, 0].div(df.iloc[:, 1])
+    df["prc"] = df.iloc[:, -1].pct_change()
     return df.iloc[:, [-1]].dropna(axis=0)
 
 
@@ -178,7 +179,7 @@ def construct_usa_hist_deflator(series_ids: dict[str, str]) -> pd.DataFrame:
 
 def read_worldbank(
     source_id: str,
-    url_template: str = 'https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv'
+    url_template: str = "https://api.worldbank.org/v2/en/indicator/{}?downloadformat=csv",
 ) -> pd.DataFrame:
     """
     Returns pd.DataFrame with World Bank API
@@ -192,59 +193,34 @@ def read_worldbank(
     -------
     pd.DataFrame
     """
-    kwargs = {
-        'index_col': 0,
-        'skiprows': 4
-    }
-    with zipfile.ZipFile(io.BytesIO(requests.get(url_template.format(source_id)).content)) as archive:
+    kwargs = {"index_col": 0, "skiprows": 4}
+    with zipfile.ZipFile(
+        io.BytesIO(requests.get(url_template.format(source_id)).content)
+    ) as archive:
         # =====================================================================
         # Select the Largest File with min() Function
         # =====================================================================
         with archive.open(
             min({_.filename: _.file_size for _ in archive.filelist})
         ) as f:
-            kwargs['filepath_or_buffer'] = f
-            df = pd.read_csv(**kwargs).dropna(axis=1, how='all').transpose()
-            return df.drop(df.index[:3]).rename_axis('period')
+            kwargs["filepath_or_buffer"] = f
+            df = pd.read_csv(**kwargs).dropna(axis=1, how="all").transpose()
+            return df.drop(df.index[:3]).rename_axis("period")
 
 
 def calculate_curve_fit_params(df: pd.DataFrame) -> None:
     """
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Labor Capital Intensity
-        df.iloc[:, 1]      Labor Productivity
-        ================== =================================
+    ================== =================================
+    df.index           Period
+    df.iloc[:, 0]      Labor Capital Intensity
+    df.iloc[:, 1]      Labor Productivity
+    ================== =================================
     """
 
     def _curve(regressor: pd.Series, b: float, k: float) -> pd.Series:
         return regressor.pow(k).mul(b)
 
     params, _matrix = optimization.curve_fit(
-        _curve,
-        df.iloc[:, -2],
-        df.iloc[:, -1],
-        np.array([1.0, 0.5])
+        _curve, df.iloc[:, -2], df.iloc[:, -1], np.array([1.0, 0.5])
     )
-    print('Factor, b: {:,.4f}; Index, k: {:,.4f}'.format(*params))
-
-
-def get_pre_kwargs(file_name: str) -> dict[str, Any]:
-    """
-    Returns `kwargs` for `pd.read_csv()` for Usual Cases
-
-    Parameters
-    ----------
-    file_name : str
-        DESCRIPTION.
-
-    Returns
-    -------
-    dict[str, Any]
-        DESCRIPTION.
-
-    """
-    return {
-        'filepath_or_buffer': DATA_DIR.joinpath(file_name),
-        'index_col': 0,
-    }
+    print("Factor, b: {:,.4f}; Index, k: {:,.4f}".format(*params))

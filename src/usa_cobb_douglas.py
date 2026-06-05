@@ -8,11 +8,11 @@ Created on Sun Apr  2 13:36:47 2023
 
 
 import pandas as pd
-from core.constants import SERIES_IDS_LAB
-from core.funcs import stockpile, transform_cobb_douglas, transform_mean
 
-from thesis.src.lib.plot import plot_cobb_douglas
-from thesis.src.lib.read import read_usa_frb_g17, read_usa_frb_us3
+from core.classes import URL, SeriesID
+from core.constants import SERIES_IDS_LAB
+from core.funcs import stockpile, transform_mean
+from proposition import read_usa_frb_g17
 
 # =============================================================================
 # archiveProjectUSAINTH04.py
@@ -23,35 +23,33 @@ from thesis.src.lib.read import read_usa_frb_g17, read_usa_frb_us3
 # =============================================================================
 # Capacity Utilization Series: CAPUTL.B50001.A, 1967--2012
 # =============================================================================
-SERIES_ID = 'CAPUTL.B50001.A'
+SERIES_ID = "CAPUTL.B50001.A"
 
 
 SERIES_IDS = {
     # =========================================================================
     # Fixed Assets Series
     # =========================================================================
-    SeriesID('kcn31gd1es00', URL.FIAS),
-    SeriesID('k3n31gd1es00', URL.FIAS),
+    SeriesID("kcn31gd1es00", URL.FIAS),
+    SeriesID("k3n31gd1es00", URL.FIAS),
     # =========================================================================
     # Nominal Gross Domestic Product Series: A191RC
     # =========================================================================
-    SeriesID('A191RC', URL.NIPA),
+    SeriesID("A191RC", URL.NIPA),
     # =========================================================================
     # Real Gross Domestic Product Series: A191RX
     # =========================================================================
-    SeriesID('A191RX', URL.NIPA)
+    SeriesID("A191RX", URL.NIPA),
 }
 
 df = pd.concat(
     [
-        stockpile(SERIES_IDS_LAB).pipe(
-            transform_mean, name='bea_labor_mfg'
-        ),
+        stockpile(SERIES_IDS_LAB).pipe(transform_mean, name="bea_labor_mfg"),
         stockpile(SERIES_IDS),
-        read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0)
+        read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0),
     ],
     axis=1,
-    sort=True
+    sort=True,
 )
 # =============================================================================
 # End Data Fetch
@@ -82,34 +80,32 @@ pd.concat([C, L, P], axis=1).pipe(
 # =============================================================================
 # projectINTH04USA.py
 # =============================================================================
-SERIES_ID = 'CAPUTL.B50001.A'
+SERIES_ID = "CAPUTL.B50001.A"
 SERIES_IDS = {
     # =========================================================================
     # Fixed Assets Series
     # =========================================================================
-    SeriesID('kcn31gd1es00', URL.FIAS),
-    SeriesID('k3n31gd1es00', URL.FIAS)
+    SeriesID("kcn31gd1es00", URL.FIAS),
+    SeriesID("k3n31gd1es00", URL.FIAS),
 }
 # =============================================================================
 # TODO: Continue Series
 # =============================================================================
 df = pd.concat(
     [
-        stockpile(SERIES_IDS_LAB).pipe(
-            transform_mean, name='bea_labor_mfg'
-        ),
+        stockpile(SERIES_IDS_LAB).pipe(transform_mean, name="bea_labor_mfg"),
         stockpile(SERIES_IDS),
         # =========================================================================
         # Manufacturing Series: FRBIP G17 IP, AIPMA_SA_IX, 1919--2018
         # =========================================================================
-        read_usa_frb_us3().loc[:, ['AIPMA_SA_IX']],
+        read_usa_frb_us3().loc[:, ["AIPMA_SA_IX"]],
         # =========================================================================
         # Capacity Utilization Series: CAPUTL.B50001.A, 1967--2012
         # =========================================================================
-        read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0)
+        read_usa_frb_g17().loc[:, [SERIES_ID]].dropna(axis=0),
     ],
     axis=1,
-    sort=True
+    sort=True,
 )
 
 # =============================================================================

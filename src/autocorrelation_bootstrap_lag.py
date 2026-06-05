@@ -11,20 +11,21 @@ from pathlib import Path
 from typing import Union
 
 import matplotlib.pyplot as plt
-from core.config import DATA_DIR
-from core.funcs import read_worldbank
 from pandas.plotting import autocorrelation_plot, lag_plot
+
+from core.funcs import read_worldbank
+from core.paths import DATA_DIR
 
 
 def get_kwargs(file_name: str) -> dict[str, Union[int, str, Path]]:
 
-    NAMES = ['period', 'series_ids', 'value']
+    NAMES = ["period", "series_ids", "value"]
 
     return {
-        'filepath_or_buffer': DATA_DIR.joinpath(file_name),
-        'header': 0,
-        'names': NAMES,
-        'index_col': 0,
+        "filepath_or_buffer": DATA_DIR / file_name,
+        "header": 0,
+        "names": NAMES,
+        "index_col": 0,
     }
 
 
@@ -43,7 +44,7 @@ FUNCTIONS = (
     lag_plot,
 )
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # =============================================================================
     #     # =========================================================================
@@ -67,7 +68,7 @@ if __name__ == '__main__':
     # =========================================================================
     # Revised
     # =========================================================================
-    SOURCE_ID = 'NY.GDP.MKTP.CD'
+    SOURCE_ID = "NY.GDP.MKTP.CD"
 
     df = read_worldbank(SOURCE_ID)
 

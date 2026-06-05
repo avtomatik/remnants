@@ -9,11 +9,10 @@ Created on Sun Apr  2 11:31:58 2023
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from core.combine import combine_usa_macroeconomics
-from core.plot import plot_cobb_douglas_3d
-from core.transform import transform_add_dx_dy, transform_usa_macroeconomics
 
-from thesis.src.visualization.annotations import transform_add_dx_dy
+from core.combine import combine_usa_macroeconomics
+from core.transform import transform_usa_macroeconomics
+from visualization.annotations import transform_add_dx_dy
 
 # =============================================================================
 # archiveProjectUSACobbDouglas3D.py
@@ -25,43 +24,51 @@ df = combine_usa_macroeconomics().pipe(transform_usa_macroeconomics)
 # =============================================================================
 # Option 1: Deflator Incorporated
 # =============================================================================
-pd.concat([df['cap_0x2'], L, df['prd_0x3']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x2"], L, df["prd_0x3"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 2
 # =============================================================================
-pd.concat([df['cap_0x1'], L, df['prd_0x4']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x1"], L, df["prd_0x4"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 3: Deflator Incorporated
 # =============================================================================
-pd.concat([df['cap_0x2'], L, df['prd_0x3']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x2"], L, df["prd_0x3"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 4
 # =============================================================================
-pd.concat([df['cap_0x1'], L, df['prd_0x2']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x1"], L, df["prd_0x2"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 5: Deflator Incorporated
 # =============================================================================
-pd.concat([df['cap_0x4'], L, df['prd_0x3']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x4"], L, df["prd_0x3"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 6
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x4']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x3"], L, df["prd_0x4"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 7: Deflator Incorporated
 # =============================================================================
-pd.concat([df['cap_0x4'], L, df['prd_0x3']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x4"], L, df["prd_0x3"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 # =============================================================================
 # Option 8
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x2']], axis=1).pipe(
-    transform_add_dx_dy).pipe(plot_cobb_douglas_3d)
+pd.concat([df["cap_0x3"], L, df["prd_0x2"]], axis=1).pipe(
+    transform_add_dx_dy
+).pipe(plot_cobb_douglas_3d)
 
 # =============================================================================
 # annotations.py
@@ -70,13 +77,13 @@ pd.concat([df['cap_0x3'], L, df['prd_0x2']], axis=1).pipe(
 
 def plot_increment_a(df: pd.DataFrame) -> None:
     """
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Labor Capital Intensity
-        df.iloc[:, 1]      Labor Productivity
-        df.iloc[:, 2]      Labor Capital Intensity Increment
-        df.iloc[:, 3]      Labor Productivity Increment
-        ================== =================================
+    ================== =================================
+    df.index           Period
+    df.iloc[:, 0]      Labor Capital Intensity
+    df.iloc[:, 1]      Labor Productivity
+    df.iloc[:, 2]      Labor Capital Intensity Increment
+    df.iloc[:, 3]      Labor Productivity Increment
+    ================== =================================
     """
     # =========================================================================
     # Scenario I
@@ -138,23 +145,24 @@ def plot_increment_a(df: pd.DataFrame) -> None:
     # =========================================================================
     # TODO: Description Here
     # =========================================================================
-    plt.plot(df.iloc[:, 2], df.iloc[:, 3], '--',
-             df.iloc[:, 2], df.iloc[:, 3], '+')
+    plt.plot(
+        df.iloc[:, 2], df.iloc[:, 3], "--", df.iloc[:, 2], df.iloc[:, 3], "+"
+    )
     # =========================================================================
     # =========================================================================
     # TODO: Add Annotations
     # =========================================================================
     # =========================================================================
-    plt.xlabel('Labor Capital Intensity Increment')
+    plt.xlabel("Labor Capital Intensity Increment")
     # =========================================================================
     # =========================================================================
     # TODO: Add Annotations
     # =========================================================================
     # =========================================================================
-    plt.ylabel('Labor Productivity Increment')
+    plt.ylabel("Labor Productivity Increment")
     ax = fig.add_subplot(111)
-    # for _ in range(90, 5):
-    #     ax.annotate(period[_], (df.iloc[:, 2][_], df.iloc[:, 3][_]))
+    for _ in range(90, 5):
+        ax.annotate(period[_], (df.iloc[:, 2][_], df.iloc[:, 3][_]))
     plt.grid()
     # df = pd.concat([capital, labor, product, df], axis=1)
     plt.show()
@@ -162,13 +170,13 @@ def plot_increment_a(df: pd.DataFrame) -> None:
 
 def plot_increment_b(df: pd.DataFrame) -> None:
     """
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Labor Capital Intensity
-        df.iloc[:, 1]      Labor Productivity
-        df.iloc[:, 2]      Labor Capital Intensity Increment
-        df.iloc[:, 3]      Labor Productivity Increment
-        ================== =================================
+    ================== =================================
+    df.index           Period
+    df.iloc[:, 0]      Labor Capital Intensity
+    df.iloc[:, 1]      Labor Productivity
+    df.iloc[:, 2]      Labor Capital Intensity Increment
+    df.iloc[:, 3]      Labor Productivity Increment
+    ================== =================================
     """
     # =========================================================================
     # Scenario I
@@ -176,8 +184,8 @@ def plot_increment_b(df: pd.DataFrame) -> None:
     fig = plt.figure()
     ax = fig.add_subplot(111)
     plt.plot(df.iloc[:, 0], df.iloc[:, 1])
-    plt.xlabel('Labor Capital Intensity')
-    plt.ylabel('Labor Productivity')
+    plt.xlabel("Labor Capital Intensity")
+    plt.ylabel("Labor Productivity")
     # for _ in range(4, 90, 5):
     #     ax.annotate(period[_], (df.iloc[:, 0][_], df.iloc[:, 1][_]))
     plt.grid()
@@ -199,45 +207,45 @@ df = combine_usa_macroeconomics().pipe(transform_usa_macroeconomics)
 # =============================================================================
 # Option 1: 1967--2012
 # =============================================================================
-pd.concat([df['cap_0x0'], L, df['prd_0x0']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x0"], L, df["prd_0x0"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 2: 1967--2012
 # =============================================================================
-pd.concat([df['cap_0x0'], L, df['prd_0x1']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x0"], L, df["prd_0x1"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 3: 1967--2012
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x0']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x0"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 4: 1967--2012
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x1']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x1"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # TODO: test 'k1ntotl1si00'
 # =============================================================================
 # =============================================================================
 # Option 1: 1929--2013
 # =============================================================================
-pd.concat([df['cap_0x2'], L, df['prd_0x3']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x2"], L, df["prd_0x3"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 2: 1929--2013
 # =============================================================================
-pd.concat([df['cap_0x1'], L, df['prd_0x4']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x1"], L, df["prd_0x4"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 5: 1929--2013
 # =============================================================================
-pd.concat([df['cap_0x4'], L, df['prd_0x3']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x4"], L, df["prd_0x3"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 6: 1929--2013
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x4']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x4"]], axis=1).pipe(transform_add_dx_dy)
 
 pd.concat([x_a, x_b, x_c, x_d], axis=1).pipe(plot_increment_a)
 pd.concat([x_a, x_b, x_c, x_d], axis=1).pipe(plot_increment_b)
 
-combine_usa_manufacturing_latest().pipe(
-    transform_add_dx_dy
-).pipe(plot_increment)
+combine_usa_manufacturing_latest().pipe(transform_add_dx_dy).pipe(
+    plot_increment
+)
 
 
 # =============================================================================
@@ -252,54 +260,54 @@ df = combine_usa_macroeconomics().pipe(transform_usa_macroeconomics)
 # =============================================================================
 # Option 1
 # =============================================================================
-pd.concat([df['cap_0x0'], L, df['prd_0x0']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x0"], L, df["prd_0x0"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 2
 # =============================================================================
-pd.concat([df['cap_0x0'], L, df['prd_0x1']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x0"], L, df["prd_0x1"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 3
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x0']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x0"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 4
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x1']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x1"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # TODO: test 'k1ntotl1si00'
 # =============================================================================
 # =============================================================================
 # Option 1
 # =============================================================================
-pd.concat([df['cap_0x2'], L, df['prd_0x3']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x2"], L, df["prd_0x3"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 2
 # =============================================================================
-pd.concat([df['cap_0x1'], L, df['prd_0x4']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x1"], L, df["prd_0x4"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 3
 # =============================================================================
-pd.concat([df['cap_0x2'], L, df['prd_0x3']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x2"], L, df["prd_0x3"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 4
 # =============================================================================
-pd.concat([df['cap_0x1'], L, df['prd_0x2']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x1"], L, df["prd_0x2"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 5
 # =============================================================================
-pd.concat([df['cap_0x4'], L, df['prd_0x3']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x4"], L, df["prd_0x3"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 6
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x4']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x4"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 7
 # =============================================================================
-pd.concat([df['cap_0x4'], L, df['prd_0x3']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x4"], L, df["prd_0x3"]], axis=1).pipe(transform_add_dx_dy)
 # =============================================================================
 # Option 8
 # =============================================================================
-pd.concat([df['cap_0x3'], L, df['prd_0x2']], axis=1).pipe(transform_add_dx_dy)
+pd.concat([df["cap_0x3"], L, df["prd_0x2"]], axis=1).pipe(transform_add_dx_dy)
 
 pd.concat([x_a, x_b, x_c, x_d], axis=1).pipe(plot_increment_a)
 pd.concat([x_a, x_b, x_c, x_d], axis=1).pipe(plot_increment_b)
@@ -317,98 +325,108 @@ def annotations_x():
     # TODO: Revise Dataset
     # =============================================================================
     df = combine_usa_macroeconomics()
-    
-# =============================================================================
-# Deflator, 2009=100
-# =============================================================================
-    d = df.loc[:, ['A191RX']].div(df.loc[:, ['A191RC']])
-# =============================================================================
-# Fixed Assets, k1n31gd1es00
-# =============================================================================
-    cap_a_a = df.loc[:, ['k1n31gd1es00']].mul(d)
-# =============================================================================
-# Fixed Assets, k3n31gd1es00
-# =============================================================================
-    cap_a_b = df.loc[:, ['k3n31gd1es00']].mul(d)
-    cap_b_a = df.loc[:, ['k1ntotl1si00']].mul(
-        df.loc[:, ['A191RD']])
-    cap_b_b = df.loc[:, ['k1ntotl1si00']].mul(d)
-    cap_b_c = df.loc[:, ['k3n31gd1es00']].mul(
-        df.loc[:, ['A191RD']])
-    cap_b_d = df.loc[:, ['k3n31gd1es00']].mul(d)
-    L = df.loc[:, ['bea_labor_mfg']]
-# =============================================================================
-# Production
-# =============================================================================
-    prd_a_a = d*df.loc[:, ['A032RC']]
-# =============================================================================
-# Production Maximum
-# =============================================================================
-    prd_a_b = df.loc[:, ['A032RC']].div(
-        df.loc[:, ['CAPUTL.B50001.A']]).mul(d).mul(100)
-    prd_b_a = df.loc[:, ['A191RC']].mul(df.loc[:, ['A191RD']])
-    prd_b_b = df.loc[:, ['A191RX']]
-# =============================================================================
-# Option 1: 1967--2012
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1967),
-                                             df.index.get_loc(2012),
-                                             df.loc[:, ['k1n31gd1es00']].mul(d), L, prd_a_a)
-# =============================================================================
-# Option 2: 1967--2012
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1967),
-                                             df.index.get_loc(2012),
-                                             df.loc[:, ['k1n31gd1es00']].mul(d), L, prd_a_b)
-# =============================================================================
-# Option 3: 1967--2012
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1967),
-                                             df.index.get_loc(2012),
-                                             cap_a_b, L, prd_a_a)
-# =============================================================================
-# Option 4: 1967--2012
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1967),
-                                             df.index.get_loc(2012),
-                                             cap_a_b, L, prd_a_b)
-# =============================================================================
-# TODO: test `k1ntotl1si00`
-# =============================================================================
-# =============================================================================
-# Option 1: 1929--2013
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1929),
-                                             df.index.get_loc(2013),
-                                             cap_b_a, L, prd_b_a)
-# =============================================================================
-# Option 2: 1929--2013
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1929),
-                                             df.index.get_loc(2013),
-                                             cap_b_b, L, prd_b_b)
-# =============================================================================
-# Option 5: 1929--2013
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1929),
-                                             df.index.get_loc(2013),
-                                             cap_b_c, L, prd_b_a)
-# =============================================================================
-# Option 6: 1929--2013
-# =============================================================================
-    x_a, x_b, x_c, x_d = transform_add_dx_dy(df.index.get_loc(1929),
-                                             df.index.get_loc(2013),
-                                             cap_b_d, L, prd_b_b)
+
+    # =============================================================================
+    # Deflator, 2009=100
+    # =============================================================================
+    d = df.loc[:, ["A191RX"]].div(df.loc[:, ["A191RC"]])
+    # =============================================================================
+    # Fixed Assets, k1n31gd1es00
+    # =============================================================================
+    cap_a_a = df.loc[:, ["k1n31gd1es00"]].mul(d)
+    # =============================================================================
+    # Fixed Assets, k3n31gd1es00
+    # =============================================================================
+    cap_a_b = df.loc[:, ["k3n31gd1es00"]].mul(d)
+    cap_b_a = df.loc[:, ["k1ntotl1si00"]].mul(df.loc[:, ["A191RD"]])
+    cap_b_b = df.loc[:, ["k1ntotl1si00"]].mul(d)
+    cap_b_c = df.loc[:, ["k3n31gd1es00"]].mul(df.loc[:, ["A191RD"]])
+    cap_b_d = df.loc[:, ["k3n31gd1es00"]].mul(d)
+    L = df.loc[:, ["bea_labor_mfg"]]
+    # =============================================================================
+    # Production
+    # =============================================================================
+    prd_a_a = d * df.loc[:, ["A032RC"]]
+    # =============================================================================
+    # Production Maximum
+    # =============================================================================
+    prd_a_b = (
+        df.loc[:, ["A032RC"]]
+        .div(df.loc[:, ["CAPUTL.B50001.A"]])
+        .mul(d)
+        .mul(100)
+    )
+    prd_b_a = df.loc[:, ["A191RC"]].mul(df.loc[:, ["A191RD"]])
+    prd_b_b = df.loc[:, ["A191RX"]]
+    # =============================================================================
+    # Option 1: 1967--2012
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1967),
+        df.index.get_loc(2012),
+        df.loc[:, ["k1n31gd1es00"]].mul(d),
+        L,
+        prd_a_a,
+    )
+    # =============================================================================
+    # Option 2: 1967--2012
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1967),
+        df.index.get_loc(2012),
+        df.loc[:, ["k1n31gd1es00"]].mul(d),
+        L,
+        prd_a_b,
+    )
+    # =============================================================================
+    # Option 3: 1967--2012
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1967), df.index.get_loc(2012), cap_a_b, L, prd_a_a
+    )
+    # =============================================================================
+    # Option 4: 1967--2012
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1967), df.index.get_loc(2012), cap_a_b, L, prd_a_b
+    )
+    # =============================================================================
+    # TODO: test `k1ntotl1si00`
+    # =============================================================================
+    # =============================================================================
+    # Option 1: 1929--2013
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1929), df.index.get_loc(2013), cap_b_a, L, prd_b_a
+    )
+    # =============================================================================
+    # Option 2: 1929--2013
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1929), df.index.get_loc(2013), cap_b_b, L, prd_b_b
+    )
+    # =============================================================================
+    # Option 5: 1929--2013
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1929), df.index.get_loc(2013), cap_b_c, L, prd_b_a
+    )
+    # =============================================================================
+    # Option 6: 1929--2013
+    # =============================================================================
+    x_a, x_b, x_c, x_d = transform_add_dx_dy(
+        df.index.get_loc(1929), df.index.get_loc(2013), cap_b_d, L, prd_b_b
+    )
 
     pd.concat([x_a, x_b, x_c, x_d], axis=1).pipe(plot_increment_a)
     pd.concat([x_a, x_b, x_c, x_d], axis=1).pipe(plot_increment_b)
-# =============================================================================
-# Update from `project.py`
-# =============================================================================
+    # =============================================================================
+    # Update from `project.py`
+    # =============================================================================
 
-    combine_usa_manufacturing_latest().pipe(
-        transform_add_dx_dy
-    ).pipe(plot_increment)
+    combine_usa_manufacturing_latest().pipe(transform_add_dx_dy).pipe(
+        plot_increment
+    )
 
 
 def annotations_y():
@@ -423,7 +441,7 @@ def annotations_y():
     # TODO: Revise Dataset
     # =============================================================================
     df = combine_usa_macroeconomics()
-    
+
     # =============================================================================
     # Deflator, 2009=100
     # =============================================================================
@@ -511,9 +529,9 @@ def annotations_y():
     # Update from `project.py`
     # =============================================================================
 
-    combine_usa_manufacturing_latest().pipe(
-        transform_add_dx_dy
-    ).pipe(plot_increment)
+    combine_usa_manufacturing_latest().pipe(transform_add_dx_dy).pipe(
+        plot_increment
+    )
 
 
 # =============================================================================

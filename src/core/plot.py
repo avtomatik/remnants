@@ -2,7 +2,8 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from core.config import DATA_DIR
+
+from core.paths import DATA_DIR
 
 
 def plot_usa_un_former() -> None:
@@ -15,17 +16,19 @@ def plot_usa_un_former() -> None:
     """
 
     _df = pd.read_excel(**get_kwargs_usa_un())
-    _df = _df[_df.iloc[:, 0] == 'Gross Domestic Product (GDP)']
-    _df = _df.select_dtypes(exclude=['object']).transpose()
+    _df = _df[_df.iloc[:, 0] == "Gross Domestic Product (GDP)"]
+    _df = _df.select_dtypes(exclude=["object"]).transpose()
     df = pd.DataFrame()
-    df['us_to_world'] = _df.loc[:, 'United States'].div(_df.sum(axis=1))
+    df["us_to_world"] = _df.loc[:, "United States"].div(_df.sum(axis=1))
     df.plot(grid=True)
 
 
 def get_kwargs_usa_un() -> dict[str, Any]:
-    FILE_NAME = "dataset_world_united-nations-Download-GDPcurrent-USD-countries.xls"
+    FILE_NAME = (
+        "dataset_world_united-nations-Download-GDPcurrent-USD-countries.xls"
+    )
     return {
-        "io": DATA_DIR.joinpath(FILE_NAME),
+        "io": DATA_DIR / FILE_NAME,
         "index_col": 0,
         "skiprows": 2,
     }
@@ -33,28 +36,28 @@ def get_kwargs_usa_un() -> dict[str, Any]:
 
 def plot_turnover_take_one(df: pd.DataFrame) -> None:
     """
-        ================== =================================
-        df.index           Period
-        df.iloc[:, 0]      Capital
-        df.iloc[:, 1]      Product
-        ================== =================================
+    ================== =================================
+    df.index           Period
+    df.iloc[:, 0]      Capital
+    df.iloc[:, 1]      Product
+    ================== =================================
     """
-    df['c_turnover'] = df.iloc[:, 1].div(df.iloc[:, 0])
+    df["c_turnover"] = df.iloc[:, 1].div(df.iloc[:, 0])
     plt.figure(1)
     plt.plot(df.iloc[:, 2], df.iloc[:, 0])
     plt.title(
-        'Fixed Assets Volume to Fixed Assets Turnover, {}$-${}'.format(
+        "Fixed Assets Volume to Fixed Assets Turnover, {}$-${}".format(
             *df.index[[0, -1]]
         )
     )
-    plt.xlabel('Fixed Assets Turnover')
-    plt.ylabel('Fixed Assets Volume')
+    plt.xlabel("Fixed Assets Turnover")
+    plt.ylabel("Fixed Assets Volume")
     plt.grid()
     plt.figure(2)
-    plt.plot(df.iloc[:, 2], label='Fixed Assets Turnover')
-    plt.title('Fixed Assets Turnover, {}$-${}'.format(*df.index[[0, -1]]))
-    plt.xlabel('Period')
-    plt.ylabel('Fixed Assets Turnover')
+    plt.plot(df.iloc[:, 2], label="Fixed Assets Turnover")
+    plt.title("Fixed Assets Turnover, {}$-${}".format(*df.index[[0, -1]]))
+    plt.xlabel("Period")
+    plt.ylabel("Fixed Assets Turnover")
     plt.grid()
     plt.legend()
     plt.show()
